@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Download, Bookmark, Check, Edit3, Eye, FileCheck } from 'lucide-react';
+import { Copy, Download, Bookmark, Check, Edit3, Eye, FileCheck, Share2 } from 'lucide-react';
 import { StyleAnalysis } from '@/lib/types';
 
 interface PostPreviewProps {
@@ -21,9 +21,11 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
 
   if (!content) return null;
 
+  // Extract title if starts with #
   const firstLine = content.trim().split('\n')[0] || '';
   const title = firstLine.startsWith('#') ? firstLine.replace(/^#+\s*/, '') : 'פוסט ללא כותרת';
 
+  // Words and reading time
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
   const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 180));
 
@@ -81,6 +83,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2">
+          {/* Edit / View Toggle */}
           <button
             onClick={() => setIsEditing(!isEditing)}
             className="p-2 text-xs font-medium rounded-lg border border-gray-300 dark:border-danbar-700 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-danbar-800 transition-colors flex items-center gap-1.5"
@@ -90,6 +93,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
             <span>{isEditing ? 'תצוגה מקדימה' : 'ערוך'}</span>
           </button>
 
+          {/* Copy Button */}
           <button
             onClick={handleCopy}
             className="p-2 text-xs font-medium rounded-lg border border-gray-300 dark:border-danbar-700 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-danbar-800 transition-colors flex items-center gap-1.5"
@@ -99,6 +103,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
             <span>{copied ? 'הועתק!' : 'העתק'}</span>
           </button>
 
+          {/* Download Markdown */}
           <button
             onClick={handleDownload}
             className="p-2 text-xs font-medium rounded-lg border border-gray-300 dark:border-danbar-700 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-danbar-800 transition-colors flex items-center gap-1.5"
@@ -108,6 +113,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
             <span className="hidden sm:inline">הורד (.md)</span>
           </button>
 
+          {/* Save to History */}
           <button
             onClick={handleSave}
             className="p-2 text-xs font-medium rounded-lg bg-danbar-700 hover:bg-danbar-800 text-white transition-colors flex items-center gap-1.5 shadow-sm"
@@ -127,7 +133,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
             rows={20}
             value={content}
             onChange={(e) => onChangeContent(e.target.value)}
-            className="w-full p-4 bg-gray-50 dark:bg-danbar-950 text-gray-900 dark:text-gray-100 font-mono text-sm leading-relaxed border border-gray-200 dark:border-danbar-800 rounded-xl focus:ring-2 focus:ring-danbar-500 outline-none"
+            className="w-full p-4 bg-gray-50 dark:border-danbar-950 text-gray-900 dark:text-gray-100 font-mono text-sm leading-relaxed border border-gray-200 dark:border-danbar-800 rounded-xl focus:ring-2 focus:ring-danbar-500 outline-none"
           />
         ) : (
           <div className="prose prose-slate dark:prose-invert max-w-none text-right font-sans text-gray-800 dark:text-gray-200 leading-relaxed text-base sm:text-lg whitespace-pre-wrap selection:bg-gold-500/20">
@@ -138,4 +144,4 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
 
     </div>
   );
-};
+'u; 

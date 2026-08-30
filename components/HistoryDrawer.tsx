@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Bookmark, Trash2, Calendar, FileText, ArrowLeft } from 'lucide-react';
+import { X, Bookmark, Trash2, Calendar, FileText, ArrowLeft, Download } from 'lucide-react';
 import { SavedPost } from '@/lib/types';
 
 interface HistoryDrawerProps {
@@ -21,6 +21,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
+      {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
         onClick={onClose}
@@ -28,6 +29,8 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
 
       <div className="fixed inset-y-0 left-0 max-w-full flex pl-10">
         <div className="w-screen max-w-md bg-white dark:bg-danbar-900 shadow-2xl border-r border-gray-200 dark:border-danbar-800 flex flex-col">
+          
+          {/* Header */}
           <div className="p-5 border-b border-gray-200 dark:border-danbar-800 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Bookmark className="w-5 h-5 text-danbar-600 dark:text-gold-400" />
@@ -43,6 +46,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
             </button>
           </div>
 
+          {/* Posts List */}
           <div className="flex-1 overflow-y-auto p-5 space-y-3">
             {savedPosts.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center text-gray-400 space-y-2 py-12">
@@ -54,6 +58,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
               </div>
             ) : (
               savedPosts.map((post) => {
+                const words = post.content.split(/\s+/).filter(Boolean).length;
                 const dateStr = new Date(post.createdAt).toLocaleDateString('he-IL', {
                   day: 'numeric',
                   month: 'short',
@@ -105,6 +110,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
               })
             )}
           </div>
+
         </div>
       </div>
     </div>

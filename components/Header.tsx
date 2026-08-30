@@ -38,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
               </div>
               <p className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 max-w-xl">
-                ניהול ומשאבי אנוש, חדשנות ויזמות, טרבל-טק ו-AI במלונאות ובעסקים — חשיבה רפלקטיבית &quot;בין הפטיש לסדן&quot;
+                ניהול ומשאבי אנוש, חדשנות ויזמות, טרבל-טק ו-AI במלונאות ובעסקים — חשיבה רפלקטיבית "בין הפטיש לסדן"
               </p>
             </div>
           </div>
