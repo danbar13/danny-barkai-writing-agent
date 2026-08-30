@@ -3,45 +3,67 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 27, 42, 56;
-  --background-start-rgb: 248, 250, 252;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 244, 247, 250;
-    --background-start-rgb: 15, 23, 33;
-    --background-end-rgb: 27, 42, 56;
-  }
+  --foreground-rgb: 241, 245, 249;
+  --background-rgb: 8, 13, 23;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-  min-height: 100vh;
+  background: rgb(var(--background-rgb));
+  font-family: 'Assistant', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbars */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Heebo', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Luxury Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(8, 13, 23, 0.6);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(81, 134, 171, 0.3);
+  background: rgba(115, 151, 14, 0.4);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(81, 134, 171, 0.6);
+  background: rgba(115, 151, 14, 0.8);
+}
+
+/* Luxury Editorial Prose styling */
+.prose {
+  line-height: 1.9;
+  font-family: 'Assistant', sans-serif;
+}
+
+.prose h1, .prose h2, .prose h3 {
+  font-family: 'Heebo', sans-serif;
+  color: #f8fafc;
+  font-weight: 800;
+  margin-top: 1.4em;
+  margin-bottom: 0.5em;
+  letter-spacing: -0.015em;
+}
+
+.prose blockquote {
+  border-right-width: 4px;
+  border-right-color: #73970e;
+  border-left-width: 0;
+  padding-right: 1.25rem;
+  font-style: italic;
+  background: rgba(115, 151, 14, 0.08);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-radius: 0 0.75rem 0.75rem 0;
+  color: #e2e8f0;
 }
