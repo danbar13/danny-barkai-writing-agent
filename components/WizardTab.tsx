@@ -118,10 +118,10 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
       placeholder: '╫Ь╫Ю╫й╫Ь: ╫У╫Ю╫Щ╫Щ╫а╫Х ╫Ь╫в╫ж╫Ю╫Ы╫Э ╫Ю╫з╫и╫Ф ╫С╫Х ╫Ю╫а╫Ф╫Ь ╫Ю╫Ч╫Ь╫з╫Ф ╫ж╫в╫Щ╫и ╫Ю╫з╫С╫Ь ╫к╫Х╫ж╫Р╫Х╫к ╫Ю╫С╫Ч╫Я ╫Ю╫Ф╫Щ╫Ю╫а╫Х╫к ╫Х╫Ю╫Ш╫Щ╫Ч ╫Р╫Х╫к╫Я ╫С╫в╫Х╫С╫У ╫С╫и╫Т╫в ╫й╫Ь ╫Ы╫в╫б...',
       field: 'concreteExample' as const,
       tip: '╫У╫Х╫Т╫Ю╫Ф ╫Ю╫Х╫Ч╫й╫Щ╫к ╫Р╫Ч╫к ╫й╫Х╫Х╫Ф ╫Щ╫Х╫к╫и ╫Ю╫в╫й╫и ╫д╫б╫з╫Р╫Х╫к ╫й╫Ь ╫а╫Щ╫к╫Х╫Ч ╫Ю╫Х╫д╫й╫Ш.',
-    },
+      },
     {
       step: 5,
-      title: '╫Ф╫в╫Ю╫У╫Ф ╫Ф╫Р╫Щ╫й╫Щ╫к ╫Х╫Ф╫к╫Х╫С╫а╫Ф ╫Ф╫а╫Щ╫Ф╫Х╫Ь╫Щ╫к',
+      title: '╫Ф╫в╫ж╫У╫Ф ╫Ф╫Р╫Щ╫й╫Щ╫к ╫Х╫Ф╫Юк╫Х╫С╫а╫Ф ╫Ф╫а╫Щ╫Ф╫Х╫Ь╫Щ╫к',
       subtitle: '"╫Ь╫к╫д╫Щ╫й╫к╫Щ..." ╫Х╫Ю╫б╫и ╫Ю╫б╫Щ╫Щ╫Э',
       question: '╫Ю╫Ф╫Щ ╫Ф╫в╫Ю╫У╫Ф ╫Ф╫Р╫Щ╫й╫Щ╫к ╫й╫Ь╫Ъ ("╫Ь╫к╫д╫Щ╫й╫к╫Щ" / "╫Ь╫У╫в╫к╫Щ") ╫Ь╫Т╫С╫Щ ╫У╫и╫Ъ ╫Ф╫Ф╫к╫Ю╫Х╫У╫У╫Х╫к ╫Ф╫а╫Ы╫Х╫а╫Ф, ╫Х╫Ю╫Ф╫Х ╫Ф╫Ю╫б╫и ╫Ф╫Ю╫Р╫Ц╫Я ╫Х╫Ф╫Ю╫в╫Х╫У╫У ╫Ь╫з╫Х╫и╫Р ╫С╫б╫Щ╫Х╫Э?',
       placeholder: '╫Ь╫У╫в╫к╫Щ, ╫Р╫Щ╫Я ╫Ы╫Р╫Я ╫д╫к╫и╫Х╫Я ╫з╫б╫Э ╫Р╫Ч╫У ╫Р╫Ь╫Р ╫ж╫Х╫и╫Ъ ╫С╫Ю╫в╫а╫Ф ╫Ю╫в╫и╫Ы╫к╫Щ ╫Ю╫к╫Ю╫й╫Ъ... ╫Р╫Ц ╫С╫Х╫Р╫Х ╫а╫Щ╫к╫Я ╫Ь╫Ю╫Ф╫Ь╫Ъ ╫ж\'╫Р╫а╫б ╫Х╫С╫Ф╫ж╫Ь╫Ч╫Ф!',
@@ -160,118 +160,8 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
       setAnswers({
         dilemma: '╫Ф╫в╫б╫з╫к ╫в╫Х╫С╫У╫Щ╫Э ╫Ц╫и╫Щ╫Э ╫Х╫Щ╫и╫У╫а╫Щ╫Э ╫Ь╫в╫С╫Х╫У╫Х╫к ╫Ю╫й╫з ╫Х╫а╫Щ╫з╫Щ╫Х╫Я ╫С╫Ю╫Ь╫Х╫а╫Х╫к ╫Ю╫Х╫Ь ╫Ф╫и╫ж╫Х╫Я ╫Ь╫Ф╫в╫б╫Щ╫з ╫Щ╫й╫и╫Р╫Ь╫Щ╫Э ╫Х╫Ч╫й╫й╫Х╫к ╫С╫Щ╫Ш╫Ч╫Х╫а╫Щ╫Щ╫Э ╫Х╫к╫и╫С╫Х╫к╫Щ╫Щ╫Э.',
         personalBackground: '╫Ю╫в╫Ь 20 ╫й╫а╫Х╫к ╫а╫Щ╫Ф╫Х╫Ь ╫Ю╫й╫Р╫С╫Щ ╫Р╫а╫Х╫й ╫С╫Ю╫Ь╫Х╫а╫Х╫к ╫С╫Р╫Щ╫Ь╫к тАФ ╫и╫Р╫Щ╫к╫Щ ╫Р╫Щ╫Ъ ╫Ю╫в╫а╫з╫Щ╫Э ╫Ю╫Ю╫й╫Ь╫к╫Щ╫Щ╫Э ╫Ь╫Р ╫Ф╫ж╫Ь╫Щ╫Ч╫Х ╫Ь╫Ф╫С╫Щ╫Р ╫Щ╫й╫и╫Р╫Ь╫Щ╫Э ╫Ь╫Ю╫з╫ж╫Х╫в╫Х╫к ╫Ф╫а╫Щ╫з╫Щ╫Х╫Я ╫Ь╫Р╫Х╫и╫Ъ ╫й╫а╫Щ╫Э.',
-        prosAndCons: '╫Ю╫Ч╫У: ╫Ю╫в╫а╫Ф ╫Ю╫Щ╫Щ╫У╫Щ ╫Х╫Ю╫ж╫Щ╫Ь ╫Ь╫Ю╫Ч╫б╫Х╫и ╫Ф╫з╫и╫Щ╫Ш╫Щ ╫С╫Щ╫У╫Щ╫Щ╫Э ╫в╫Х╫С╫У╫Х╫к, ╫и╫Ю╫к ╫к╫Ч╫Ц╫Х╫з╫Ф ╫Ш╫Х╫С╫Ф. ╫Ю╫Р╫Щ╫У╫Ъ: ╫Ч╫й╫й╫Х╫к ╫С╫Щ╫Ш╫Ч╫Х╫а╫Щ╫Щ╫Э, ╫Ю╫Ч╫б╫Х╫Э ╫й╫д╫Ф ╫Ю╫Х╫Ь ╫Ф╫Р╫Х╫и╫Ч, ╫к╫Ь╫Х╫к ╫С╫Ю╫У╫Щ╫а╫Щ╫Х╫к ╫Ю╫Ю╫й╫Ь╫к╫Щ╫к.',
-        concreteExample: '╫У╫Ю╫Щ╫Щ╫а╫Х ╫Ю╫а╫Ф╫Ь ╫Ю╫й╫з ╫й╫в╫Х╫Ю╫У ╫Ю╫Х╫Ь 100 ╫Ч╫У╫и╫Щ╫Э ╫Ь╫Р ╫Ю╫а╫Х╫з╫Щ╫Э ╫С╫й╫в╫Ф 14:00 ╫Ы╫й╫Ф╫Ь╫Х╫С╫Щ ╫Ю╫Ь╫Р ╫Р╫Х╫и╫Ч╫Щ╫Э ╫Ц╫Х╫в╫Ю╫Щ╫Э, ╫Х╫С╫Ь╫Щ ╫в╫Х╫С╫У╫Щ╫Э ╫Ц╫и╫Щ╫Э ╫Р╫Щ╫Я ╫Ю╫Щ ╫й╫Щ╫а╫з╫Ф.',
-        personalStance: '╫Ь╫к╫д╫Щ╫й╫к╫Щ, ╫Ц╫Х ╫Ь╫Р ╫д╫й╫и╫Ф ╫Р╫Щ╫У╫Щ╫Р╫Ь╫Щ╫к ╫Р╫Ь╫Р ╫Ю╫в╫а╫Ф ╫Щ╫й╫Щ╫Э ╫Х╫Ф╫Ы╫и╫Ч╫Щ. ╫Щ╫й ╫Ь╫а╫Ф╫Ь ╫Ц╫Р╫к ╫С╫Ы╫С╫Х╫У, ╫С╫Ю╫з╫ж╫Х╫в╫Щ╫Х╫к ╫Х╫С╫б╫Х╫С╫Ь╫а╫Х╫к. ╫С╫Ф╫ж╫Ь╫Ч╫Ф!',
-      });
-    } else {
-      setAnswers({
-        dilemma: sample.title,
-        personalBackground: '╫а╫Щ╫б╫Щ╫Х╫Я ╫й╫Ш╫Ч ╫и╫С-╫й╫а╫Щ╫Э ╫С╫в╫а╫г ╫Ф╫а╫Щ╫Ф╫Х╫Ь ╫Х╫Ф╫Ю╫Ь╫Х╫а╫Р╫Х╫к.',
-        prosAndCons: sample.rawContent,
-        concreteExample: '╫У╫Ю╫Щ╫Щ╫а╫Х ╫Ю╫з╫и╫Ф ╫й╫С╫Х ╫Ю╫а╫Ф╫Ь ╫в╫Х╫Ю╫У ╫Ю╫Х╫Ь ╫Ф╫Ч╫Ь╫Ш╫Ф ╫з╫й╫Ф...',
-        personalStance: '╫Ь╫к╫д╫Щ╫й╫к╫Щ, ╫Щ╫й ╫Ь╫Ю╫ж╫Х╫Р ╫Р╫к ╫Ф╫Р╫Щ╫Ц╫Х╫Я ╫Ф╫а╫Ы╫Х╫Я ╫С╫Щ╫Я ╫Ф╫ж╫и╫Ы╫Щ╫Э ╫Ф╫й╫Х╫а╫Щ╫Э. ╫С╫Ф╫ж╫Ь╫Ч╫Ф!',
-      });
-    }
-  };
-
-  const lengthOptions: { id: PostLength; label: string; range: string }[] = [
-    { id: 'short', label: '╫з╫ж╫и', range: '300-450 ╫Ю╫Щ╫Ь╫Щ╫Э' },
-    { id: 'medium', label: '╫С╫Щ╫а╫Х╫а╫Щ', range: '600-850 ╫Ю╫Щ╫Ь╫Щ╫Э' },
-    { id: 'long', label: '╫Р╫и╫Х╫Ъ', range: '1000-1500 ╫Ю╫Щ╫Ь╫Щ╫Э' },
-  ];
-
-  return (
-    <div className="bg-white dark:bg-danbar-900 rounded-2xl shadow-sm border border-gray-200 dark:border-danbar-800 p-6 sm:p-8">
-      
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100 dark:border-danbar-800">
-        <div>
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <Compass className="w-5 h-5 text-danbar-600 dark:text-gold-400" />
-            ╫Р╫й╫г ╫к╫й╫Р╫Х╫Ь ╫Ю╫Х╫а╫Ч╫Ф: ╫д╫Щ╫к╫Х╫Ч ╫и╫в╫Щ╫Х╫Я ╫С-5 ╫й╫Ь╫С╫Щ╫Э
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            ╫Ю╫в╫а╫Ф ╫в╫Ь 5 ╫й╫Р╫Ь╫Х╫к ╫Ю╫д╫к╫Ч ╫Ю╫Ч╫Ь╫е ╫Р╫к ╫Ф╫У╫Щ╫Ь╫Ю╫Ф, ╫Ф╫и╫з╫в, ╫Ш╫Щ╫в╫Х╫а╫Щ ╫Ф╫С╫в╫У/╫а╫Т╫У ╫Х╫Ф╫У╫Х╫Т╫Ю╫Ф ╫Ф╫Ю╫Х╫Ч╫й╫Щ╫к ╫Ь╫д╫а╫Щ ╫Ы╫к╫Щ╫С╫к ╫Ф╫д╫Х╫б╫Ш.
-          </p>
-        </div>
-
-        {/* Post Length Selector & Load sample */}
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1 bg-gray-50 dark:bg-danbar-800 p-1 rounded-xl border border-gray-200 dark:border-danbar-700">
-            {lengthOptions.map((opt) => (
-              <button
-                key={opt.id}
-                type="button"
-                onClick={() => setPostLength(opt.id)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
-                  postLength === opt.id
-                    ? 'bg-danbar-700 text-white shadow-xs'
-                    : 'text-gray-600 dark:text-gray-300 hover:text-gray-900'
-                }`}
-                title={opt.range}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={() => handleLoadSample(SAMPLE_IDEAS[0])}
-            className="text-xs bg-danbar-50 dark:bg-danbar-800 hover:bg-danbar-100 text-danbar-700 dark:text-gold-400 px-3 py-1.5 rounded-lg border border-danbar-200 dark:border-danbar-700 font-medium transition-colors flex items-center gap-1.5 self-start sm:self-auto"
-          >
-            <Lightbulb className="w-3.5 h-3.5 text-gold-500" />
-            ╫Ю╫Ь╫Р ╫Ь╫У╫Х╫Т╫Ю╫Ф: ╫в╫Х╫С╫У╫Щ╫Э ╫Ц╫и╫Щ╫Э
-          </button>
-        </div>
-      </div>
-
-      {/* Steps Progress Indicator */}
-      <div className="mt-6">
-        <div className="grid grid-cols-5 gap-2">
-          {steps.map((s) => {
-            const isCompleted = currentStep > s.step;
-            const isCurrent = currentStep === s.step;
-            return (
-              <button
-                key={s.step}
-                type="button"
-                onClick={() => setCurrentStep(s.step)}
-                className={`flex flex-col items-center text-center p-2 rounded-xl border transition-all ${
-                  isCurrent
-                    ? 'border-danbar-600 dark:border-gold-500 bg-danbar-50 dark:bg-danbar-800 ring-2 ring-danbar-600/30 dark:ring-gold-500/30'
-                    : isCompleted
-                    ? 'border-emerald-300 dark:border-emerald-700/50 bg-emerald-50/50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400'
-                    : 'border-gray-200 dark:border-danbar-800 text-gray-400 opacity-60'
-                }`}
-              >
-                <div className="flex items-center justify-center w-6 h-6 rounded-full mb-1 text-xs font-bold">
-                  {isCompleted ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                  ) : (
-                    <span className={isCurrent ? 'text-danbar-800 dark:text-gold-400 font-bold' : ''}>
-                      {s.step}
-                    </span>
-                  )}
-                </div>
-                <span className="text-[11px] font-medium hidden md:block truncate max-w-full">
-                  {s.title}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Current Step Card */}
-      <div className="mt-8 bg-gray-50/70 dark:bg-danbar-800/40 rounded-2xl border border-gray-200 dark:border-danbar-700 p-6">
-        
-        {/* Step Badge & Title */}
-        <div className="mb-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-danbar-600 dark:text-gold-400">
-              <span>╫й╫Ь╫С {currentStep} ╫Ю╫к╫Х╫Ъ 5</span>
+        prosAndCons: '╫Ю╫Ч╫У: ╫Ю╫в╫а╫Ф ╫Ю╫Щ╫Щ╫У╫Щ ╫Х╫Ю╫ж╫Щ╫Ь ╫Ь╫Ю╫Ч╫б╫Х╫и ╫Ф╫з╫и╫Щ╫Ш╫Щ ╫С╫Щ╫У╫Щ╫Щ╫Э ╫в╫Х╫С╫У╫Х╫к, ╫и╫Ю╫к ╫к╫Ч╫Ц╫Х╫з╫Ф ╫Ш╫Х╫С╫Ф. ╫Ю╫Р╫Щ╫У╫Ъ: ╫Ч╫й╫й╫Х╫к ╫С╫Щ╫Ш╫Ч╫Х╫а╫Щ╫Щ╫Э, ╫Ю╫Ч╫б╫Х╫Э ╫й╫д╫Ф ╫Ю╫Х╫Ь ╫Ф╫Р╫Х╫и╫Ч, ╫к╫Ь╫Х╫к ╫С╫Ю╫У╫Щ╫а╫Щ╫Х╫к ╫Ю╫Ю╫й╫Ь╫к╫Щ╫Щ╫вю',
+        concreteExample: '┘=yэyЭyЭzyRyэzyMy┬yэzЭzrzЭz-y]yэy2yэy]y┬y}y=zНyЭy╥y═yyэzy]z}yЭy╥yzЭz-yBCгy╜zЭyMy═y]yyТyэy═yyy]zНy}yЭy╥ymy]z-yэyЭy╥┬y]yy═yТz-y]yy=yЭy╥ymzНyЭy╥yyЭyЄyэyТzЭyЭzz}yBтr└вW'6Ўц┼7Fц6Sв}y═zнzMyЭzЭzнyТ┬ymyRy═yzMzЭzНyByyЭy=yЭyy═yЭzвyy═yyэz-zyByЭzЭyЭy╥y]yMy╜zНy}yТтyЭzТy═zyMy┬ymyzвyy╜yy]y2┬yyэz}zmy]z-yЭy]zвy]yzy]yy═zy]zвтyyMzmy═y}yBr└в╥У░в╥V╟6R░в6WDч7vW'2З░вFЦ╞V╓╓в6╫╞RчFЧF╞R└вW'6Ўц─&6╢w&ўVцCв}zyЭzyЭy]yЄzЭyНyrzНy▌zЭzyЭy╥yz-zz2yMzyЭyMy]y┬y]yMyэy═y]zyy]zвтr└в&ў4цD6Ўч3в6╫╞Rч&t6ЎчFVчB└в6Ўц7&WFTWЖ╫╞Sв}y=yэyЭyЭzyRyэz}zНyBzЭyyRyэzyMy┬z-y]yэy2yэy]y┬yMy}y═yНyBz}zЭyBтттr└вW'6Ўц┼7Fц6Sв}y═zнzMyЭzЭzнyТ┬yЭzТy═yэzmy]yyzвyMyyЭymy]yЄyMzy╜y]yЄyyЭyЄyMzmzНy╜yЭy╥yMzЭy]zyЭy╥тyyMzmy═y}yBr└в╥У░в╨в╙░ав6Ўч7B╞VцwFДўFЦЎч3в▓ЦCвў7D╞VцwFГ▓╞&V├в7G&Ццs▓&цvSв7G&Ццr╒╡╥╥░в▓ЦCвw6Жў'Br┬╞&V├в}z}zmzВr┬&цvSвs3╙CSyэyЭy═yЭy╥r╥└в▓ЦCвv╓VFЧV╥r┬╞&V├в}yyЭzy]zyТr┬&цvSвsc╙ГSyэyЭy═yЭy╥r╥└в▓ЦCвv╞Ўцrr┬╞&V├в}yzНy]yвr┬&цvSвs╙SyэyЭy═yЭy╥r╥└в╙░ав&WGW&тАв╞FЧb6╞74ц╓S╥&&r╫vЖЧFRF&│ж&r╓Fц&"╙У&ўVцFVB╙'Ж┬6ЖFўr╫6╥&ў&FW"&ў&FW"╓w&Т╙#F&│ж&ў&FW"╓Fц&"╙Г╙b6╙з╙В#рв в▓ЄвFўЖVFW"вў╨в╞FЧb6╞74ц╓S╥&f╞WВf╞WВ╓6Ў┬6╙жf╞WВ╫&ўr6╙жЧFV╫2╓6VчFW"зW7FЦgТ╓&WGvVVтv╙B"╙b&ў&FW"╓"&ў&FW"╓w&Т╙F&│ж&ў&FW"╓Fц&"╙Г#рв╞FЧcрв╞Г"6╞74ц╓S╥'FWЗB╓╞rfЎчB╓&Ў╞BFWЗB╓w&Т╙УF&│зFWЗB╫vЖЧFRf╞WВЧFV╫2╓6VчFW"v╙"#рв─6Ў╫726╞74ц╓S╥'r╙RВ╙RFWЗB╓Fц&"╙cF&│зFWЗB╓vЎ╞B╙C"єрвyzЭz2zнzЭyy]y┬yэy]zy}yCвzMyЭzнy]yrzНz-yЭy]yЄy╙RzЭy═yyЭy╨в┬ЎГ#рв╟6╞74ц╓S╥'FWЗB╫6╥FWЗB╓w&Т╙SF&│зFWЗB╓w&Т╙C╫B╙#рвyэz-zyBz-y┬RzЭyy═y]zвyэzMzнyryэy}y═zRyzвyMy=yЭy═yэyB┬yMzНz}z"┬yНyЭz-y]zyТyMyz-y2¤zy-y2y]yMy=y]y-yэyByMyэy]y}zЭyЭzвy═zMzyТy╜zнyЭyzвyMzMy]zyВрв┬ўрв┬ЎFЧcрав▓Євў7B╞VцwFВ6V╞V7Fў"b╞ЎB6╫╞Rвў╨в╞FЧb6╞74ц╓S╥&f╞WВf╞WВ╫w&ЧFV╫2╓6VчFW"v╙2#рв╞FЧb6╞74ц╓S╥&f╞WВЧFV╫2╓6VчFW"v╙&r╓w&Т╙SF&│ж&r╓Fц&"╙Г╙&ўVцFVB╫Ж┬&ў&FW"&ў&FW"╓w&Т╙#F&│ж&ў&FW"╓Fц&"╙s#рв╢╞VцwFДўFЦЎч2ц╓ВЖўBТ╙тАв╞'WGFЎрв╢WУ╫╢ўBцЦG╨вGЧS╥&'WGFЎт вЎф6╞Ц6│╫▓ВТ╙т6WEў7D╞VцwFВЖўBцЦBЧ╨в6╞74ц╓S╫╢В╙"уRТ╙&ўVцFVB╓╞rFWЗB╫З2fЎчB╫6V╓Ц&Ў╞BG&ч6ЧFЦЎт╓╞┬G░вў7D╞VцwFВ╙╙╥ўBцЦ@вЄv&r╓Fц&"╙sFWЗB╫vЖЧFR6ЖFўr╫З2pввwFWЗB╓w&Т╙cF&│зFWЗB╓w&Т╙3ЖўfW#зFWЗB╓w&Т╙Уpв╓╨вFЧF╞S╫╢ўBч&цvW╨врв╢ўBц╞&V╟╨в┬Ў'WGFЎурвТЧ╨в┬ЎFЧcрав╞'WGFЎрвGЧS╥&'WGFЎт вЎф6╞Ц6│╫▓ВТ╙тЖцF╞T╞ЎE6╫╞RЕ4╒─UЇФDT5│╥Ч╨в6╞74ц╓S╥'FWЗB╫З2&r╓Fц&"╙SF&│ж&r╓Fц&"╙ГЖўfW#ж&r╓Fц&"╙FWЗB╓Fц&"╙sF&│зFWЗB╓vЎ╞B╙CВ╙2Т╙уR&ўVцFVB╓╞r&ў&FW"&ў&FW"╓Fц&"╙#F&│ж&ў&FW"╓Fц&"╙sfЎчB╓╓VFЧV╥G&ч6ЧFЦЎт╓6Ў╞ў'2f╞WВЧFV╫2╓6VчFW"v╙уR6V╞b╫7F'B6╙з6V╞b╓WFЄ врв─╞ЦvЗF'V╞"6╞74ц╓S╥'r╙2уRВ╙2уRFWЗB╓vЎ╞B╙S"єрвyэy═yy═y=y]y-yэyCвz-y]yy=yЭy╥ymzНyЭy╨в┬Ў'WGFЎурв┬ЎFЧcрв┬ЎFЧcрав▓Єв7FW2&Ўw&W72ЦцFЦ6Fў"вў╨в╞FЧb6╞74ц╓S╥&╫B╙b#рв╞FЧb6╞74ц╓S╥&w&ЦBw&ЦB╓6Ў╟2╙Rv╙"#рв╖7FW2ц╓ВЗ2Т╙т░в6Ўч7BЧ46Ў╫╞WFVB╥7W'&VчE7FWт2ч7FW░в6Ўч7BЧ47W'&VчB╥7W'&VчE7FW╙╙╥2ч7FW░в&WGW&тАв╞'WGFЎрв╢WУ╫╖2ч7FW╨вGЧS╥&'WGFЎт вЎф6╞Ц6│╫▓ВТ╙т6WD7W'&VчE7FWЗ2ч7FWЧ╨в6╞74ц╓S╫╢f╞WВf╞WВ╓6Ў┬ЧFV╫2╓6VчFW"FWЗB╓6VчFW"╙"&ўVцFVB╫Ж┬&ў&FW"G&ч6ЧFЦЎт╓╞┬G░вЧ47W'&Vч@вЄv&ў&FW"╓Fц&"╙cF&│ж&ў&FW"╓vЎ╞B╙S&r╓Fц&"╙SF&│ж&r╓Fц&"╙Г&Ццr╙"&Ццr╓Fц&"╙cє3F&│з&Ццr╓vЎ╞B╙Sє3pввЧ46Ў╫╞WFV@вЄv&ў&FW"╓V╓W&╞B╙3F&│ж&ў&FW"╓V╓W&╞B╙sєS&r╓V╓W&╞B╙SєSF&│ж&r╓V╓W&╞B╙УSє#FWЗB╓V╓W&╞B╙sF&│зFWЗB╓V╓W&╞B╙Cpввv&ў&FW"╓w&Т╙#F&│ж&ў&FW"╓Fц&"╙ГFWЗB╓w&Т╙Cў6ЧGТ╙cpв╓╨врв╞FЧb6╞74ц╓S╥&f╞WВЧFV╫2╓6VчFW"зW7FЦgТ╓6VчFW"r╙bВ╙b&ўVцFVB╓gV╞┬╓"╙FWЗB╫З2fЎчB╓&Ў╞B#рв╢Ч46Ў╫╞WFVBЄАв─6ЖV6┤6Ч&6╞S"6╞74ц╓S╥'r╙RВ╙RFWЗB╓V╓W&╞B╙cF&│зFWЗB╓V╓W&╞B╙C"єрвТвАв╟7т6╞74ц╓S╫╢Ч47W'&VчBЄwFWЗB╓Fц&"╙ГF&│зFWЗB╓vЎ╞B╙CfЎчB╓&Ў╞Brвrw╙рв╖2ч7FW╨в┬ў7урвЧ╨в┬ЎFЧcрв╟7т6╞74ц╓S╥'FWЗB╒│Е╥fЎчB╓╓VFЧV╥ЖЦFFVт╓Cж&╞Ў6▓G'Vц6FR╓В╫r╓gV╞┬#рв╖2чFЧF╞W╨в┬ў7урв┬Ў'WGFЎурвУ░в╥Ч╨в┬ЎFЧcрв┬ЎFЧcрав▓Єв7W'&VчB7FW6&Bвў╨в╞FЧb6╞74ц╓S╥&╫B╙В&r╓w&Т╙SєsF&│ж&r╓Fц&"╙ГєC&ўVцFVB╙'Ж┬&ў&FW"&ў&FW"╓w&Т╙#F&│ж&ў&FW"╓Fц&"╙s╙b#рв в▓Єв7FW&FvRbFЧF╞Rвў╨в╞FЧb6╞74ц╓S╥&╓"╙B#рв╞FЧb6╞74ц╓S╥&f╞WВf╞WВ╓6Ў┬6╙жf╞WВ╫&ўr6╙жЧFV╫2╓6VчFW"зW7FЦgТ╓6VчFW"v╙"╓"╙#рв╞FЧb6╞74ц╓S╥&f╞WВЧFV╫2╓6VчFW"v╙"FWЗB╫З2fЎчB╓&Ў╞BWW&66RG&6╢Ццr╫vЦFW"FWЗB╓Fц&"╙cF&│зFWЗB╓vЎ╞B╙C#рв╟7уэy╫Ь╫С {currentStep} ╫Ю╫к╫Х╫Ъ 5</span>
               <span>тАв</span>
               <span>{currentStepData.subtitle}</span>
             </div>
@@ -280,7 +170,7 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
             {currentStep === 1 && (
               <button
                 type="button"
-                onClick={handleConductResearch}
+                onClick={() => handleConductResearch}
                 disabled={isResearching || !answers.dilemma.trim()}
                 className="text-xs font-bold text-danbar-700 dark:text-gold-400 hover:text-danbar-900 bg-white dark:bg-danbar-900 hover:bg-danbar-50 px-3 py-1 rounded-lg border border-danbar-200 dark:border-danbar-700 transition-all flex items-center gap-1.5 self-start sm:self-auto disabled:opacity-50"
               >
@@ -392,7 +282,35 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
           </button>
 
           {/* Next / Generate button */}
-          {currentStep < 5 ? (\n            <button\n              type=\"button\"\n              onClick={handleNext}\n              className=\"px-6 py-2.5 rounded-xl bg-danbar-800 hover:bg-danbar-900 text-white font-semibold transition-all flex items-center gap-2 text-sm shadow-sm\"\n            >\n              <span>╫Ф╫Ю╫й╫Ъ ╫Ь╫й╫Ь╫С ╫Ф╫С╫Р</span>\n              <ArrowLeft className=\"w-4 h-4\" />\n            </button>\n          ) : (\n            <button\n              type=\"button\"\n              onClick={handleSubmit}\n              disabled={isLoading || !answers.dilemma.trim()}\n              className=\"px-8 py-3 rounded-xl bg-gradient-to-r from-danbar-700 to-danbar-900 hover:from-danbar-800 hover:to-danbar-950 text-white font-semibold shadow-md transition-all flex items-center gap-2 text-sm disabled:opacity-50\"\n            >\n              {isLoading ? (\n                <>\n                  <Loader2 className=\"w-5 h-5 animate-spin text-gold-400\" />\n                  <span>╫Ю╫в╫С╫У ╫Х╫Ы╫Х╫к╫С ╫Р╫к ╫Ф╫д╫Х╫б╫Ш...</span>\n                </>\n              ) : (\n                <>\n                  <Sparkles className=\"w-5 h-5 text-gold-400\" />\n                  <span>╫Ф╫д╫з ╫д╫Х╫б╫Ш ╫й╫Ь╫Э ╫Ю╫Ф╫к╫й╫Х╫С╫Х╫к</span>\n                </>\n              )}\n            </button>\n          )}
+          {currentStep < 5 ? (
+            <button
+              type="button"
+              onClick={() => handleNext}
+              className="px-6 py-2.5 rounded-xl bg-danbar-800 hover:bg-danbar-900 text-white font-semibold transition-all flex items-center gap-2 text-sm shadow-sm"
+            >
+              <span>╫Ф╫Ю╫й╫Ъ ╫Ь╫й╫Ь╫С ╫Ф╫С╫Р</span>
+              <ArrowLeft className="w-4 h-4" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={isLoading || !answers.dilemma.trim()}
+              className="px-8 py-3 rounded-xl bg-gradient-to-r from-danbar-700 to-danbar-900 hover:from-danbar-800 hover:to-danbar-950 text-white font-semibold shadow-md transition-all flex items-center gap-2 text-sm disabled:opacity-50"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-gold-400" />
+                  <span>╫Ю╫в╫С╫У ╫Х╫Ы╫Х╫к╫С ╫Р╫к ╫Ф╫д╫Х╫б╫Ш...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 text-gold-400" />
+                  <span>╫Ф╫д╫з ╫д╫Х╫б╫Ш ╫й╫Ь╫Э ╫Ю╫Ф╫к╫й╫Х╫С╫Х╫к</span>
+                </>
+              )}
+            </button>
+          )}
         </div>
 
       </div>

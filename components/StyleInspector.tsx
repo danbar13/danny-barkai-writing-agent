@@ -40,7 +40,8 @@ export const StyleInspector: React.FC<StyleInspectorProps> = ({ analysis }) => {
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-        {analysis.metrics.map((metric, idx) => (\n          <div
+        {analysis.metrics.map((metric, idx) => (
+          <div
             key={idx}
             className={`p-4 rounded-xl border transition-all ${
               metric.passed
