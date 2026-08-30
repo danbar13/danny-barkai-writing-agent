@@ -38,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
               </div>
               <p className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 max-w-xl">
-                ניהול ומשאבי אנוש, חדשנות ויזמות, טרבל-טק ו-AI במלונאות ובעסקים — חשיבה רפלקטיבית "בין הפטיש לסדן"
+                ניהול ומשאבי אנוש, חדשנות ויזמות, טרבל-טק ו-AI במלונאות ובעסקים — חשיבה רפלקטיבית &quot;בין הפטיש לסדן&quot;
               </p>
             </div>
           </div>
@@ -53,7 +53,11 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <History className="w-4 h-4 text-danbar-600 dark:text-danbar-400" />
               <span className="hidden sm:inline">פוסטים שמורים</span>
-              {savedCount > 0 && (\n                <span className=\"bg-gold-500 text-danbar-950 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center\">\n                  {savedCount}\n                </span>\n              )}
+              {savedCount > 0 && (
+                <span className="bg-gold-500 text-danbar-950 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                  {savedCount}
+                </span>
+              )}
             </button>
 
             {/* Settings Button */}
