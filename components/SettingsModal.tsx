@@ -44,76 +44,80 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           <div className="flex items-center gap-2">
             <Key className="w-5 h-5 text-danbar-600 dark:text-gold-400" />
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">
-              הגדרות סוכן ומפתח Gemini API
+              הגדרות Google Gemini API
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-danbar-800 transition-colors"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-2 rounded-lg"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <form onSubmit={handleSave} className="mt-6 space-y-5">
+          
+          {/* Key Input */}
           <div>
             <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">
-              Gemini API Key (Google AI Studio)
+              מפתח Gemini API אישי (נשמר מקומית בדפדפן בלבד)
             </label>
             <input
               type="password"
               value={tempKey}
               onChange={(e) => setTempKey(e.target.value)}
               placeholder="AIzaSy..."
-              className="w-full px-4 py-3 bg-gray-50 dark:bg-danbar-800 text-gray-900 dark:text-white border border-gray-200 dark:border-danbar-700 rounded-xl focus:ring-2 focus:ring-danbar-500 outline-none font-mono text-sm"
+              className="w-full px-4 py-3 bg-gray-50 dark:bg-danbar-800/80 text-gray-900 dark:text-white border border-gray-200 dark:border-danbar-700 rounded-xl focus:ring-2 focus:ring-danbar-500 outline-none text-sm font-mono placeholder-gray-400"
             />
-            <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
-              <ShieldAlert className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-              המפתח נשמר בזיכרון המקומי של הדפדפן שלך בלבד (localStorage) ולעולם אינו נשלח לשרת צד-שלישי.
+            <p className="text-xs text-gray-400 mt-2">
+              אם לא תזין מפתח, האפליקציה תשתמש במשתנה הסביבה <code className="bg-gray-100 dark:bg-danbar-800 px-1 py-0.5 rounded text-danbar-600 dark:text-gold-400">GEMINI_API_KEY</code> שהוגדר ב-Vercel.
             </p>
           </div>
 
-          {/* Model info card */}
-          <div className="bg-danbar-50/60 dark:bg-danbar-800/40 p-4 rounded-xl border border-danbar-100 dark:border-danbar-800 space-y-2 text-xs">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-danbar-900 dark:text-white">מודל ברירת מחדל:</span>
-              <span className="font-mono bg-danbar-200/60 dark:bg-danbar-700 px-2 py-0.5 rounded text-danbar-800 dark:text-gold-400 font-bold">
-                gemini-2.5-pro / flash
-              </span>
+          {/* Help box */}
+          <div className="bg-danbar-50/60 dark:bg-danbar-800/40 p-4 rounded-xl border border-danbar-100 dark:border-danbar-800 space-y-2 text-xs text-gray-600 dark:text-gray-300">
+            <div className="flex items-center gap-1.5 font-bold text-danbar-800 dark:text-gold-400">
+              <HelpCircle className="w-4 h-4" />
+              <span>איך משיגים מפתח בחינם?</span>
             </div>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              הסוכן משתמש בפרומפט מערכת ייעודי המכויל לפי חוקי הכתיבה, הפיסוק (שלוש נקודות, מקפים, סוגריים) והתפיסה המערכתית של דני ברקאי.
+            <p>
+              מפתח Gemini API ניתן לקבל בחינם לגמרי תוך דקה דרך פורטל Google AI Studio.
             </p>
-          </div>
-
-          <div className="pt-2 flex items-center justify-between">
             <a
               href="https://aistudio.google.com/app/apikey"
               target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-danbar-600 dark:text-gold-400 hover:underline flex items-center gap-1 font-medium"
+            rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-danbar-600 dark:text-gold-400 font-bold  hover:underline"
             >
-              <span>קבל מפתח API בחינם מ-Google</span>
+              <span>קבל מפתח ב-Google I Studio</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
-
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-danbar-800 transition-colors"
-              >
-                ביטול
-              </button>
-              <button
-                type="submit"
-                className="px-5 py-2 rounded-xl bg-danbar-700 hover:bg-danbar-800 text-white text-xs font-semibold shadow-sm transition-all flex items-center gap-1.5"
-              >
-                {saved ? <Check className="w-4 h-4 text-gold-400" /> : null}
-                <span>{saved ? 'נשמר בהצלחה!' : 'שמור מפתח'}</span>
-              </button>
-            </div>
           </div>
+
+          {/* Buttons */}
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-danbar-800">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-5 py-2.5 rounded-xl border border-gray-300 dark:border-danbar-700 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-100 dark:hover:bg-danbar-800 transition-colors"
+            >
+              ביטול[[
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2.5 rounded-xl bg-danbar-800 hover:bg-danbar-900 text-white text-sm font-semibold transition-all flex items-center gap-2 shadow-sm"
+            >
+              {saved ? (
+                <>
+                  <Check className="w-4 h-4 text-gold-400" />
+                  <span>נשמר!</span>
+                </>
+              ) : (
+                <span>שמור הגדרות</span>
+              )}
+            </button>
+          </div>
+
         </form>
 
       </div>
