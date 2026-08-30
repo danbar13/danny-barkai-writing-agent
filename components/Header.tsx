@@ -21,11 +21,11 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Logo & Branding */}
           <div className="flex items-center space-x-4 space-x-reverse">
-            <div className="bg-white p-1 rounded-xl shadow-sm border border-gray-200 dark:border-danbar-700 flex items-center justify-center overflow-hidden">
+            <div className="bg-white px-2 py-1 rounded-xl shadow-xs border border-gray-200/80 dark:border-danbar-700 flex items-center justify-center shrink-0">
               <img
                 src="/danbar-logo.jpg"
                 alt="DANBAR דנבר ייעוץ אסטרטגי, ארגוני ומשאבי אנוש"
-                className="h-10 sm:h-12 w-auto object-contain"
+                className="h-10 sm:h-12 w-auto max-w-[200px] sm:max-w-[260px] object-contain"
               />
             </div>
             <div>
