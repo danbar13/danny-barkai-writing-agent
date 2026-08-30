@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Trash2, Sparkles, Loader2 } from 'lucide-react';
+import { Send, Bot, User, Trash2, Sparkles, Loader2, CornerDownLeft } from 'lucide-react';
 import { ChatMessage } from '@/lib/types';
 
 interface ChatTabProps {
