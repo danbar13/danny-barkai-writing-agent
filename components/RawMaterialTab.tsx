@@ -111,7 +111,7 @@ export const RawMaterialTab: React.FC<RawMaterialTabProps> = ({
 
   return (
     <div className="bg-white dark:bg-danbar-900 rounded-2xl shadow-sm border border-gray-200 dark:border-danbar-800 p-6 sm:p-8">
-      
+
       {/* Header Info */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100 dark:border-danbar-800">
         <div>
@@ -149,7 +149,7 @@ export const RawMaterialTab: React.FC<RawMaterialTabProps> = ({
       </div>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-6">
-        
+
         {/* Content Type Selector */}
         <div>
           <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2.5">

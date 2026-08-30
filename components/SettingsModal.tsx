@@ -38,7 +38,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       />
 
       <div className="relative bg-white dark:bg-danbar-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-danbar-800 max-w-lg w-full p-6 sm:p-8 z-10">
-        
+
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-danbar-800">
           <div className="flex items-center gap-2">
@@ -56,7 +56,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
 
         <form onSubmit={handleSave} className="mt-6 space-y-5">
-          
+
           {/* Key Input */}
           <div>
             <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">
@@ -86,10 +86,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             <a
               href="https://aistudio.google.com/app/apikey"
               target="_blank"
-            rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-danbar-600 dark:text-gold-400 font-bold  hover:underline"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-danbar-600 dark:text-gold-400 font-bold hover:underline"
             >
-              <span>קבל מפתח ב-Google I Studio</span>
+              <span>קבל מפתח ב-Google AI Studio</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
@@ -101,7 +101,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               onClick={onClose}
               className="px-5 py-2.5 rounded-xl border border-gray-300 dark:border-danbar-700 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-100 dark:hover:bg-danbar-800 transition-colors"
             >
-              ביטול[[
+              ביטול
             </button>
             <button
               type="submit"
