@@ -193,9 +193,9 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
           </h3>
         </div>
 
-        {/* Research Error Alert if any */}
+      {/* Research Error Alert if any */}
         {researchError && (
-          <div className="mb-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-2.5 rounded-xl text-xs text-amber-800 dark:text-amber-300 flex justify-between items-center">
+          <div className="mr-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-2.5 rounded-xl text-xs text-amber-800 dark:text-amber-300 flex justify-between items-center">
             <span>{researchError}</span>
             <button onClick={() => setResearchError(null)} className="font-bold text-amber-600">╫б╫Т╫Х╫и</button>
           </div>
@@ -203,11 +203,11 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
 
         {/* Research Findings in Wizard */}
         {researchFindings && (
-          <div className="mb-4 bg-white/80 dark:bg-danbar-900/80 rounded-xl border border-danbar-200 dark:border-danbar-700 p-3.5 space-y-2">
+          <div className="mr-4 bg-white/80 dark:bg-danbar-900/80 rounded-xl border border-danbar-200 dark:border-danbar-700 p-3.5 space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5 text-xs font-bold text-danbar-800 dark:text-gold-400">
                 <Globe className="w-3.5 h-3.5" />
-                <span>╫Ю╫Ю╫ж╫Р╫Щ ╫Ю╫Ч╫з╫и ╫Ю╫Ф╫и╫й╫к ╫в╫С╫Х╫и ╫У╫Щ╫Ь╫Ю╫Ф ╫Ц╫Х:</span>
+                <span>╫Ю╫Ю╫ж╫Р╫Щ ╫Ю╫Ч╫з╫и ╫Ю╫Ф╫и╫и╫й╫к ╫в╫С╫Х╫и ╫У╫Щ╫Ь╫Ю╫Ф ╫Ц╫Х:</span>
               </div>
               <button
                 type="button"
@@ -250,7 +250,6 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
           <Lightbulb className="w-4 h-4 text-gold-500 shrink-0 mt-0.5" />
           <span>{currentStepData.tip}</span>
         </div>
-
       </div>
 
       {/* Navigation & Action Buttons */}
@@ -264,57 +263,4 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
           className="px-5 py-2.5 rounded-xl border border-gray-300 dark:border-danbar-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-danbar-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-2 text-sm"
         >
           <ArrowRight className="w-4 h-4" />
-          <span>╫й╫Ь╫С ╫з╫Х╫У╫Э</span>
-        </button>
-
-        <div className="flex items-center gap-3">
-          {/* Reset button */}
-          <button
-            type="button"
-            onClick={() => {
-              setAnswers({ dilemma: '', personalBackground: '', prosAndCons: '', concreteExample: '', personalStance: '' });
-              setCurrentStep(1);
-            }}
-            className="p-2.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-            title="╫Р╫Щ╫д╫Х╫б ╫к╫й╫Х╫С╫Х╫к"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </button>
-
-          {/* Next / Generate button */}
-          {currentStep < 5 ? (
-            <button
-              type="button"
-              onClick={() => handleNext}
-              className="px-6 py-2.5 rounded-xl bg-danbar-800 hover:bg-danbar-900 text-white font-semibold transition-all flex items-center gap-2 text-sm shadow-sm"
-            >
-              <span>╫Ф╫Ю╫й╫Ъ ╫Ь╫й╫Ь╫С ╫Ф╫С╫Р</span>
-              <ArrowLeft className="w-4 h-4" />
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={isLoading || !answers.dilemma.trim()}
-              className="px-8 py-3 rounded-xl bg-gradient-to-r from-danbar-700 to-danbar-900 hover:from-danbar-800 hover:to-danbar-950 text-white font-semibold shadow-md transition-all flex items-center gap-2 text-sm disabled:opacity-50"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin text-gold-400" />
-                  <span>╫Ю╫в╫С╫У ╫Х╫Ы╫Х╫к╫С ╫Р╫к ╫Ф╫д╫Х╫б╫Ш...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4 text-gold-400" />
-                  <span>╫Ф╫д╫з ╫д╫Х╫б╫Ш ╫й╫Ь╫Э ╫Ю╫Ф╫к╫й╫Х╫С╫Х╫к</span>
-                </>
-              )}
-            </button>
-          )}
-        </div>
-
-      </div>
-
-    </div>
-  );
-};
+          <span>╫й╫Ч╫С ╫з╫Х┘=y╙┬ў7урв┬Ў'WGFЎурав╞FЧb6╞74ц╓S╥&f╞WВЧFV╫2╓6VчFW"v╙2#рв▓Єв&W6WB'WGFЎтвў╨в╞'WGFЎрвGЧS╥&'WGFЎт вЎф6╞Ц6│╫▓ВТ╙т░в6WDч7vW'2З▓FЦ╞V╓╓вrr┬W'6Ўц─&6╢w&ўVцCвrr┬&ў4цD6Ўч3вrr┬6Ўц7&WFTWЖ╫╞Sвrr┬W'6Ўц┼7Fц6Sвrr╥У░в6WD7W'&VчE7FWГУ░в╫╨в6╞74ц╓S╥'╙"уRFWЗB╓w&Т╙CЖўfW#зFWЗB╓w&Т╙cF&│жЖўfW#зFWЗB╓w&Т╙#G&ч6ЧFЦЎт╓6Ў╞ў'2 вFЧF╞S╥-yyЭzMy]zzнzЭy]yy]zв врв┼&ўFFT67r6╞74ц╓S╥'r╙BВ╙B"єрв┬Ў'WGFЎурав▓ЄвцWЗBЄvVцW&FR'WGFЎтвў╨в╢7W'&VчE7FW┬RЄАв╞'WGFЎрвGЧS╥&'WGFЎт вЎф6╞Ц6│╫▓ВТ╙тЖцF╞TцWЗG╨в6╞74ц╓S╥'В╙bТ╙"уR&ўVцFVB╫Ж┬&r╓Fц&"╙ГЖўfW#ж&r╓Fц&"╙УFWЗB╫vЖЧFRfЎчB╫6V╓Ц&Ў╞BG&ч6ЧFЦЎт╓╞┬f╞WВЧFV╫2╓6VчFW"v╙"FWЗB╫6╥6ЖFўr╫6╥ врв╟7уэyMyэzЭyвy═zЭy═yyMyy┬ў7урв─'&ўt╞VgB6╞74ц╓S╥'r╙BВ╙B"єрв┬Ў'WGFЎурвТвАв╞'WGFЎрвGЧS╥&'WGFЎт вЎф6╞Ц6│╫╢ЖцF╞U7V&╓ЧG╨вFЧ6&╞VC╫╢Ч4╞ЎFЦцr╟┬ч7vW'2цFЦ╞V╓╓чG&Ц╥ВЧ╨в6╞74ц╓S╥'В╙ВТ╙2&ўVцFVB╫Ж┬&r╓w&FЦVчB╫FЄ╫"g&Ў╥╓Fц&"╙sFЄ╓Fц&"╙УЖўfW#жg&Ў╥╓Fц&"╙ГЖўfW#зFЄ╓Fц&"╙УSFWЗB╫vЖЧFRfЎчB╫6V╓Ц&Ў╞B6ЖFўr╓╓BG&ч6ЧFЦЎт╓╞┬f╞WВЧFV╫2╓6VчFW"v╙"FWЗB╫6╥FЧ6&╞VCжў6ЧGТ╙S врв╢Ч4╞ЎFЦцrЄАв├рв─╞ЎFW#"6╞74ц╓S╥'r╙BВ╙BцЦ╓FR╫7ЦтFWЗB╓vЎ╞B╙C"єрв╟7уэyэz-yy2y]y╜y]zнyyzвyMzMy]zyВтту┬ў7урв┬єрвТвАв├рв┼7&╢╞W26╞74ц╓S╥'r╙BВ╙BFWЗB╓vЎ╞B╙C"єрв╟7уэyMzMzrzMy]zyВzЭy═y╥yэyMzнzЭy]yy]zг┬ў7урв┬єрвЧ╨в┬Ў'WGFЎурвЧ╨в┬ЎFЧcрав┬ЎFЧcрав┬ЎFЧcрвУ░з╙░╨
