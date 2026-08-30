@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
+import { ShieldCheck, CheckCircle, AlertCircle, Sparkles, HelpCircle } from 'lucide-react';
 import { StyleAnalysis } from '@/lib/types';
 
 interface StyleInspectorProps {
@@ -33,15 +33,14 @@ export const StyleInspector: React.FC<StyleInspectorProps> = ({ analysis }) => {
             </span>
           </div>
           <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-gradient-to-br from-danbar-600 to-danbar-900 text-gold-400 shadow-sm">
-            {analysis.score >= 80 ? '✓' : '•' }
+            {analysis.score >= 80 ? '✓' : '•'}
           </div>
         </div>
       </div>
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-        {analysis.metrics.map((metric, idx) => (
-          <div
+        {analysis.metrics.map((metric, idx) => (\n          <div
             key={idx}
             className={`p-4 rounded-xl border transition-all ${
               metric.passed
