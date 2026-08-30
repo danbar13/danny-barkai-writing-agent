@@ -1,66 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { generateWithGemini } from '@/lib/gemini';
 import { DANNY_BARKAI_SYSTEM_PROMPT } from '@/lib/stylePrompt';
+import { ChatMessage } from '@/lib/types';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { messages, apiKey } = body;
-
-    const key = apiKey || process.env.GEMINI_API_KEY;
-    if (!key) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'לא סופק מפתח Gemini API. אנא הגדר משתנה סביבה GEMINI_API_KEY או הזן מפתח בהגדרות.',
-        },
-        { status: 400 }
-      );
-    }
-
-    // Format messages for Gemini API
-    const formattedContents = (messages || []).map((m: any) => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }],
-    }));
-
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
-
-    const payload = {
-      contents: formattedContents,
-      systemInstruction: {
-        parts: [{ text: DANNY_BARKAI_SYSTEM_PROMPT }],
-      },
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 2500,
-      },
+    const { messages, customApiKey } = body as {
+      messages: ChatMessage[];
+      customApiKey?: string;
     };
 
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      throw new Error(err?.error?.message || `שגיאת תקשורת ${response.status}`);
+    if (!messages || messages.length === 0) {
+      return NextResponse.json({ error: 'לא התקבלו הודעות' }, { status: 400 });
     }
 
-    const data = await response.json();
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const conversationHistory = messages
+      .map((m) => `${m.role === 'user' ? 'דני ברקאי' : 'סוכן הכתיבה'}: ${m.content}`)
+      .join('\n\n');
 
-    return NextResponse.json({
-      success: true,
-      message: text || 'לא התקבלה תשובה מהסוכן.',
+    const prompt = `הנה היסטוריית השיחה בינך לבין דני ברקאי:
+${conversationHistory}
+
+השב לדני בהתאם להודעתו האחרונה. עזור לו לחשוב בקול רם על דילמות ניהוליות, סגנון כתיבה, רעיונות לפוסטים או לטיש ניסוחים בסגנון DANBAR.
+שמור על הטון הרפלקטיבי, המעמיק והקולגיאלי של דני ברקאי.`;
+
+    const reply = await generateWithGemini({
+      prompt,
+      systemInstruction: DANNY_BARKAI_SYSTEM_PROMPT,
+      apiKey: customApiKey,
+      temperature: 0.7,
     });
+
+    return NextResponse.json({ reply });
   } catch (error: any) {
-    console.error('Error in chat route:', error);
+    console.error('Chat API Error:', error);
     return NextResponse.json(
-      {
-        success: false,
-        error: error.message || 'שגיאה בשיחה עם הסוכן',
-      },
+      { error: error.message || 'אירעה שגיאה בעיבוד השיחה' },
       { status: 500 }
     );
   }
