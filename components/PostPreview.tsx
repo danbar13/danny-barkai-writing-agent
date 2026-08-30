@@ -55,10 +55,10 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
 
   return (
     <div className="bg-white dark:bg-danbar-900 rounded-2xl shadow-sm border border-gray-200 dark:border-danbar-800 overflow-hidden">
-      
+
       {/* Top Toolbar */}
       <div className="p-4 sm:p-5 bg-gray-50/80 dark:bg-danbar-800/60 border-b border-gray-200 dark:border-danbar-700 flex flex-wrap items-center justify-between gap-3">
-        
+
         {/* Meta Stats */}
         <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
           <span className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-1">
@@ -133,7 +133,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
             rows={20}
             value={content}
             onChange={(e) => onChangeContent(e.target.value)}
-            className="w-full p-4 bg-gray-50 dark:border-danbar-950 text-gray-900 dark:text-gray-100 font-mono text-sm leading-relaxed border border-gray-200 dark:border-danbar-800 rounded-xl focus:ring-2 focus:ring-danbar-500 outline-none"
+            className="w-full p-4 bg-gray-50 dark:bg-danbar-950 text-gray-900 dark:text-gray-100 font-mono text-sm leading-relaxed border border-gray-200 dark:border-danbar-800 rounded-xl focus:ring-2 focus:ring-danbar-500 outline-none"
           />
         ) : (
           <div className="prose prose-slate dark:prose-invert max-w-none text-right font-sans text-gray-800 dark:text-gray-200 leading-relaxed text-base sm:text-lg whitespace-pre-wrap selection:bg-gold-500/20">
@@ -144,4 +144,4 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
 
     </div>
   );
-'u; 
+};

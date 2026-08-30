@@ -18,7 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="bg-white dark:bg-danbar-900 border-b border-gray-200 dark:border-danbar-800 sticky top-0 z-30 shadow-sm transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          
+
           {/* Logo & Branding */}
           <div className="flex items-center space-x-4 space-x-reverse">
             <div className="bg-white p-1 rounded-xl shadow-sm border border-gray-200 dark:border-danbar-700 flex items-center justify-center overflow-hidden">

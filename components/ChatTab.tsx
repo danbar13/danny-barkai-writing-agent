@@ -42,7 +42,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
 
   return (
     <div className="bg-white dark:bg-danbar-900 rounded-2xl shadow-sm border border-gray-200 dark:border-danbar-800 flex flex-col h-[650px]">
-      
+
       {/* Chat Top Bar */}
       <div className="px-6 py-4 border-b border-gray-100 dark:border-danbar-800 flex justify-between items-center">
         <div className="flex items-center gap-3">
