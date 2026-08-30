@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Format messages for Gemini API
     const formattedContents = (messages || []).map((m: any) => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: m.content }],
