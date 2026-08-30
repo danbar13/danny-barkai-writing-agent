@@ -1,143 +1,240 @@
 import React, { useState } from 'react';
-import { Copy, Download, Bookmark, Check, Edit3, Eye, FileCheck, Share2 } from 'lucide-react';
-import { StyleAnalysis } from '@/lib/types';
+import { Copy, Check, Bookmark, Download, Sparkles, FileText, Printer, FileDown, ExternalLink } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 interface PostPreviewProps {
-  content: string;
-  onChangeContent: (newContent: string) => void;
-  analysis?: StyleAnalysis;
-  onSaveToHistory: (content: string, title?: string) => void;
+  postContent: string;
+  onUpdateContent: (content: string) => void;
+  onSavePost: (title: string, content: string) => void;
 }
 
 export const PostPreview: React.FC<PostPreviewProps> = ({
-  content,
-  onChangeContent,
-  analysis,
-  onSaveToHistory,
+  postContent,
+  onUpdateContent,
+  onSavePost,
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-  if (!content) return null;
-
-  // Extract title if starts with #
-  const firstLine = content.trim().split('\n')[0] || '';
-  const title = firstLine.startsWith('#') ? firstLine.replace(/^#+\s*/, '') : 'פוסט ללא כותרת';
-
-  // Words and reading time
-  const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
-  const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 180));
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(content);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  // Extract title (first line)
+  const extractTitle = (text: string) => {
+    const lines = text.trim().split('\n');
+    return lines[0]?.replace(/^#*\s*/, '') || 'פוסט חדש';
   };
 
-  const handleDownload = () => {
-    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${title.slice(0, 30).replace(/[/\\?%*:|"<>]/g, '-')}.md`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+  const postTitle = extractTitle(postContent);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(postContent);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const handleSave = () => {
-    onSaveToHistory(content, title);
+    onSavePost(postTitle, postContent);
     setSaved(true);
-    setTimeout(() => setSaved(false), 2500);
+    setTimeout(() => setSaved(false), 2000);
   };
 
+  const handleDownloadMarkdown = () => {
+    const blob = new Blob([postContent], { type: 'text/markdown;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${postTitle.slice(0, 30)}.md`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadPDF = () => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html dir="rtl" lang="he">
+      <head>
+        <meta charset="utf-8">
+        <title>${postTitle}</title>
+        <style>
+          body {
+            font-family: 'Assistant', 'Segoe UI', Arial, sans-serif;
+            line-height: 1.8;
+            padding: 40px;
+            color: #1e293b;
+            max-width: 800px;
+            margin: 0 auto;
+          }
+          h1, h2, h3 { font-family: 'Heebo', sans-serif; color: #0f172a; }
+          .header { border-bottom: 2px solid #73970e; padding-bottom: 12px; margin-bottom: 24px; }
+          .logo { font-size: 14px; font-weight: bold; color: #73970e; }
+          .footer { margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 12px; font-size: 11px; color: #64748b; }
+          .content { white-space: pre-wrap; font-size: 14px; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div class="logo">DANBAR ייעוץ אסטרטגי, ארגוני ומשאבי אנוש — דני ברקאי</div>
+        </div>
+        <div class="content">${postContent.replace(/\n/g, '<br/>')}</div>
+        <div class="footer">הופק באמצעות סוכן הכתיבה של דני ברקאי — ${new Date().toLocaleDateString('he-IL')}</div>
+        <script>
+          window.onload = function() { window.print(); }
+        </script>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+  };
+
+  const handleDownloadDoc = () => {
+    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+      "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+      "xmlns='http://www.w3.org/TR/REC-html40'>"+
+      "<head><meta charset='utf-8'><title>" + postTitle + "</title>"+
+      "<style>body { font-family: Arial, sans-serif; font-size: 12pt; line-height: 1.6; direction: rtl; }</style></head><body>";
+    const footer = "</body></html>";
+    const formattedContent = postContent.replace(/\n/g, "<br/>");
+    const sourceHTML = header + "<h2>" + postTitle + "</h2>" + formattedContent + footer;
+
+    const blob = new Blob(['\ufeff' + sourceHTML], {
+      type: 'application/msword'
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${postTitle.slice(0, 30)}.doc`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleOpenGoogleDoc = () => {
+    navigator.clipboard.writeText(postContent);
+    window.open('https://docs.new', '_blank');
+  };
+
+  const wordCount = postContent.trim().split(/\s+/).filter(Boolean).length;
+  const charCount = postContent.length;
+
   return (
-    <div className="bg-white dark:bg-danbar-900 rounded-2xl shadow-sm border border-gray-200 dark:border-danbar-800 overflow-hidden">
+    <div className="bg-[#0e1626]/95 backdrop-blur-2xl rounded-3xl shadow-luxury-card border border-slate-700/60 transition-all overflow-hidden">
 
       {/* Top Toolbar */}
-      <div className="p-4 sm:p-5 bg-gray-50/80 dark:bg-danbar-800/60 border-b border-gray-200 dark:border-danbar-700 flex flex-wrap items-center justify-between gap-3">
-
-        {/* Meta Stats */}
-        <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
-          <span className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-1">
-            <FileCheck className="w-4 h-4 text-danbar-600 dark:text-gold-400" />
-            {wordCount} מילים
-          </span>
-          <span>•</span>
-          <span>כ-{readTimeMinutes} דק' קריאה</span>
-          {analysis && (
-            <>
+      <div className="px-6 py-4 border-b border-slate-800 bg-[#0a101d] flex flex-wrap justify-between items-center gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-danbar-950 text-danbar-400 border border-danbar-600/30 flex items-center justify-center font-bold shadow-glow-sm">
+            <FileText className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-base font-heading font-black text-white line-clamp-1">
+              {postTitle}
+            </h2>
+            <div className="flex items-center gap-3 text-xs text-slate-400 font-sans mt-0.5">
+              <span>{wordCount} מילים</span>
               <span>•</span>
-              <span className={`font-bold px-2 py-0.5 rounded-full ${
-                analysis.score >= 80
-                  ? 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400'
-                  : 'bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-gold-400'
-              }`}>
-                ציון סגנון: {analysis.score}/100
-              </span>
-            </>
-          )}
+              <span>{charCount} תווים</span>
+              <span>•</span>
+              <span className="text-danbar-400 font-medium">סגנון DANBAR חתום</span>
+            </div>
+          </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2">
-          {/* Edit / View Toggle */}
+        <div className="flex items-center flex-wrap gap-2">
+          {/* Edit / Preview Toggle */}
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="p-2 text-xs font-medium rounded-lg border border-gray-300 dark:border-danbar-700 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-danbar-800 transition-colors flex items-center gap-1.5"
-            title={isEditing ? 'תצוגה מקדימה' : 'עריכת טקסט'}
+            className="px-3.5 py-2 text-xs font-heading font-bold rounded-xl border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors shadow-xs"
           >
-            {isEditing ? <Eye className="w-3.5 h-3.5" /> : <Edit3 className="w-3.5 h-3.5" />}
-            <span>{isEditing ? 'תצוגה מקדימה' : 'ערוך'}</span>
+            {isEditing ? 'תצוגה מקדימה' : 'עריכה ידנית'}
           </button>
 
           {/* Copy Button */}
           <button
             onClick={handleCopy}
-            className="p-2 text-xs font-medium rounded-lg border border-gray-300 dark:border-danbar-700 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-danbar-800 transition-colors flex items-center gap-1.5"
+            className="px-3.5 py-2 text-xs font-heading font-bold rounded-xl border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors flex items-center gap-1.5 shadow-xs"
             title="העתק ללוח"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copied ? 'הועתק!' : 'העתק'}</span>
+            {copied ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="text-emerald-400">הועתק!</span>
+              </>
+            ) : (
+              <>
+                <Copy className="w-3.5 h-3.5" />
+                <span>העתק</span>
+              </>
+            )}
           </button>
 
-          {/* Download Markdown */}
-          <button
-            onClick={handleDownload}
-            className="p-2 text-xs font-medium rounded-lg border border-gray-300 dark:border-danbar-700 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-danbar-800 transition-colors flex items-center gap-1.5"
-            title="הורד כקובץ Markdown"
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">הורד (.md)</span>
-          </button>
-
-          {/* Save to History */}
+          {/* Save Button */}
           <button
             onClick={handleSave}
-            className="p-2 text-xs font-medium rounded-lg bg-danbar-700 hover:bg-danbar-800 text-white transition-colors flex items-center gap-1.5 shadow-sm"
-            title="שמור בהיסטוריה מקומית"
+            className="px-3.5 py-2 text-xs font-heading font-bold rounded-xl border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors flex items-center gap-1.5 shadow-xs"
+            title="שמור פוסט בהיסטוריה"
           >
-            {saved ? <Check className="w-3.5 h-3.5 text-gold-400" /> : <Bookmark className="w-3.5 h-3.5" />}
-            <span>{saved ? 'נשמר בהצלחה!' : 'שמור פוסט'}</span>
+            {saved ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-danbar-400" />
+                <span className="text-danbar-400">נשמר!</span>
+              </>
+            ) : (
+              <>
+                <Bookmark className="w-3.5 h-3.5 text-danbar-400" />
+                <span>שמור פוסט</span>
+              </>
+            )}
+          </button>
+
+          {/* PDF Export */}
+          <button
+            onClick={handleDownloadPDF}
+            className="px-3.5 py-2 text-xs font-heading font-bold rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition-colors flex items-center gap-1.5 shadow-xs"
+            title="ייצוא והדפסה כ-PDF"
+          >
+            <Printer className="w-3.5 h-3.5 text-danbar-400" />
+            <span>PDF</span>
+          </button>
+
+          {/* Word / Doc Export */}
+          <button
+            onClick={handleDownloadDoc}
+            className="px-3.5 py-2 text-xs font-heading font-bold rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition-colors flex items-center gap-1.5 shadow-xs"
+            title="הורדה כקובץ Word (.doc)"
+          >
+            <FileDown className="w-3.5 h-3.5 text-danbar-400" />
+            <span>Word (.doc)</span>
+          </button>
+
+          {/* Google Docs */}
+          <button
+            onClick={handleOpenGoogleDoc}
+            className="px-3.5 py-2 text-xs font-heading font-bold rounded-xl bg-danbar-600 hover:bg-danbar-500 text-white transition-all flex items-center gap-1.5 shadow-glow-sm"
+            title="העתק ופתח Google Doc חדש"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            <span>Google Docs</span>
           </button>
         </div>
-
       </div>
 
-      {/* Content Body */}
+      {/* Post Content Area */}
       <div className="p-6 sm:p-10">
         {isEditing ? (
           <textarea
-            rows={20}
-            value={content}
-            onChange={(e) => onChangeContent(e.target.value)}
-            className="w-full p-4 bg-gray-50 dark:bg-danbar-950 text-gray-900 dark:text-gray-100 font-mono text-sm leading-relaxed border border-gray-200 dark:border-danbar-800 rounded-xl focus:ring-2 focus:ring-danbar-500 outline-none"
+            value={postContent}
+            onChange={(e) => onUpdateContent(e.target.value)}
+            rows={18}
+            className="w-full p-6 bg-[#080d17] text-white border border-slate-700/80 rounded-2xl focus:border-danbar-500 focus:ring-2 focus:ring-danbar-500/20 outline-none text-base sm:text-lg leading-[2.1] font-sans font-normal resize-y shadow-inner"
+            placeholder="ערוך את תוכן הפוסט..."
           />
         ) : (
-          <div className="prose prose-slate dark:prose-invert max-w-none text-right font-sans text-gray-800 dark:text-gray-200 leading-relaxed text-base sm:text-lg whitespace-pre-wrap selection:bg-gold-500/20">
-            {content}
+          <div className="prose max-w-none text-slate-100 font-sans text-base sm:text-lg leading-[2.1] whitespace-pre-wrap selection:bg-danbar-500/40">
+            {postContent}
           </div>
         )}
       </div>
