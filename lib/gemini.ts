@@ -1,139 +1,129 @@
-import { DANNY_BARKAI_SYSTEM_PROMPT } from './stylePrompt';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-export interface GenerateTextOptions {
+/**
+ * Helper to get a configured GoogleGenerativeAI instance
+ */
+export function getGeminiClient(apiKey?: string): GoogleGenerativeAI {
+  const key = apiKey || process.env.GEMINI_API_KEY;
+  if (!key) {
+    throw new Error(
+      'לא סופק מפתח Gemini API. אנא הזן מפתח בהגדרות או הגדר GEMINI_API_KEY במשתני הסביבה.'
+    );
+  }
+  return new GoogleGenerativeAI(key);
+}
+
+/**
+ * Generate text using Gemini with custom system prompt and optional settings
+ */
+export async function generateWithGemini({
+  prompt,
+  systemInstruction,
+  apiKey,
+  temperature = 0.7,
+  maxOutputTokens = 3000,
+}: {
   prompt: string;
   systemInstruction?: string;
   apiKey?: string;
   temperature?: number;
+  maxOutputTokens?: number;
+}): Promise<string> {
+  const genAI = getGeminiClient(apiKey);
+  
+  // Use gemini-1.5-flash for speed and reliability
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-1.5-flash',
+    systemInstruction: systemInstruction ? {
+      role: 'system',
+      parts: [{ text: systemInstruction }],
+    } : undefined,
+    generationConfig: {
+      temperature,
+      maxOutputTokens,
+    },
+  });
+
+  const result = await model.generateContent(prompt);
+  const response = await result.response;
+  return response.text();
 }
 
-export async function generateWithGemini(options: GenerateTextOptions): Promise<string> {
-  const apiKey = options.apiKey || process.env.GEMINI_API_KEY;
-
-  if (!apiKey) {
-    throw new Error('לא סופק מפתח Gemini API. אנא הגדר משתנה סביבה GEMINI_API_KEY ב-Vercel או הזן מפתח בהגדרות האפליקציה.');
+/**
+ * Conduct autonomous web research using Gemini's built-in Google Search grounding
+ */
+export async function conductWebResearch({
+  topic,
+  context,
+  apiKey,
+}: {
+  topic: string;
+  context?: string;
+  apiKey?: string;
+}): Promise<{ findings: string; sources: string[] }> {
+  const key = apiKey || process.env.GEMINI_API_KEY;
+  if (!key) {
+    throw new Error('נדרש מפתח Gemini API לביצוע מחקר רשת עצמאי.');
   }
 
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
+
+  const researchPrompt = `
+בצע מחקר מעמיק, עובדתי ועדכני בנושא הבא לקראת כתיבת פוסט / מאמר דילמות ניהולי:
+נושא: "${topic}"
+${context ? `הקשר ודגשים נוספים: ${context}` : ''}
+
+הנחיות לתוצאות המחקר:
+1. תמצת את הנתונים, העובדות, המגמות וההתפתחויות האחרונות בנושא.
+2. זהה את הדילמה המרכזית ואת שני הצדדים/האינטרסים המתנגשים (בעד ונגד, הנהלה מול עובדים, רגולציה מול מציאות, טכנולוגיה מול אנושיות).
+3. הבא 2-3 דוגמאות מוחשיות או מקרים מהשטח (בארץ או בעולם).
+4. הצג את המידע בצורה מובנית, אנליטית ותמציתית עם כותרות ונקודות (בפורמט Markdown).
+`;
 
   const payload = {
     contents: [
       {
-        role: 'user',
-        parts: [{ text: options.prompt }]
-      }
+        parts: [{ text: researchPrompt }],
+      },
     ],
-    systemInstruction: {
-      parts: [{ text: options.systemInstruction || DANNY_BARKAI_SYSTEM_PROMPT }]
-    },
+    tools: [
+      {
+        google_search: {},
+      },
+    ],
     generationConfig: {
-      temperature: options.temperature ?? 0.7,
-      maxOutputTokens: 3500,
-    }
+      temperature: 0.4,
+      maxOutputTokens: 2000,
+    },
   };
 
   const response = await fetch(endpoint, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    const errorMessage = errorData?.error?.message || `שגיאת שרת: ${response.status} ${response.statusText}`;
-    throw new Error(`שגיאה בפנייה ל-Gemini API: ${errorMessage}`);
+    throw new Error(
+      errorData?.error?.message || `שגיאה בחיבור ל-Google Search API: ${response.status}`
+    );
   }
 
   const data = await response.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  const candidate = data?.candidates?.[0];
+  const findings = candidate?.content?.parts?.[0]?.text || 'לא נמצאו ממצאים מפורטים.';
 
-  if (!text) {
-    throw new Error('לא התקבלה תשובה תקינה מהמודל.');
-  }
-
-  return text;
-}
-
-export async function conductWebResearch(options: {
-  topic: string;
-  context?: string;
-  apiKey?: string;
-}): Promise<{ findings: string; sources: string[] }> {
-  const apiKey = options.apiKey || process.env.GEMINI_API_KEY;
-
-  if (!apiKey) {
-    throw new Error('לא סופק מפתח Gemini API. אנא הגדר משתנה סביבה GEMINI_API_KEY ב-Vercel או הזן מפתח בהגדרות.');
-  }
-
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-
-  const researchPrompt = `בצע מחקר עומק עצמאי ועדכני באינטרנט על הנושא והדילמה הבאה:
-נושא: "${options.topic}"
-${options.context ? `הקשר נוסף: "${options.context}"` : ''}
-
-מטרת המחקר:
-לספק רקע עובדתי עשיר, נתונים, מגמות אחרונות בישראל ובעולם, פסיקות/חוקים רלוונטיים (אם יש), וטיעונים מנומקים של שני הצדדים בדילמה הניהולית הזו (מנקודת מבט של משאבי אנוש, הנהלה, עובדים והציבור).
-
-מבנה התוצר הנדרש:
-1. תמונת מצב עובדתית ומגמות עדכניות (כולל מספרים, נתונים או אירועים בולטים אם קיימים).
-2. טיעוני הצדדים והאינטרסים המתנגשים ("למה כן" מול "למה לא").
-3. מקרים מהשטח / תקדימים / דוגמאות בולטות בארץ ובעולם.
-4. שאלות פתוחות ודילמות מרכזיות שהמחקר מציף.
-
-נסח את הממצאים בצורה תמציתית, מקצועית, מעמיקה ומוכנה לשילוב כחומר רקע בכתיבת פוסט דעה/בלוג.`;
-
-  const payloadWithSearch = {
-    contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
-    tools: [{ googleSearch: {} }],
-    generationConfig: {
-      temperature: 0.4,
-      maxOutputTokens: 2500,
-    },
-  };
-
-  let response = await fetch(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payloadWithSearch),
-  });
-
-  if (!response.ok) {
-    const payloadFallback = {
-      contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
-      generationConfig: {
-        temperature: 0.5,
-        maxOutputTokens: 2500,
-      },
-    };
-    response = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payloadFallback),
-    });
-  }
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(`שגיאה בביצוע מחקר רשת: ${errorData?.error?.message || response.statusText}`);
-  }
-
-  const data = await response.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
+  // Extract grounding citations/sources if present
   const sources: string[] = [];
-  const groundingChunks = data?.candidates?.[0]?.groundingMetadata?.groundingChunks;
+  const groundingChunks = candidate?.groundingMetadata?.groundingChunks;
   if (Array.isArray(groundingChunks)) {
     groundingChunks.forEach((chunk: any) => {
-      if (chunk.web?.title && chunk.web?.uri) {
-        sources.push(`${chunk.web.title} (${chunk.web.uri})`);
+      if (chunk.web?.uri) {
+        sources.push(chunk.web.title ? `${chunk.web.title} (${chunk.web.uri})` : chunk.web.uri);
       }
     });
   }
 
-  return {
-    findings: text,
-    sources,
-  };
+  return { findings, sources: Array.from(new Set(sources)) };
 }
