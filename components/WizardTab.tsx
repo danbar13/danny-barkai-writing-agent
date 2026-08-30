@@ -276,6 +276,7 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
               <span>{currentStepData.subtitle}</span>
             </div>
 
+            {/* Research button for current dilemma */}
             {currentStep === 1 && (
               <button
                 type="button"
@@ -302,6 +303,7 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
           </h3>
         </div>
 
+        {/* Research Error Alert if any */}
         {researchError && (
           <div className="mb-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-2.5 rounded-xl text-xs text-amber-800 dark:text-amber-300 flex justify-between items-center">
             <span>{researchError}</span>
@@ -309,6 +311,7 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
           </div>
         )}
 
+        {/* Research Findings in Wizard */}
         {researchFindings && (
           <div className="mb-4 bg-white/80 dark:bg-danbar-900/80 rounded-xl border border-danbar-200 dark:border-danbar-700 p-3.5 space-y-2">
             <div className="flex items-center justify-between">
@@ -322,7 +325,7 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
                 className="text-[11px] text-gray-500 hover:text-gray-700 flex items-center gap-1"
               >
                 <span>{showResearchBox ? 'הסתר' : 'הצג ממצאים'}</span>
-                {showResearchBox ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                {showResearchBox ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
               </button>
             </div>
             {showResearchBox && (
@@ -336,6 +339,7 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
           </div>
         )}
 
+        {/* Input area */}
         <div className="mt-4">
           <textarea
             rows={5}
@@ -351,6 +355,7 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
           />
         </div>
 
+        {/* Tip */}
         <div className="mt-3 flex items-start gap-2 text-xs text-gray-500 dark:text-gray-400 bg-white/60 dark:bg-danbar-900/60 p-3 rounded-xl border border-gray-100 dark:border-danbar-800">
           <Lightbulb className="w-4 h-4 text-gold-500 shrink-0 mt-0.5" />
           <span>{currentStepData.tip}</span>
@@ -360,6 +365,8 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
 
       {/* Navigation & Action Buttons */}
       <div className="mt-8 flex items-center justify-between pt-4 border-t border-gray-100 dark:border-danbar-800">
+        
+        {/* Prev button */}
         <button
           type="button"
           onClick={handlePrev}
@@ -371,6 +378,7 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
         </button>
 
         <div className="flex items-center gap-3">
+          {/* Reset button */}
           <button
             type="button"
             onClick={() => {
@@ -383,35 +391,8 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
             <RotateCcw className="w-4 h-4" />
           </button>
 
-          {currentStep < 5 ? (
-            <button
-              type="button"
-              onClick={handleNext}
-              className="px-6 py-2.5 rounded-xl bg-danbar-800 hover:bg-danbar-900 text-white font-semibold transition-all flex items-center gap-2 text-sm shadow-sm"
-            >
-              <span>המשך לשלב הבא</span>
-              <ArrowLeft className="w-4 h-4" />
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={isLoading || !answers.dilemma.trim()}
-              className="px-8 py-3 rounded-xl bg-gradient-to-r from-danbar-700 to-danbar-900 hover:from-danbar-800 hover:to-danbar-950 text-white font-semibold shadow-md transition-all flex items-center gap-2 text-sm disabled:opacity-50"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin text-gold-400" />
-                  <span>מעבד וכותב את הפוסט...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4 text-gold-400" />
-                  <span>הפק פוסט שלם מהתשובות</span>
-                </>
-              )}
-            </button>
-          )}
+          {/* Next / Generate button */}
+          {currentStep < 5 ? (\n            <button\n              type=\"button\"\n              onClick={handleNext}\n              className=\"px-6 py-2.5 rounded-xl bg-danbar-800 hover:bg-danbar-900 text-white font-semibold transition-all flex items-center gap-2 text-sm shadow-sm\"\n            >\n              <span>המשך לשלב הבא</span>\n              <ArrowLeft className=\"w-4 h-4\" />\n            </button>\n          ) : (\n            <button\n              type=\"button\"\n              onClick={handleSubmit}\n              disabled={isLoading || !answers.dilemma.trim()}\n              className=\"px-8 py-3 rounded-xl bg-gradient-to-r from-danbar-700 to-danbar-900 hover:from-danbar-800 hover:to-danbar-950 text-white font-semibold shadow-md transition-all flex items-center gap-2 text-sm disabled:opacity-50\"\n            >\n              {isLoading ? (\n                <>\n                  <Loader2 className=\"w-5 h-5 animate-spin text-gold-400\" />\n                  <span>מעבד וכותב את הפוסט...</span>\n                </>\n              ) : (\n                <>\n                  <Sparkles className=\"w-5 h-5 text-gold-400\" />\n                  <span>הפק פוסט שלם מהתשובות</span>\n                </>\n              )}\n            </button>\n          )}
         </div>
 
       </div>

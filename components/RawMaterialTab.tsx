@@ -62,7 +62,15 @@ export const RawMaterialTab: React.FC<RawMaterialTabProps> = ({
     setResearchError(null);
 
     try {
-      const res = await fetch('/api/research', {\n        method: 'POST',\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify({\n          topic: query,\n          context: rawContent.trim() ? rawContent.trim().slice(0, 500) : undefined,\n          apiKey: apiKey || undefined,\n        }),\n      });
+      const res = await fetch('/api/research', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          topic: query,
+          context: rawContent.trim() ? rawContent.trim().slice(0, 500) : undefined,
+          apiKey: apiKey || undefined,
+        }),
+      });
 
       const data = await res.json();
       if (!data.success) {
@@ -72,7 +80,11 @@ export const RawMaterialTab: React.FC<RawMaterialTabProps> = ({
       setResearchFindings(data.findings || '');
       setResearchSources(data.sources || []);
       setShowResearchBox(true);
-    } catch (err: any) {\n      setResearchError(err.message || 'שגיאה בביצוע המחקר');\n    } finally {\n      setIsResearching(false);\n    }
+    } catch (err: any) {
+      setResearchError(err.message || 'שגיאה בביצוע המחקר');
+    } finally {
+      setIsResearching(false);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -236,6 +248,7 @@ export const RawMaterialTab: React.FC<RawMaterialTabProps> = ({
               נושא הפוסט / כותרת רעיונית
             </label>
 
+            {/* Autonomous Web Research Button */}
             <button
               type="button"
               onClick={handleConductResearch}
@@ -334,7 +347,11 @@ export const RawMaterialTab: React.FC<RawMaterialTabProps> = ({
             rows={8}
             value={rawContent}
             onChange={(e) => setRawContent(e.target.value)}
-            placeholder="הדבק כאן את הנקודות שלך..."
+            placeholder="הדבק כאן את הנקודות שלך... למשל:
+- מה הדילמה המרכזית ומה הכוחות שמתנגשים?
+- מה השיקולים בעד ונגד?
+- איזה סיפור מהשטח או ניסיון אישי ממחיש את המצב?
+- מה העמדה האישית שתרצה להביע בסיום?"
             className="w-full p-4 bg-gray-50 dark:bg-danbar-800/60 text-gray-900 dark:text-white border border-gray-200 dark:border-danbar-700 rounded-xl focus:ring-2 focus:ring-danbar-500 focus:bg-white dark:focus:bg-danbar-800 outline-none transition-all text-sm sm:text-base placeholder-gray-400 leading-relaxed font-sans"
             required
           />
