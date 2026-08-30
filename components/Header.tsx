@@ -15,13 +15,13 @@ export const Header: React.FC<HeaderProps> = ({
   hasCustomKey,
 }) => {
   return (
-    <header className="bg-white dark:bg-danbar-900 border-b border-gray-200 dark:border-danbar-800 sticky top-0 z-30 shadow-sm transition-colors">
+    <header className="bg-[#0b1220]/85 backdrop-blur-xl border-b border-slate-800/80 sticky top-0 z-30 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
 
           {/* Logo & Branding */}
           <div className="flex items-center space-x-4 space-x-reverse">
-            <div className="bg-white px-2 py-1 rounded-xl shadow-xs border border-gray-200/80 dark:border-danbar-700 flex items-center justify-center shrink-0">
+            <div className="bg-white/95 px-3 py-1.5 rounded-xl shadow-glow-sm border border-white/20 flex items-center justify-center shrink-0">
               <img
                 src="/danbar-logo.jpg"
                 alt="DANBAR דנבר ייעוץ אסטרטגי, ארגוני ומשאבי אנוש"
@@ -29,32 +29,30 @@ export const Header: React.FC<HeaderProps> = ({
               />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+              <div className="flex items-center gap-2.5">
+                <h1 className="text-lg sm:text-xl font-heading font-black text-white tracking-tight">
                   סוכן הכתיבה של דני ברקאי
                 </h1>
-                <span className="hidden sm:inline-block bg-danbar-100 dark:bg-danbar-800 text-danbar-800 dark:text-gold-400 text-xs px-2.5 py-0.5 rounded-full font-bold border border-danbar-200 dark:border-danbar-700">
-                  DANBAR Consulting
+                <span className="inline-flex items-center gap-1.5 bg-danbar-950/90 text-danbar-300 text-xs px-3 py-1 rounded-full font-bold border border-danbar-600/40 shadow-glow-sm">
+                  <span className="w-2 h-2 rounded-full bg-danbar-500 animate-pulse shadow-[0_0_8px_#8db717]" />
+                  AI Executive Studio
                 </span>
               </div>
-              <p className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 max-w-xl">
-                ניהול ומשאבי אנוש, חדשנות ויזמות, טרבל-טק ו-AI במלונאות ובעסקים — חשיבה רפלקטיבית "בין הפטיש לסדן"
-              </p>
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             {/* History Button */}
             <button
               onClick={onOpenHistory}
-              className="relative p-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-danbar-800 transition-colors flex items-center gap-1.5 text-sm font-medium border border-gray-200 dark:border-danbar-700"
+              className="relative p-2.5 rounded-xl text-slate-300 hover:text-white bg-slate-900/80 hover:bg-slate-800/90 border border-slate-700/60 hover:border-danbar-500/40 transition-all flex items-center gap-2 text-sm font-semibold shadow-xs"
               title="היסטוריית פוסטים שמורים"
             >
-              <History className="w-4 h-4 text-danbar-600 dark:text-danbar-400" />
+              <History className="w-4 h-4 text-danbar-400" />
               <span className="hidden sm:inline">פוסטים שמורים</span>
               {savedCount > 0 && (
-                <span className="bg-gold-500 text-danbar-950 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                <span className="bg-danbar-600 text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center shadow-glow-sm">
                   {savedCount}
                 </span>
               )}
@@ -63,13 +61,13 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Settings Button */}
             <button
               onClick={onOpenSettings}
-              className="relative p-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-danbar-800 transition-colors flex items-center gap-1.5 text-sm font-medium border border-gray-200 dark:border-danbar-700"
+              className="relative p-2.5 rounded-xl text-slate-300 hover:text-white bg-slate-900/80 hover:bg-slate-800/90 border border-slate-700/60 hover:border-danbar-500/40 transition-all flex items-center gap-2 text-sm font-semibold shadow-xs"
               title="הגדרות API ומודל"
             >
-              <Settings className="w-4 h-4 text-danbar-600 dark:text-danbar-400" />
+              <Settings className="w-4 h-4 text-danbar-400" />
               <span className="hidden sm:inline">הגדרות</span>
               {hasCustomKey && (
-                <span className="w-2 h-2 rounded-full bg-emerald-500 absolute top-2 right-2 ring-2 ring-white dark:ring-danbar-900" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 absolute top-2 right-2 ring-2 ring-slate-900 shadow-[0_0_6px_#34d399]" />
               )}
             </button>
 
@@ -78,9 +76,9 @@ export const Header: React.FC<HeaderProps> = ({
               href="https://danbarblogs.blogspot.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-danbar-600 dark:hover:text-gold-400 px-3 py-2 rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-danbar-800 transition-all"
+              className="hidden lg:flex items-center gap-1.5 text-xs text-slate-400 hover:text-danbar-300 px-3 py-2 rounded-xl border border-slate-800 hover:border-slate-700 bg-slate-900/40 transition-all"
             >
-              <BookOpen className="w-3.5 h-3.5" />
+              <BookOpen className="w-3.5 h-3.5 text-danbar-400" />
               <span>הבלוג המקורי</span>
               <ExternalLink className="w-3 h-3 opacity-60" />
             </a>

@@ -37,19 +37,21 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         onClick={onClose}
       />
 
-      <div className="relative bg-white dark:bg-danbar-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-danbar-800 max-w-lg w-full p-6 sm:p-8 z-10">
+      <div className="relative bg-[#0e1626] rounded-3xl shadow-luxury-card border border-slate-700/80 max-w-lg w-full p-6 sm:p-8 z-10">
 
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-danbar-800">
-          <div className="flex items-center gap-2">
-            <Key className="w-5 h-5 text-danbar-600 dark:text-gold-400" />
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+        <div className="flex items-center justify-between pb-5 border-b border-slate-800">
+          <div className="flex items-center gap-2.5">
+            <span className="p-2 rounded-xl bg-danbar-950 text-danbar-400 border border-danbar-600/30 shadow-glow-sm">
+              <Key className="w-5 h-5" />
+            </span>
+            <h2 className="text-lg font-heading font-black text-white">
               הגדרות Google Gemini API
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-2 rounded-lg"
+            className="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -59,7 +61,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
           {/* Key Input */}
           <div>
-            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-heading font-extrabold text-slate-300 uppercase tracking-wider mb-2.5">
               מפתח Gemini API אישי (נשמר מקומית בדפדפן בלבד)
             </label>
             <input
@@ -67,27 +69,27 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               value={tempKey}
               onChange={(e) => setTempKey(e.target.value)}
               placeholder="AIzaSy..."
-              className="w-full px-4 py-3 bg-gray-50 dark:bg-danbar-800/80 text-gray-900 dark:text-white border border-gray-200 dark:border-danbar-700 rounded-xl focus:ring-2 focus:ring-danbar-500 outline-none text-sm font-mono placeholder-gray-400"
+              className="w-full px-4 py-3.5 bg-[#080d17] text-white border border-slate-700/80 rounded-2xl focus:border-danbar-500 focus:ring-2 focus:ring-danbar-500/20 outline-none text-sm font-mono placeholder-slate-500 shadow-inner"
             />
-            <p className="text-xs text-gray-400 mt-2">
-              אם לא תזין מפתח, האפליקציה תשתמש במשתנה הסביבה <code className="bg-gray-100 dark:bg-danbar-800 px-1 py-0.5 rounded text-danbar-600 dark:text-gold-400">GEMINI_API_KEY</code> שהוגדר ב-Vercel.
+            <p className="text-xs text-slate-400 mt-2 font-sans">
+              אם לא תזין מפתח, האפליקציה תשתמש במשתנה הסביבה <code className="bg-[#090f1c] px-2 py-0.5 rounded text-danbar-400 font-bold border border-slate-800">GEMINI_API_KEY</code> שהוגדר ב-Vercel.
             </p>
           </div>
 
           {/* Help box */}
-          <div className="bg-danbar-50/60 dark:bg-danbar-800/40 p-4 rounded-xl border border-danbar-100 dark:border-danbar-800 space-y-2 text-xs text-gray-600 dark:text-gray-300">
-            <div className="flex items-center gap-1.5 font-bold text-danbar-800 dark:text-gold-400">
-              <HelpCircle className="w-4 h-4" />
+          <div className="bg-[#090f1c] p-4 rounded-2xl border border-slate-800 space-y-2 text-xs text-slate-300">
+            <div className="flex items-center gap-2 font-heading font-bold text-danbar-300">
+              <HelpCircle className="w-4 h-4 text-danbar-400" />
               <span>איך משיגים מפתח בחינם?</span>
             </div>
-            <p>
+            <p className="font-sans leading-relaxed">
               מפתח Gemini API ניתן לקבל בחינם לגמרי תוך דקה דרך פורטל Google AI Studio.
             </p>
             <a
               href="https://aistudio.google.com/app/apikey"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-danbar-600 dark:text-gold-400 font-bold hover:underline"
+              className="inline-flex items-center gap-1 text-danbar-400 font-bold hover:underline"
             >
               <span>קבל מפתח ב-Google AI Studio</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -95,21 +97,21 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-danbar-800">
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl border border-gray-300 dark:border-danbar-700 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-100 dark:hover:bg-danbar-800 transition-colors"
+              className="px-5 py-2.5 rounded-xl border border-slate-700 text-slate-300 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-xs"
             >
               ביטול
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl bg-danbar-800 hover:bg-danbar-900 text-white text-sm font-semibold transition-all flex items-center gap-2 shadow-sm"
+              className="px-6 py-2.5 rounded-xl bg-danbar-600 hover:bg-danbar-500 text-white text-sm font-heading font-bold transition-all flex items-center gap-2 shadow-glow-sm"
             >
               {saved ? (
                 <>
-                  <Check className="w-4 h-4 text-gold-400" />
+                  <Check className="w-4 h-4 text-white" />
                   <span>נשמר!</span>
                 </>
               ) : (
