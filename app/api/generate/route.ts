@@ -6,23 +6,41 @@ import { analyzePostStyle } from '@/lib/styleAnalyzer';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { mode, topic, rawContent, contentType, postLength, researchFindings, seriesPart, wizardAnswers, customInstructions, apiKey } = body;
+    const {
+      mode,
+      type,
+      topic,
+      rawContent,
+      contentType,
+      format,
+      postLength,
+      researchFindings,
+      researchContext,
+      seriesPart,
+      wizardAnswers,
+      wizardData,
+      customInstructions,
+      apiKey,
+      customApiKey,
+    } = body;
 
     const userPrompt = buildPromptForPost({
       topic,
       rawContent,
-      contentType: contentType || 'blog',
-      postLength,
-      researchFindings,
+      contentType: contentType || format || 'regular',
+      postLength: postLength || 'medium',
+      researchFindings: researchFindings || researchContext,
       seriesPart,
-      wizardAnswers,
+      wizardAnswers: wizardAnswers || wizardData,
       customInstructions,
     });
+
+    const effectiveApiKey = customApiKey || apiKey;
 
     const generatedText = await generateWithGemini({
       prompt: userPrompt,
       systemInstruction: DANNY_BARKAI_SYSTEM_PROMPT,
-      apiKey,
+      apiKey: effectiveApiKey,
       temperature: 0.75,
     });
 
@@ -30,6 +48,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      post: generatedText,
       content: generatedText,
       analysis,
     });
