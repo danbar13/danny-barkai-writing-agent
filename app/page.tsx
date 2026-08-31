@@ -7,283 +7,379 @@ import { WizardTab } from '@/components/WizardTab';
 import { ChatTab } from '@/components/ChatTab';
 import { PostPreview } from '@/components/PostPreview';
 import { StyleInspector } from '@/components/StyleInspector';
-import { SettingsModal } from '@/components/SettingsModal';
 import { HistoryDrawer } from '@/components/HistoryDrawer';
-import { TabType, WizardData, PostFormat, SavedPost, StyleAnalysis, ChatMessage } from '@/lib/types';
-import { analyzeStyle } from '@/lib/styleAnalyzer';
-import { PenTool, HelpCircle, MessageSquare, Sparkles, BookOpen, Layers } from 'lucide-react';
+import { SettingsModal } from '@/components/SettingsModal';
+import { ContentType, PostLength, StyleAnalysis, SavedPost, ChatMessage } from '@/lib/types';
+import { FileText, Compass, MessageSquare, AlertCircle } from 'lucide-react';
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<TabType>('raw');
-  const [generatedPost, setGeneratedPost] = useState<string>('');
-  const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const [apiKey, setApiKey] = useState<string>('');
-  const [savedPosts, setSavedPosts] = useState<SavedPost[]>([]);
-  const [styleAnalysis, setStyleAnalysis] = useState<StyleAnalysis | undefined>();
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-  const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<'raw' | 'wizard' | 'chat'>('raw');
+  const [generatedContent, setGeneratedContent] = useState<string>('');
+  const [styleAnalysis, setStyleAnalysis] = useState<StyleAnalysis | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Modals
+  // Settings & History
+  const [apiKey, setApiKey] = useState<string>('');
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
+  const [savedPosts, setSavedPosts] = useState<SavedPost[]>([]);
 
-  // Load API key and saved posts from LocalStorage on mount
+  // Chat State
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+
+  // Load from localStorage on mount
   useEffect(() => {
     try {
-      const storedKey = localStorage.getItem('danbar_gemini_api_key');
+      const storedKey =
+        localStorage.getItem('danny_custom_api_key') ||
+        localStorage.getItem('danbar_gemini_api_key');
       if (storedKey) setApiKey(storedKey);
 
-      const storedPosts = localStorage.getItem('danbar_saved_posts');
+      const storedPosts = localStorage.getItem('danny_saved_posts');
       if (storedPosts) setSavedPosts(JSON.parse(storedPosts));
     } catch (e) {
-      console.error('Failed to load from localStorage', e);
+      console.error('Failed to load local storage:', e);
     }
   }, []);
 
-  // Update style analysis whenever generated post changes
-  useEffect(() => {
-    if (generatedPost) {
-      const analysis = analyzeStyle(generatedPost);
-      setStyleAnalysis(analysis);
-    } else {
-      setStyleAnalysis(undefined);
-    }
-  }, [generatedPost]);
-
+  // Save API Key
   const handleSaveApiKey = (key: string) => {
     setApiKey(key);
     try {
-      localStorage.setItem('danbar_gemini_api_key', key);
+      if (key) {
+        localStorage.setItem('danny_custom_api_key', key);
+        localStorage.setItem('danbar_gemini_api_key', key);
+      } else {
+        localStorage.removeItem('danny_custom_api_key');
+        localStorage.removeItem('danbar_gemini_api_key');
+      }
     } catch (e) {
-      console.error('Failed to save API key to localStorage', e);
+      console.error('Failed to save API key:', e);
     }
   };
 
-  const handleSavePost = (title: string, content: string) => {
+  // Save Post to History
+  const handleSavePost = (content: string, title?: string) => {
     const newPost: SavedPost = {
       id: Date.now().toString(),
-      title: title || 'פוסט ללא כותרת',
+      title: title || 'פוסט שמור',
       content,
-      createdAt: new Date().toISOString(),
+      contentType: 'blog',
+      createdAt: Date.now(),
     };
     const updated = [newPost, ...savedPosts];
     setSavedPosts(updated);
     try {
-      localStorage.setItem('danbar_saved_posts', JSON.stringify(updated));
+      localStorage.setItem('danny_saved_posts', JSON.stringify(updated));
     } catch (e) {
-      console.error('Failed to save post to localStorage', e);
+      console.error('Failed to save post to local storage:', e);
     }
   };
 
-  const handleDeleteSavedPost = (id: string) => {
+  // Delete Post from History
+  const handleDeletePost = (id: string) => {
     const updated = savedPosts.filter((p) => p.id !== id);
     setSavedPosts(updated);
     try {
-      localStorage.setItem('danbar_saved_posts', JSON.stringify(updated));
+      localStorage.setItem('danny_saved_posts', JSON.stringify(updated));
     } catch (e) {
-      console.error('Failed to update saved posts in localStorage', e);
+      console.error('Failed to delete post:', e);
     }
   };
 
-  const handleSelectSavedPost = (post: SavedPost) => {
-    setGeneratedPost(post.content);
-    window.scrollTo({ top: 400, behavior: 'smooth' });
+  // Select Post from History
+  const handleSelectPost = (post: SavedPost) => {
+    setGeneratedContent(post.content);
   };
 
-  // Chat message sender
-  const handleSendChatMessage = async (userMessage: string) => {
-    if (!userMessage.trim()) return;
+  // Generate Post (Raw Mode)
+  const handleGenerateRaw = async (data: {
+    topic: string;
+    rawContent: string;
+    contentType: ContentType;
+    postLength: PostLength;
+    researchFindings?: string;
+    seriesPart?: string;
+    customInstructions?: string;
+  }) => {
+    setIsLoading(true);
+    setErrorMessage(null);
+    try {
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mode: 'raw',
+          topic: data.topic,
+          rawContent: data.rawContent,
+          contentType: data.contentType,
+          postLength: data.postLength,
+          researchFindings: data.researchFindings,
+          seriesPart: data.seriesPart,
+          customInstructions: data.customInstructions,
+          apiKey: apiKey || undefined,
+        }),
+      });
 
+      const resData = await res.json();
+      if (!resData.success) {
+        throw new Error(resData.error || 'שגיאה בהפקת הפוסט');
+      }
+
+      const generated = resData.content || resData.post || '';
+      setGeneratedContent(generated);
+      setStyleAnalysis(resData.analysis);
+
+      // Smooth scroll to preview
+      if (typeof window !== 'undefined') {
+        setTimeout(() => {
+          const el = document.getElementById('post-preview-section');
+          el?.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      }
+    } catch (err: any) {
+      setErrorMessage(err.message || 'שגיאה בלתי צפויה');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Generate Post (Wizard Mode)
+  const handleGenerateWizard = async (data: {
+    contentType: ContentType;
+    postLength: PostLength;
+    researchFindings?: string;
+    wizardAnswers: {
+      dilemma: string;
+      personalBackground: string;
+      prosAndCons: string;
+      concreteExample: string;
+      personalStance: string;
+    };
+  }) => {
+    setIsLoading(true);
+    setErrorMessage(null);
+    try {
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mode: 'wizard',
+          contentType: data.contentType,
+          postLength: data.postLength,
+          researchFindings: data.researchFindings,
+          wizardAnswers: data.wizardAnswers,
+          apiKey: apiKey || undefined,
+        }),
+      });
+
+      const resData = await res.json();
+      if (!resData.success) {
+        throw new Error(resData.error || 'שגיאה בהפקת הפוסט');
+      }
+
+      const generated = resData.content || resData.post || '';
+      setGeneratedContent(generated);
+      setStyleAnalysis(resData.analysis);
+
+      // Smooth scroll to preview
+      if (typeof window !== 'undefined') {
+        setTimeout(() => {
+          const el = document.getElementById('post-preview-section');
+          el?.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      }
+    } catch (err: any) {
+      setErrorMessage(err.message || 'שגיאה בלתי צפויה');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Send Chat Message
+  const handleSendChatMessage = async (text: string) => {
     const userMsg: ChatMessage = {
       id: Date.now().toString(),
       role: 'user',
-      content: userMessage,
-      timestamp: new Date().toISOString(),
+      content: text,
+      timestamp: Date.now(),
     };
 
     const newMessages = [...chatMessages, userMsg];
     setChatMessages(newMessages);
-    setIsChatLoading(true);
+    setIsLoading(true);
+    setErrorMessage(null);
 
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: newMessages,
-          customApiKey: apiKey,
+          messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
+          apiKey: apiKey || undefined,
         }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'שגיאה בקבלת תשובה מהסוכן');
+      const resData = await res.json();
+      if (!resData.success) {
+        throw new Error(resData.error || 'שגיאה בשיחה עם הסוכן');
+      }
 
       const assistantMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: data.reply,
-        timestamp: new Date().toISOString(),
+        content: resData.message,
+        timestamp: Date.now(),
       };
 
       setChatMessages([...newMessages, assistantMsg]);
     } catch (err: any) {
-      const errorMsg: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: `שגיאה: ${err.message || 'לא ניתן היה לקבל תשובה'}`,
-        timestamp: new Date().toISOString(),
-      };
-      setChatMessages([...newMessages, errorMsg]);
+      setErrorMessage(err.message || 'שגיאה בקבלת תשובה');
     } finally {
-      setIsChatLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#080d17] text-slate-100 flex flex-col font-sans selection:bg-danbar-500/30 selection:text-danbar-200">
+    <div className="min-h-screen flex flex-col">
 
-      {/* Executive Floating Header */}
+      {/* Header */}
       <Header
         onOpenSettings={() => setIsSettingsOpen(true)}
         onOpenHistory={() => setIsHistoryOpen(true)}
         savedCount={savedPosts.length}
-        hasCustomKey={Boolean(apiKey)}
+        hasCustomKey={!!apiKey}
       />
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
+      {/* Main Content Container */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-        {/* Navigation Tabs Switcher */}
-        <div className="flex justify-center">
-          <div className="inline-flex p-1.5 rounded-2xl bg-[#0e1626]/90 backdrop-blur-xl border border-slate-700/60 shadow-luxury-card">
+        {/* Error Alert if any */}
+        {errorMessage && (
+          <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 p-4 rounded-2xl flex items-start gap-3 text-red-800 dark:text-red-300 text-sm">
+            <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <span className="font-bold block mb-0.5">שגיאה בפעולה:</span>
+              <p>{errorMessage}</p>
+            </div>
+            <button
+              onClick={() => setErrorMessage(null)}
+              className="text-red-500 hover:text-red-700 font-bold text-xs"
+            >
+              סגור
+            </button>
+          </div>
+        )}
 
+        {/* Tab Navigation */}
+        <div className="flex items-center justify-center">
+          <div className="inline-flex p-1.5 rounded-2xl bg-[#0b1220]/90 backdrop-blur-xl border border-slate-700/70 shadow-luxury-card max-w-full overflow-x-auto">
             <button
               onClick={() => setActiveTab('raw')}
-              className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-heading font-extrabold transition-all ${
+              className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-xs sm:text-sm font-heading font-black transition-all whitespace-nowrap ${
                 activeTab === 'raw'
-                  ? 'bg-danbar-600 text-white shadow-glow-sm scale-[1.02]'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-850'
+                  ? 'bg-danbar-600 text-white shadow-glow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
-              <PenTool className="w-4 h-4" />
-              <span>חומר גולמי לפוסט</span>
+              <FileText className="w-4 h-4 text-danbar-300" />
+              <span>יצירה מהירה (מחומר גולמי)</span>
             </button>
 
             <button
               onClick={() => setActiveTab('wizard')}
-              className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-heading font-extrabold transition-all ${
+              className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-xs sm:text-sm font-heading font-black transition-all whitespace-nowrap ${
                 activeTab === 'wizard'
-                  ? 'bg-danbar-600 text-white shadow-glow-sm scale-[1.02]'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-850'
+                  ? 'bg-danbar-600 text-white shadow-glow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
-              <Layers className="w-4 h-4" />
-              <span>אשף שאלות מונחה</span>
+              <Compass className="w-4 h-4 text-danbar-300" />
+              <span>אשף תשאול מונחה (5 שלבים)</span>
             </button>
 
             <button
               onClick={() => setActiveTab('chat')}
-              className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-heading font-extrabold transition-all ${
+              className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-xs sm:text-sm font-heading font-black transition-all whitespace-nowrap ${
                 activeTab === 'chat'
-                  ? 'bg-danbar-600 text-white shadow-glow-sm scale-[1.02]'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-850'
+                  ? 'bg-danbar-600 text-white shadow-glow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
-              <MessageSquare className="w-4 h-4" />
-              <span>סיעור מוחות עם הסוכן</span>
+              <MessageSquare className="w-4 h-4 text-danbar-300" />
+              <span>צ'אט סיעור מוחות</span>
             </button>
-
           </div>
         </div>
 
-        {/* Tab 1: Raw Material to Post */}
-        {activeTab === 'raw' && (
-          <RawMaterialTab
-            apiKey={apiKey}
-            isGenerating={isGenerating}
-            setIsGenerating={setIsGenerating}
-            setGeneratedPost={setGeneratedPost}
-          />
-        )}
+        {/* Tab Contents */}
+        <div className="transition-all">
+          {activeTab === 'raw' && (
+            <RawMaterialTab
+              onGenerate={handleGenerateRaw}
+              apiKey={apiKey}
+              isLoading={isLoading}
+            />
+          )}
 
-        {/* Tab 2: Guided Dilemma Wizard */}
-        {activeTab === 'wizard' && (
-          <WizardTab
-            apiKey={apiKey}
-            isGenerating={isGenerating}
-            setIsGenerating={setIsGenerating}
-            setGeneratedPost={setGeneratedPost}
-          />
-        )}
+          {activeTab === 'wizard' && (
+            <WizardTab
+              onGenerate={handleGenerateWizard}
+              apiKey={apiKey}
+              isLoading={isLoading}
+            />
+          )}
 
-        {/* Tab 3: Interactive Brainstorm Chat */}
-        {activeTab === 'chat' && (
-          <ChatTab
-            messages={chatMessages}
-            isLoading={isChatLoading}
-            onSendMessage={handleSendChatMessage}
-            onClearChat={() => setChatMessages([])}
-          />
-        )}
+          {activeTab === 'chat' && (
+            <ChatTab
+              messages={chatMessages}
+              onSendMessage={handleSendChatMessage}
+              onClearChat={() => setChatMessages([])}
+              isLoading={isLoading}
+            />
+          )}
+        </div>
 
-        {/* Post Preview & Live Editor (Always visible when a post is generated) */}
-        {generatedPost && (
-          <div id="post-preview-section" className="space-y-8 animate-fadeIn">
+        {/* Generated Post Preview & Style Inspector Section */}
+        {generatedContent && (
+          <div id="post-preview-section" className="space-y-8 pt-4">
             <PostPreview
-              postContent={generatedPost}
-              onUpdateContent={setGeneratedPost}
-              onSavePost={handleSavePost}
+              content={generatedContent}
+              onChangeContent={setGeneratedContent}
+              analysis={styleAnalysis}
+              onSaveToHistory={handleSavePost}
             />
 
-            {/* Signature Style Scorecard */}
-            {styleAnalysis && (
-              <StyleInspector analysis={styleAnalysis} />
-            )}
+            <StyleInspector analysis={styleAnalysis} />
           </div>
         )}
 
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-[#060a12] py-8 text-center text-xs text-slate-500 font-sans mt-12">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p>
-            © {new Date().getFullYear()} DANBAR ייעוץ אסטרטגי, ארגוני ומשאבי אנוש — דני ברקאי. כל הזכויות שמורות.
-          </p>
-          <div className="flex items-center gap-4 text-slate-400">
-            <a
-              href="https://danbarblogs.blogspot.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-danbar-400 transition-colors"
-            >
-              בלוג דילמות מעולמו של מנהל משאבי אנוש
-            </a>
-            <span>•</span>
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className="hover:text-danbar-400 transition-colors"
-            >
-              הגדרות API
-            </button>
-          </div>
-        </div>
+      <footer className="mt-auto border-t border-slate-800/80 py-8 text-center text-xs text-slate-500 font-sans">
+        <p className="flex items-center justify-center gap-2">
+          <span>© {new Date().getFullYear()} סוכן הכתיבה של דני ברקאי</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-danbar-500 inline-block" />
+          <span className="text-slate-400 font-bold">DANBAR Executive Consulting</span>
+        </p>
       </footer>
 
       {/* Modals & Drawers */}
+      <HistoryDrawer
+        isOpen={isHistoryOpen}
+        onClose={() => setIsHistoryOpen(false)}
+        savedPosts={savedPosts}
+        onSelectPost={handleSelectPost}
+        onDeletePost={handleDeletePost}
+      />
+
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         apiKey={apiKey}
         onSaveApiKey={handleSaveApiKey}
-      />
-
-      <HistoryDrawer
-        isOpen={isHistoryOpen}
-        onClose={() => setIsHistoryOpen(false)}
-        savedPosts={savedPosts}
-        onSelectPost={handleSelectSavedPost}
-        onDeletePost={handleDeleteSavedPost}
       />
 
     </div>
