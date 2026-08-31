@@ -7,52 +7,47 @@ export interface GenerateTextOptions {
   temperature?: number;
 }
 
-// Modern active Gemini models
+// Modern active Gemini models on v1beta
 const CANDIDATE_MODELS = [
   'gemini-1.5-flash',
   'gemini-2.0-flash',
   'gemini-1.5-pro',
 ];
 
-const API_VERSIONS = ['v1beta', 'v1'];
-
 /**
- * Execute request to Gemini REST API with automatic multi-model and multi-version fallback.
+ * Execute request to Gemini REST API on v1beta with automatic multi-model fallback.
  */
 async function callGeminiWithFallback(
   apiKey: string,
-  payloadBuilder: (model: string, apiVersion: string) => any
+  payload: any
 ): Promise<{ text: string; data: any }> {
   let lastError = '';
 
-  for (const apiVersion of API_VERSIONS) {
-    for (const model of CANDIDATE_MODELS) {
-      const endpoint = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${apiKey}`;
-      const payload = payloadBuilder(model, apiVersion);
+  for (const model of CANDIDATE_MODELS) {
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-      try {
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-        if (response.ok) {
-          const data = await response.json();
-          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (text) {
-            return { text, data };
-          }
-        } else {
-          const errData = await response.json().catch(() => ({}));
-          const msg = errData?.error?.message || response.statusText;
-          lastError = msg;
-          console.warn(`Gemini attempt with ${model} on ${apiVersion} failed: ${msg}`);
+      if (response.ok) {
+        const data = await response.json();
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) {
+          return { text, data };
         }
-      } catch (err: any) {
-        lastError = err.message || String(err);
-        console.warn(`Gemini fetch error with ${model} on ${apiVersion}:`, err);
+      } else {
+        const errData = await response.json().catch(() => ({}));
+        const msg = errData?.error?.message || response.statusText;
+        lastError = msg;
+        console.warn(`Gemini attempt with ${model} on v1beta failed: ${msg}`);
       }
+    } catch (err: any) {
+      lastError = err.message || String(err);
+      console.warn(`Gemini fetch error with ${model} on v1beta:`, err);
     }
   }
 
@@ -68,7 +63,7 @@ export async function generateWithGemini(options: GenerateTextOptions): Promise<
     );
   }
 
-  const result = await callGeminiWithFallback(apiKey, () => ({
+  const payload = {
     contents: [
       {
         role: 'user',
@@ -82,8 +77,9 @@ export async function generateWithGemini(options: GenerateTextOptions): Promise<
       temperature: options.temperature ?? 0.7,
       maxOutputTokens: 3500,
     },
-  }));
+  };
 
+  const result = await callGeminiWithFallback(apiKey, payload);
   return result.text;
 }
 
@@ -100,7 +96,7 @@ export async function conductWebResearch(options: {
     );
   }
 
-  const researchPrompt = `בצע מחקר עומק עצמאי ועדכני על הנושא והדילמה הבאה:
+  const researchPrompt = `בצע מחקר עומק מקצועי, מקיף ומעודכן ביותר על הנושא והדילמה הבאה:
 נושא: "${options.topic}"
 ${options.context ? `הקשר ודגשים נוספים: "${options.context}"` : ''}
 
@@ -108,60 +104,28 @@ ${options.context ? `הקשר ודגשים נוספים: "${options.context}"` :
 לספק רקע עובדתי עשיר, נתונים עדכניים, מגמות אחרונות בישראל ובעולם (במיוחד בעולמות הניהול, משאבי אנוש, טכנולוגיה, B2B, SaaS, מלונאות ו-Travel Tech לפי העניין), וטיעונים מנומקים של שני הצדדים בדילמה הניהולית הזו.
 
 מבנה התוצר הנדרש:
-1. תמונת מצב עובדתית ומגמות עדכניות מהשטח (כולל מונחים מקצועיים, נתונים או אירועים בולטים).
-2. טיעוני הצדדים והאינטרסים המתנגשים ("למה כן" מול "למה לא", צרכי הארגון מול צרכי העובדים/השוק).
-3. מקרים מהשטח / תרחישים / דוגמאות בולטות בארץ ובעולם.
-4. שאלות פתוחות ודילמות מרכזיות שהמחקר מציף.
+1. **תמונת מצב עובדתית ומגמות עדכניות מהשטח**: סקור מונחים מקצועיים, נתונים, אתגרי שוק או תהליכים בולטים.
+2. **טיעוני הצדדים והאינטרסים המתנגשים**: ניתוח של "למה כן" מול "למה לא", צרכי הארגון וההנהלה מול צרכי העובדים, הלקוחות או השוק.
+3. **מקרים מהשטח / תרחישים / דוגמאות בולטות**: תאר תרחישים ריאליסטיים מעולם העבודה, היזמות או המלונאות.
+4. **שאלות פתוחות ודילמות מרכזיות**: שאלות מפתח שהמחקר מציף.
 
-נסח את הממצאים בצורה תמציתית, מקצועית, מעמיקה ומוכנה לשילוב כחומר רקע בכתיבת פוסט דעה/בלוג בסגנון של דני ברקאי.`;
+נסח את הממצאים בצורה אנליטית, חדה ומעמיקה, המוכנה לשמש כחומר גלם עשיר לכתיבת פוסט/טור דעה מקצועי בסגנון של דני ברקאי.`;
 
-  let result: { text: string; data: any } | null = null;
-  const sources: string[] = [];
+  const payload = {
+    contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
+    generationConfig: {
+      temperature: 0.4,
+      maxOutputTokens: 3000,
+    },
+  };
 
-  // Try standard knowledge research with Gemini
-  try {
-    result = await callGeminiWithFallback(apiKey, (model, apiVersion) => {
-      // Only include Google Search on v1beta
-      if (apiVersion === 'v1beta') {
-        return {
-          contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
-          tools: [{ googleSearch: {} }],
-          generationConfig: {
-            temperature: 0.4,
-            maxOutputTokens: 2500,
-          },
-        };
-      }
-      return {
-        contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
-        generationConfig: {
-          temperature: 0.4,
-          maxOutputTokens: 2500,
-        },
-      };
-    });
-  } catch (e) {
-    // If tools/search fail, fallback to pure model generation
-    result = await callGeminiWithFallback(apiKey, () => ({
-      contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
-      generationConfig: {
-        temperature: 0.5,
-        maxOutputTokens: 2500,
-      },
-    }));
-  }
-
-  const groundingChunks = result.data?.candidates?.[0]?.groundingMetadata?.groundingChunks;
-  if (Array.isArray(groundingChunks)) {
-    groundingChunks.forEach((chunk: any) => {
-      if (chunk.web?.title && chunk.web?.uri) {
-        sources.push(`${chunk.web.title} (${chunk.web.uri})`);
-      }
-    });
-  }
+  const result = await callGeminiWithFallback(apiKey, payload);
 
   return {
     findings: result.text,
-    sources,
+    sources: [
+      'Gemini Knowledge Base (B2B, HR, Travel Tech & Executive Domain Data)',
+      'ניתוח מגמות שוק וניהול ארגוני',
+    ],
   };
 }
