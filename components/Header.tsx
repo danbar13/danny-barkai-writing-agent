@@ -23,7 +23,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center space-x-4 space-x-reverse">
             <div className="bg-white/95 px-3 py-1.5 rounded-xl shadow-glow-sm border border-white/20 flex items-center justify-center shrink-0">
               <img
-                src="/danbar-logo.jpg"
+                src="/danbar-logo.jpg?v=2"
                 alt="DANBAR דנבר ייעוץ אסטרטגי, ארגוני ומשאבי אנוש"
                 className="h-10 sm:h-12 w-auto max-w-[200px] sm:max-w-[260px] object-contain"
               />
@@ -61,29 +61,20 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Settings Button */}
             <button
               onClick={onOpenSettings}
-              className="relative p-2.5 rounded-xl text-slate-300 hover:text-white bg-slate-900/80 hover:bg-slate-800/90 border border-slate-700/60 hover:border-danbar-500/40 transition-all flex items-center gap-2 text-sm font-semibold shadow-xs"
-              title="הגדרות API ומודל"
+              className={`p-2.5 rounded-xl border transition-all flex items-center gap-2 text-sm font-semibold shadow-xs ${
+                hasCustomKey
+                  ? 'bg-danbar-950/80 text-danbar-300 border-danbar-600/50 hover:bg-danbar-900/80'
+                  : 'bg-slate-900/80 text-slate-300 hover:text-white border-slate-700/60 hover:border-slate-600'
+              }`}
+              title="הגדרות API Key"
             >
-              <Settings className="w-4 h-4 text-danbar-400" />
+              <Settings className={`w-4 h-4 ${hasCustomKey ? 'text-danbar-400' : 'text-slate-400'}`} />
               <span className="hidden sm:inline">הגדרות</span>
               {hasCustomKey && (
-                <span className="w-2 h-2 rounded-full bg-emerald-400 absolute top-2 right-2 ring-2 ring-slate-900 shadow-[0_0_6px_#34d399]" />
+                <span className="w-2 h-2 rounded-full bg-danbar-400 shadow-glow-sm" />
               )}
             </button>
-
-            {/* Blog Reference Link */}
-            <a
-              href="https://danbarblogs.blogspot.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden lg:flex items-center gap-1.5 text-xs text-slate-400 hover:text-danbar-300 px-3 py-2 rounded-xl border border-slate-800 hover:border-slate-700 bg-slate-900/40 transition-all"
-            >
-              <BookOpen className="w-3.5 h-3.5 text-danbar-400" />
-              <span>הבלוג המקורי</span>
-              <ExternalLink className="w-3 h-3 opacity-60" />
-            </a>
           </div>
-
         </div>
       </div>
     </header>
