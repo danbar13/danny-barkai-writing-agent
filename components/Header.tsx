@@ -1,5 +1,6 @@
 import React from 'react';
 import { PenTool, Settings, History, Sparkles, BookOpen, ExternalLink } from 'lucide-react';
+import { DANBAR_LOGO_DATA_URI } from '@/lib/logoData';
 
 interface HeaderProps {
   onOpenSettings: () => void;
@@ -23,7 +24,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center space-x-4 space-x-reverse">
             <div className="bg-white/95 px-3 py-1.5 rounded-xl shadow-glow-sm border border-white/20 flex items-center justify-center shrink-0">
               <img
-                src="/danbar-logo.jpg?v=2"
+                src={DANBAR_LOGO_DATA_URI}
                 alt="DANBAR דנבר ייעוץ אסטרטגי, ארגוני ומשאבי אנוש"
                 className="h-10 sm:h-12 w-auto max-w-[200px] sm:max-w-[260px] object-contain"
               />
