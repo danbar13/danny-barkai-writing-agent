@@ -7,23 +7,72 @@ export interface GenerateTextOptions {
   temperature?: number;
 }
 
-// Modern active Gemini models on v1beta
-const CANDIDATE_MODELS = [
+// Preferred priority order when selecting models
+const PREFERRED_MODEL_ORDER = [
   'gemini-1.5-flash',
+  'gemini-1.5-flash-latest',
   'gemini-2.0-flash',
+  'gemini-2.0-flash-exp',
+  'gemini-1.5-flash-8b',
   'gemini-1.5-pro',
+  'gemini-1.5-pro-latest',
 ];
 
 /**
- * Execute request to Gemini REST API on v1beta with automatic multi-model fallback.
+ * Dynamically discover available models supported by the provided API key.
+ */
+async function getAvailableModels(apiKey: string): Promise<string[]> {
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      const modelsList: Array<{ name: string; supportedGenerationMethods?: string[] }> =
+        data.models || [];
+
+      const supported = modelsList
+        .filter(
+          (m) =>
+            m.supportedGenerationMethods &&
+            m.supportedGenerationMethods.includes('generateContent')
+        )
+        .map((m) => m.name.replace(/^models\//, ''));
+
+      if (supported.length > 0) {
+        // Sort models by preference
+        return supported.sort((a, b) => {
+          const idxA = PREFERRED_MODEL_ORDER.indexOf(a);
+          const idxB = PREFERRED_MODEL_ORDER.indexOf(b);
+          if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+          if (idxA !== -1) return -1;
+          if (idxB !== -1) return 1;
+          return 0;
+        });
+      }
+    } else {
+      const err = await response.json().catch(() => ({}));
+      console.warn('ListModels failed, using default candidate list:', err);
+    }
+  } catch (e) {
+    console.warn('Failed to query models list from Gemini API:', e);
+  }
+
+  return PREFERRED_MODEL_ORDER;
+}
+
+/**
+ * Execute request to Gemini REST API with automatic multi-model fallback and dynamic discovery.
  */
 async function callGeminiWithFallback(
   apiKey: string,
   payload: any
 ): Promise<{ text: string; data: any }> {
+  const models = await getAvailableModels(apiKey);
   let lastError = '';
 
-  for (const model of CANDIDATE_MODELS) {
+  for (const model of models) {
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
     try {
@@ -43,11 +92,19 @@ async function callGeminiWithFallback(
         const errData = await response.json().catch(() => ({}));
         const msg = errData?.error?.message || response.statusText;
         lastError = msg;
-        console.warn(`Gemini attempt with ${model} on v1beta failed: ${msg}`);
+        console.warn(`Gemini attempt with ${model} failed: ${msg}`);
+
+        // If the key itself is invalid, no need to loop through all models
+        if (errData?.error?.status === 'INVALID_ARGUMENT' && msg.includes('API key')) {
+          throw new Error('מפתח ה-Gemini API שהוזן אינו תקין. אנא בדוק את המפתח בהגדרות.');
+        }
       }
     } catch (err: any) {
+      if (err.message && err.message.includes('אינו תקין')) {
+        throw err;
+      }
       lastError = err.message || String(err);
-      console.warn(`Gemini fetch error with ${model} on v1beta:`, err);
+      console.warn(`Gemini fetch error with ${model}:`, err);
     }
   }
 

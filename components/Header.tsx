@@ -23,9 +23,9 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center space-x-4 space-x-reverse">
             <div className="bg-white/95 px-3 py-1.5 rounded-xl shadow-glow-sm border border-white/20 flex items-center justify-center shrink-0">
               <img
-                src="/danbar-logo.svg"
+                src="/danbar-logo.jpg"
                 alt="DANBAR דנבר ייעוץ אסטרטגי, ארגוני ומשאבי אנוש"
-                className="h-10 sm:h-12 w-auto max-w-[200px] sm:max-w-[260px] object-contain"
+                className="h-10 sm:h-12 w-auto max-w-[220px] sm:max-w-[280px] object-contain"
               />
             </div>
             <div>
