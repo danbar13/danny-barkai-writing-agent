@@ -7,6 +7,7 @@ export interface GenerateTextOptions {
   temperature?: number;
 }
 
+// Preferred priority order when selecting models
 const PREFERRED_MODEL_ORDER = [
   'gemini-1.5-flash',
   'gemini-1.5-flash-latest',
@@ -17,6 +18,9 @@ const PREFERRED_MODEL_ORDER = [
   'gemini-1.5-pro-latest',
 ];
 
+/**
+ * Dynamically discover available models supported by the provided API key.
+ */
 async function getAvailableModels(apiKey: string): Promise<string[]> {
   try {
     const response = await fetch(
@@ -37,6 +41,7 @@ async function getAvailableModels(apiKey: string): Promise<string[]> {
         .map((m) => m.name.replace(/^models\//, ''));
 
       if (supported.length > 0) {
+        // Sort models by preference
         return supported.sort((a, b) => {
           const idxA = PREFERRED_MODEL_ORDER.indexOf(a);
           const idxB = PREFERRED_MODEL_ORDER.indexOf(b);
@@ -46,6 +51,9 @@ async function getAvailableModels(apiKey: string): Promise<string[]> {
           return 0;
         });
       }
+    } else {
+      const err = await response.json().catch(() => ({}));
+      console.warn('ListModels failed, using default candidate list:', err);
     }
   } catch (e) {
     console.warn('Failed to query models list from Gemini API:', e);
@@ -54,6 +62,9 @@ async function getAvailableModels(apiKey: string): Promise<string[]> {
   return PREFERRED_MODEL_ORDER;
 }
 
+/**
+ * Execute request to Gemini REST API with automatic multi-model fallback and dynamic discovery.
+ */
 async function callGeminiWithFallback(
   apiKey: string,
   payload: any
@@ -81,7 +92,9 @@ async function callGeminiWithFallback(
         const errData = await response.json().catch(() => ({}));
         const msg = errData?.error?.message || response.statusText;
         lastError = msg;
+        console.warn(`Gemini attempt with ${model} failed: ${msg}`);
 
+        // If the key itself is invalid, no need to loop through all models
         if (errData?.error?.status === 'INVALID_ARGUMENT' && msg.includes('API key')) {
           throw new Error('מפתח ה-Gemini API שהוזן אינו תקין. אנא בדוק את המפתח בהגדרות.');
         }
@@ -91,6 +104,7 @@ async function callGeminiWithFallback(
         throw err;
       }
       lastError = err.message || String(err);
+      console.warn(`Gemini fetch error with ${model}:`, err);
     }
   }
 
@@ -173,9 +187,41 @@ ${options.context ? `הקשר ודגשים נוספים: "${options.context}"` :
   };
 
   const result = await callGeminiWithFallback(apiKey, payload);
+  let findingsText = result.text;
+
+  // Safeguard: Check if findings were generated in English, and auto-translate to Hebrew if needed
+  const hebrewCharCount = (findingsText.match(/[\u0590-\u05FF]/g) || []).length;
+  const englishCharCount = (findingsText.match(/[a-zA-Z]/g) || []).length;
+
+  if (englishCharCount > 100 && englishCharCount > hebrewCharCount) {
+    const translatePayload = {
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: `תרגם ועבד את כל ממצאי המחקר הבאים לשפה העברית בלבד (עברית רהוטה, מקצועית ואנליטית מעולמות הניהול, משאבי אנוש וטכנולוגיה עבור מנהלים בכירים):\n\n${findingsText}`,
+            },
+          ],
+        },
+      ],
+      generationConfig: {
+        temperature: 0.2,
+        maxOutputTokens: 3000,
+      },
+    };
+    try {
+      const hebrewResult = await callGeminiWithFallback(apiKey, translatePayload);
+      if (hebrewResult.text) {
+        findingsText = hebrewResult.text;
+      }
+    } catch (e) {
+      console.warn('Failed to auto-translate research to Hebrew:', e);
+    }
+  }
 
   return {
-    findings: result.text,
+    findings: findingsText,
     sources: [
       'מאגר הידע המקצועי של Gemini (טרבל-טק, B2B SaaS, משאבי אנוש וניהול בכיר)',
       'סקירת מגמות שוק וניהול ארגוני',
