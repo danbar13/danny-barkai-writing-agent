@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 250" width="100%" height="100%">
+  <!-- Left Symbol: Grey Arc + Olive/Lime Stylized B (3-shape) -->
+  <g transform="translate(15, 20)">
+    <!-- Grey Arc on Left -->
+    <path d="M 85 85 C 60 85 40 105 40 130 C 40 155 60 175 85 175 C 95 175 105 170 110 162 C 100 160 90 150 90 130 C 90 110 100 100 110 98 C 105 90 95 85 85 85 Z" fill="#a0a0a0" />
+
+    <!-- Olive Green Double-Loop (Letter B/3 shape) -->
+    <!-- Top Loop -->
+    <path d="M 125 35 C 158 35 185 62 185 95 C 185 118 171 138 152 147 C 145 150 135 152 125 152 L 125 128 C 131 128 138 126 142 123 C 153 117 160 107 160 95 C 160 76 144 60 125 60 C 112 60 100 68 95 79 L 75 67 C 85 48 103 35 125 35 Z" fill="#7ba216" />
+    <!-- Bottom Loop -->
+    <path d="M 125 108 C 135 108 145 110 152 113 C 171 122 185 142 185 165 C 185 198 158 225 125 225 C 103 225 85 212 75 193 L 95 181 C 100 192 112 200 125 200 C 144 200 160 184 160 165 C 160 153 153 143 142 137 C 138 134 131 132 125 132 L 125 108 Z" fill="#7ba216" />
+
+    <!-- Vertical Divider Bar -->
+    <rect x="220" y="10" width="8" height="220" rx="4" fill="#7ba216" />
+  </g>
+
+  <!-- Typography -->
+  <!-- Main Brand: DANBAR -->
+  <text x="270" y="130" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="115" font-weight="300" letter-spacing="3">
+    <tspan fill="#525252">DAN</tspan><tspan fill="#7ba216" font-weight="400">BAR</tspan>
+  </text>
+
+  <!-- English Subtitle -->
+  <text x="275" y="172" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="600" fill="#2d3748" letter-spacing="0.5">
+    Strategic, Organizational &amp; HR Consulting
+  </text>
+
+  <!-- Hebrew Subtitle -->
+  <text x="275" y="218" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="700" fill="#1e293b" letter-spacing="0.2">
+    <tspan font-weight="900" fill="#0f172a">דנבר</tspan>  ייעוץ אסטרטגי, ארגוני ומשאבי אנוש
+  </text>
+</svg>
