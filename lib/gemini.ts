@@ -7,7 +7,6 @@ export interface GenerateTextOptions {
   temperature?: number;
 }
 
-// Preferred priority order when selecting models
 const PREFERRED_MODEL_ORDER = [
   'gemini-1.5-flash',
   'gemini-1.5-flash-latest',
@@ -18,9 +17,6 @@ const PREFERRED_MODEL_ORDER = [
   'gemini-1.5-pro-latest',
 ];
 
-/**
- * Dynamically discover available models supported by the provided API key.
- */
 async function getAvailableModels(apiKey: string): Promise<string[]> {
   try {
     const response = await fetch(
@@ -41,7 +37,6 @@ async function getAvailableModels(apiKey: string): Promise<string[]> {
         .map((m) => m.name.replace(/^models\//, ''));
 
       if (supported.length > 0) {
-        // Sort models by preference
         return supported.sort((a, b) => {
           const idxA = PREFERRED_MODEL_ORDER.indexOf(a);
           const idxB = PREFERRED_MODEL_ORDER.indexOf(b);
@@ -51,9 +46,6 @@ async function getAvailableModels(apiKey: string): Promise<string[]> {
           return 0;
         });
       }
-    } else {
-      const err = await response.json().catch(() => ({}));
-      console.warn('ListModels failed, using default candidate list:', err);
     }
   } catch (e) {
     console.warn('Failed to query models list from Gemini API:', e);
@@ -62,9 +54,6 @@ async function getAvailableModels(apiKey: string): Promise<string[]> {
   return PREFERRED_MODEL_ORDER;
 }
 
-/**
- * Execute request to Gemini REST API with automatic multi-model fallback and dynamic discovery.
- */
 async function callGeminiWithFallback(
   apiKey: string,
   payload: any
@@ -92,9 +81,7 @@ async function callGeminiWithFallback(
         const errData = await response.json().catch(() => ({}));
         const msg = errData?.error?.message || response.statusText;
         lastError = msg;
-        console.warn(`Gemini attempt with ${model} failed: ${msg}`);
 
-        // If the key itself is invalid, no need to loop through all models
         if (errData?.error?.status === 'INVALID_ARGUMENT' && msg.includes('API key')) {
           throw new Error('מפתח ה-Gemini API שהוזן אינו תקין. אנא בדוק את המפתח בהגדרות.');
         }
@@ -104,7 +91,6 @@ async function callGeminiWithFallback(
         throw err;
       }
       lastError = err.message || String(err);
-      console.warn(`Gemini fetch error with ${model}:`, err);
     }
   }
 
@@ -153,25 +139,35 @@ export async function conductWebResearch(options: {
     );
   }
 
-  const researchPrompt = `בצע מחקר עומק מקצועי, מקיף ומעודכן ביותר על הנושא והדילמה הבאה:
+  const researchPrompt = `בצע מחקר עומק מקצועי, מקיף ומעודכן ביותר אך ורק על הנושא והדילמה הבאה:
 נושא: "${options.topic}"
 ${options.context ? `הקשר ודגשים נוספים: "${options.context}"` : ''}
 
-מטרת המחקר:
-לספק רקע עובדתי עשיר, נתונים עדכניים, מגמות אחרונות בישראל ובעולם (במיוחד בעולמות הניהול, משאבי אנוש, טכנולוגיה, B2B, SaaS, מלונאות ו-Travel Tech לפי העניין), וטיעונים מנומקים של שני הצדדים בדילמה הניהולית הזו.
+הוראת שפה קריטית ובלתי מתפשרת:
+כתוב את כל ממצאי המחקר אך ורק בשפה העברית (עברית עשירה, רהוטה, מקצועית ומדויקת)! אל תכתוב באנגלית כלל.
 
-מבנה התוצר הנדרש:
-1. **תמונת מצב עובדתית ומגמות עדכניות מהשטח**: סקור מונחים מקצועיים, נתונים, אתגרי שוק או תהליכים בולטים.
+מטרת המחקר:
+לספק רקע עובדתי עשיר, נתונים עדכניים, מגמות אחרונות בישראל ובעולם (במיוחד בעולמות הניהול, משאבי אנוש, טכנולוגיה, B2B SaaS, מלונאות ו-Travel Tech הרלוונטיים בדיוק לנושא זה), וטיעונים מנומקים של שני הצדדים בדילמה הניהולית הזו.
+
+מבנה התוצר הנדרש (כולו בעברית):
+1. **תמונת מצב עובדתית ומגמות עדכניות מהשטח**: סקור מונחים מקצועיים, נתונים, אתגרי שוק או תהליכים בולטים בנושא "${options.topic}".
 2. **טיעוני הצדדים והאינטרסים המתנגשים**: ניתוח של "למה כן" מול "למה לא", צרכי הארגון וההנהלה מול צרכי העובדים, הלקוחות או השוק.
-3. **מקרים מהשטח / תרחישים / דוגמאות בולטות**: תאר תרחישים ריאליסטיים מעולם העבודה, היזמות או המלונאות.
+3. **מקרים מהשטח / תרחישים / דוגמאות בולטות**: תאר תרחישים ריאליסטיים מעולם העבודה, היזמות, התיירות או המלונאות.
 4. **שאלות פתוחות ודילמות מרכזיות**: שאלות מפתח שהמחקר מציף.
 
-נסח את הממצאים בצורה אנליטית, חדה ומעמיקה, המוכנה לשמש כחומר גלם עשיר לכתיבת פוסט/טור דעה מקצועי בסגנון של דני ברקאי.`;
+נסח את הממצאים בצורה אנליטית, חדה ומעמיקה בעברית, המוכנה לשמש כחומר גלם עשיר לכתיבת פוסט/טור דעה מקצועי בסגנון של דני ברקאי.`;
 
   const payload = {
     contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
+    systemInstruction: {
+      parts: [
+        {
+          text: 'אתה חוקר מומחה ואנליסט עסקי בכיר. עליך לכתוב את כל ממצאי המחקר, הניתוחים והדוגמאות אך ורק בשפה העברית בצורה רהוטה, מקצועית, מעמיקה וממוקדת בנושא הנדרש.',
+        },
+      ],
+    },
     generationConfig: {
-      temperature: 0.4,
+      temperature: 0.3,
       maxOutputTokens: 3000,
     },
   };
@@ -181,8 +177,8 @@ ${options.context ? `הקשר ודגשים נוספים: "${options.context}"` :
   return {
     findings: result.text,
     sources: [
-      'Gemini Knowledge Base (B2B, HR, Travel Tech & Executive Domain Data)',
-      'ניתוח מגמות שוק וניהול ארגוני',
+      'מאגר הידע המקצועי של Gemini (טרבל-טק, B2B SaaS, משאבי אנוש וניהול בכיר)',
+      'סקירת מגמות שוק וניהול ארגוני',
     ],
   };
 }

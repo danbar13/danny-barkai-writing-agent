@@ -42,7 +42,7 @@ export const StyleInspector: React.FC<StyleInspectorProps> = ({ analysis }) => {
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-        {analysis.metrics.map((metric, idx) => (
+        {(analysis?.metrics || []).map((metric, idx) => (
           <div
             key={idx}
             className={`p-4 rounded-2xl border transition-all ${
@@ -76,7 +76,7 @@ export const StyleInspector: React.FC<StyleInspectorProps> = ({ analysis }) => {
       </div>
 
       {/* Detected Anchors */}
-      {analysis.detectedAnchors.length > 0 && (
+      {analysis?.detectedAnchors && analysis.detectedAnchors.length > 0 && (
         <div className="mt-6 pt-5 border-t border-slate-800">
           <span className="text-xs font-heading font-extrabold text-slate-400 uppercase tracking-wider block mb-2.5">
             עוגנים וביטויי מפתח שזוהו בטקסט:
@@ -96,7 +96,7 @@ export const StyleInspector: React.FC<StyleInspectorProps> = ({ analysis }) => {
       )}
 
       {/* Suggestions */}
-      {analysis.suggestions.length > 0 && (
+      {analysis?.suggestions && analysis.suggestions.length > 0 && (
         <div className="mt-5 bg-[#090f1c] rounded-2xl p-5 border border-slate-800">
           <span className="text-xs font-heading font-bold text-danbar-300 block mb-2">
             המלצות לליטוש ודיוק הסגנון:
