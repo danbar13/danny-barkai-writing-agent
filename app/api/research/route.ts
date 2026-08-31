@@ -4,7 +4,7 @@ import { conductWebResearch } from '@/lib/gemini';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { topic, context, apiKey } = body;
+    const { topic, context, apiKey, customApiKey } = body;
 
     if (!topic || !topic.trim()) {
       return NextResponse.json(
@@ -13,15 +13,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const effectiveApiKey = customApiKey || apiKey;
+
     const researchResult = await conductWebResearch({
       topic,
       context,
-      apiKey,
+      apiKey: effectiveApiKey,
     });
 
     return NextResponse.json({
       success: true,
       findings: researchResult.findings,
+      researchSummary: researchResult.findings,
       sources: researchResult.sources,
     });
   } catch (error: any) {
