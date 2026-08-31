@@ -7,15 +7,11 @@ export interface GenerateTextOptions {
   temperature?: number;
 }
 
-// Ordered candidate models and API versions to try sequentially
+// Modern active Gemini models
 const CANDIDATE_MODELS = [
   'gemini-1.5-flash',
-  'gemini-1.5-flash-latest',
   'gemini-2.0-flash',
-  'gemini-2.0-flash-exp',
   'gemini-1.5-pro',
-  'gemini-1.5-pro-latest',
-  'gemini-pro',
 ];
 
 const API_VERSIONS = ['v1beta', 'v1'];
@@ -122,16 +118,30 @@ ${options.context ? `הקשר ודגשים נוספים: "${options.context}"` :
   let result: { text: string; data: any } | null = null;
   const sources: string[] = [];
 
+  // Try standard knowledge research with Gemini
   try {
-    result = await callGeminiWithFallback(apiKey, () => ({
-      contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
-      tools: [{ googleSearch: {} }],
-      generationConfig: {
-        temperature: 0.4,
-        maxOutputTokens: 2500,
-      },
-    }));
+    result = await callGeminiWithFallback(apiKey, (model, apiVersion) => {
+      // Only include Google Search on v1beta
+      if (apiVersion === 'v1beta') {
+        return {
+          contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
+          tools: [{ googleSearch: {} }],
+          generationConfig: {
+            temperature: 0.4,
+            maxOutputTokens: 2500,
+          },
+        };
+      }
+      return {
+        contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
+        generationConfig: {
+          temperature: 0.4,
+          maxOutputTokens: 2500,
+        },
+      };
+    });
   } catch (e) {
+    // If tools/search fail, fallback to pure model generation
     result = await callGeminiWithFallback(apiKey, () => ({
       contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
       generationConfig: {
