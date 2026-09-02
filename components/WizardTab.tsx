@@ -87,10 +87,10 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
       } else {
         setAnswers({
           dilemma: idea.title,
-          personalBackground: '╫а╫Щ╫б╫Щ╫Х╫Я ╫й╫Ш╫Ч ╫Х╫Ю╫а╫Ф╫Щ╫Т╫Х╫к ╫С╫в╫Х╫Ь╫Ю╫Х╫к ╫Ф╫а╫Щ╫Ф╫Х╫Ь, ╫Ш╫Ы╫а╫Х╫Ь╫Х╫Т╫Щ╫к ╫Х╫Ф╫Р╫Щ╫к╫Х╫Ч.',
+          personalBackground: '╫а╫Щ╫б╫Щ╫Х╫Я ╫й╫Ш╫Ч ╫Х╫Ю╫а╫Ф╫Щ╫Т╫Х╫к ╫С╫в╫Х╫Ь╫Ю╫Х╫к ╫Ф╫а╫Щ╫Ф╫Х╫Ь, ╫Ф╫Ш╫Ы╫а╫Х╫Ь╫Х╫Т╫Щ╫Ф ╫Х╫Ф╫Р╫Щ╫и╫Х╫Ч.',
           prosAndCons: idea.rawContent,
           concreteExample: '╫У╫Ю╫Щ╫Щ╫а╫Х ╫Ю╫з╫и╫Ф ╫й╫С╫Х ╫Ю╫а╫Ф╫Ь ╫в╫Х╫Ю╫У ╫Ю╫Х╫Ь ╫ж╫Х╫Ю╫к ╫Ф╫Ч╫Ь╫Ш╫Х╫к ╫Ю╫Х╫и╫Ы╫С ╫С╫Щ╫Я ╫Ф╫Ш╫Ю╫в╫к ╫Ю╫в╫и╫Ы╫к ╫Ч╫У╫й╫Ф ╫Ь╫й╫Ю╫Щ╫и╫Ф ╫в╫Ь ╫Щ╫ж╫Щ╫С╫Х╫к ╫Ф╫ж╫Х╫Х╫к...',
-          personalStance: '╫Ь╫к╫д╫Щ╫к╫Щ, ╫Щ╫й ╫Ь╫Ю╫ж╫Х╫Р ╫Р╫к ╫Ф╫Р╫Щ╫Ц╫Х╫Я ╫Ф╫и╫Р╫Х╫Щ ╫С╫Щ╫Я ╫з╫Щ╫У╫Ю╫Ф ╫Ш╫Ы╫а╫Х╫Ь╫Х╫Т╫Щ╫к ╫Ь╫в╫и╫Ъ ╫Р╫а╫Х╫й╫Щ. ╫С╫Ф╫ж╫Ь╫Ч╫Ф!',
+          personalStance: '╫Ь╫к╫д╫Щ╫й╫к╫Щ, ╫Щ╫й ╫Ь╫Ю╫ж╫Х╫Р ╫Р╫к ╫Ф╫Р╫Щ╫Ц╫Х╫Я ╫Ф╫и╫Р╫Х╫Щ ╫С╫Щ╫Я ╫з╫Щ╫У╫Ю╫Ф ╫Ш╫Ы╫а╫Х╫Ь╫Х╫Т╫Щ╫к ╫Ь╫в╫и╫Ъ ╫Р╫а╫Х╫й╫Щ. ╫С╫Ф╫ж╫Ь╫Ч╫Ф!',
         });
       }
     }
@@ -108,10 +108,10 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
     } else {
       setAnswers({
         dilemma: idea.title,
-        personalBackground: '╫а╫Щ╫б╫Щ╫Х╫Я ╫й╫Ш╫Ч ╫Х╫Ю╫а╫Ф╫Щ╫Т╫Х╫к ╫С╫в╫Х╫Ь╫Ю╫Х╫к ╫Ф╫а╫Щ╫Ф╫Х╫Ь, ╫Ф╫Ш╫Ы╫а╫Х╫Ь╫Х╫Т╫Щ╫к ╫Х╫Ф╫Р╫Щ╫к╫Х╫Ч.',
+        personalBackground: '╫а╫Щ╫б╫Щ╫Х╫Я ╫й╫Ш╫Ч ╫Х╫Ю╫а╫Ф╫Щ╫Т╫Х╫к ╫С╫в╫Х╫Ь╫Ю╫Х╫к ╫Ф╫а╫Щ╫Ф╫Х╫Ь, ╫Ф╫Ш╫Ы╫а╫Х╫Ь╫Х╫Т╫Щ╫Ф ╫Х╫Ф╫Р╫Щ╫и╫Х╫Ч.',
         prosAndCons: idea.rawContent,
         concreteExample: '╫У╫Ю╫Щ╫Щ╫а╫Х ╫Ю╫з╫и╫Ф ╫й╫С╫Х ╫Ю╫а╫Ф╫Ь ╫в╫Х╫Ю╫У ╫Ю╫Х╫Ь ╫ж╫Х╫Ю╫к ╫Ф╫Ч╫Ь╫Ш╫Х╫к ╫Ю╫Х╫и╫Ы╫С ╫С╫Щ╫Я ╫Ф╫Ш╫Ю╫в╫к ╫Ю╫в╫и╫Ы╫к ╫Ч╫У╫й╫Ф ╫Ь╫й╫Ю╫Щ╫и╫Ф ╫в╫Ь ╫Щ╫ж╫Щ╫С╫Х╫к ╫Ф╫ж╫Х╫Х╫к...',
-        personalStance: '╫Ь╫к╫д╫Щ╫к╫Щ, ╫Щ╫й ╫Ь╫Ю╫ж╫Х╫Р ╫Р╫к ╫Ф╫Р╫Щ╫Ц╫Х╫Я ╫Ф╫и╫Р╫Х╫Щ ╫С╫Щ╫Я ╫з╫Щ╫У╫Ю╫Ф ╫Ш╫Ы╫а╫Х╫Ь╫Х╫Т╫Щ╫к ╫Ь╫в╫и╫Ъ ╫Р╫а╫Х╫й╫Щ. ╫С╫Ф╫ж╫Ь╫Ч╫Ф!',
+        personalStance: '╫Ь╫к╫д╫Щ╫й╫к╫Щ, ╫Щ╫й ╫Ь╫Ю╫ж╫Х╫Р ╫Р╫к ╫Ф╫Р╫Щ╫Ц╫Х╫Я ╫Ф╫и╫Р╫Х╫Щ ╫С╫Щ╫Я ╫з╫Щ╫У╫Ю╫Ф ╫Ш╫Ы╫а╫Х╫Ь╫Х╫Т╫Щ╫к ╫Ь╫в╫и╫Ъ ╫Р╫а╫Х╫й╫Щ. ╫С╫Ф╫ж╫Ь╫Ч╫Ф!',
       });
     }
     setCurrentStep(1);
@@ -301,7 +301,7 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
             type="button"
             onClick={handleResetWizard}
             className="text-xs bg-[#101827] hover:bg-[#182338] text-slate-300 hover:text-white px-3 py-2 rounded-xl border border-slate-700/80 font-bold transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
-            title="╫Р╫Щ╫д╫Х╫б ╫Ы╫Ь ╫й╫Ь╫С╫Щ ╫Ф╫Р╫й╫г, ╫Ф╫С╫Ч╫Щ╫и╫Х╫к ╫Х╫Ф╫Р╫Х╫и╫Ъ ╫Ь╫С╫и╫Щ╫и╫Х╫к ╫Ф╫Ю╫Ч╫У╫Ь"
+            title="╫Р╫Щ╫д╫Х╫б ╫Ы╫Ь ╫й╫Ь╫С╫Щ ╫Ф╫Р╫й╫г, ╫Ф╫С╫Ч╫Щ╫и╫Х╫к, ╫Ф╫а╫Х╫й╫Р, ╫Ф╫Р╫Х╫и╫Ъ ╫Х╫Ф╫й╫У╫Х╫к ╫Ь╫С╫и╫Щ╫и╫Х╫к ╫Ф╫Ю╫Ч╫У╫Ь"
           >
             <RotateCcw className="w-3.5 h-3.5 text-slate-400" />
             <span>╫Р╫Щ╫д╫Х╫б ╫й╫Ь╫С╫Щ╫Э</span>
@@ -343,26 +343,26 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
             <div className="flex items-center gap-2 text-xs text-slate-300 font-heading font-extrabold uppercase tracking-wider">
               <Lightbulb className="w-4 h-4 text-danbar-400" />
               <span>╫а╫Х╫й╫Р╫Щ╫Э ╫Х╫У╫Щ╫Ь╫Ю╫Х╫к ╫Ю╫Х╫ж╫в╫Щ╫Э ╫Ь╫Ю╫Щ╫Ь╫Х╫Щ ╫Ф╫Р╫й╫г (╫Ь╫Ч╫е ╫Ь╫С╫Ч╫Щ╫и╫Ф ╫Х╫Ю╫Щ╫У╫в ╫Ю╫Х╫и╫Ч╫С):</span>
-          </div>
+            </div>
 
-           {/* Category Filter */}
+            {/* Category Filter */}
             <div className="flex items-center gap-1.5 overflow-x-auto py-1 max-w-full">
-            {categories.map((cat) => (
-              <button
-                type="button"
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`text-[11px] px-3 py-1 rounded-full font-bold whitespace-nowrap transition-all ${
-                  selectedCategory === cat
-                    ? 'bg-danbar-600 text-white shadow-glow-sm'
-                    : 'bg-[#090f1c] text-slate-400 hover:text-slate-200 border border-slate-800'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+              {categories.map((cat) => (
+                <button
+                  type="button"
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`text-[11px] px-3 py-1 rounded-full font-bold whitespace-nowrap transition-all ${
+                    selectedCategory === cat
+                      ? 'bg-danbar-600 text-white shadow-glow-sm'
+                      : 'bg-[#090f1c] text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
           {/* Topics Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -389,9 +389,9 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
                         {idea.category}
                       </span>
                       {isSelected ? (
-                        <span className="text-[11px] font-bold text-white bg-danbar-600 py-2.5 py-0.5 rounded-full border border-danbar-400 shadow-glow-sm flex items-center gap-1.5">
+                        <span className="text-[11px] font-bold text-white bg-danbar-600 px-2.5 py-0.5 rounded-full border border-danbar-400 shadow-glow-sm flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                          ╫и╫в╫Щ╫Х╫Я ╫а╫С╫Ч╫и тЬУ
+                          ╫и╫в╫Щ╫Х╫Я ╫а╫С╫Ч╫и ╫Ь╫Р╫й╫г тЬУ
                         </span>
                       ) : (
                         <span className="text-[10px] font-medium text-slate-500 group-hover:text-slate-300 transition-colors">
@@ -407,7 +407,91 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
                     </p>
                   </div>
                   <div className="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-danbar-400 font-semibold">
-                    <span>{isSelected ? 'тЬУ ╫и╫в╫Щ╫Х╫Я ┌Mz-yЭy┬Нy═y}zRy═zmyэzmy]y╥Тrв}y═y}zRy═yMzНy}yyBy]yy}yЭzНyBw╙┬ў7урв─6ЖWg&ЎфFўvт6╞74ц╓S╫╢r╙2уRВ╙2уRG&ч6ЧFЦЎт╫G&ч6fў&╥G╢Ч56V╞V7FVBЄw&ўFFR╙ГFWЗB╓Fц&"╙3rвrw╓╥єрв┬ЎFЧcрв┬Ў'WGFЎурвУ░в╥Ч╨в┬ЎFЧcрав▓Єв6V╞V7FVBЦFVFWFЦ╟2ЦтvЧж&Bвў╨в╖6V╞V7FVDЦFVbbАв╞FЧb6╞74ц╓S╥&&r╒▓3У#╥&ў&FW"╙"&ў&FW"╓Fц&"╙Sєs&ўVцFVB╙'Ж┬╙R6╙з╙b6ЖFўr╓v╞ўr╓╓B76R╫Т╙BцЦ╓FR╓fFTЦтG&ч6ЧFЦЎт╓╞┬#рв╞FЧb6╞74ц╓S╥&f╞WВf╞WВ╓6Ў┬6╙жf╞WВ╫&ўr6╙жЧFV╫2╫7F'BзW7FЦgТ╓&WGvVVтv╙2"╙2&ў&FW"╓"&ў&FW"╫6╞FR╙Г#рв╞FЧcрв╞FЧb6╞74ц╓S╥&f╞WВЧFV╫2╓6VчFW"v╙"╓"╙уR#рв╟7т6╞74ц╓S╥'FWЗB╫З2fЎчB╓&Ў╞BFWЗB╓Fц&"╙3&r╓Fц&"╙УSВ╙2Т╙&ўVцFVB╓gV╞┬&ў&FW"&ў&FW"╓Fц&"╙sєS#рв╖6V╞V7FVDЦFVц6FVvў'Ч╨в┬ў7урв╟7т6╞74ц╓S╥'FWЗB╫З2FWЗB╫6╞FR╙C#уэyэyЭy=z"yэy═yyy]y=y]zвyMy=yЭy═yэyC┬ў7урв┬ЎFЧcрв╞Г26╞74ц╓S╥'FWЗB╓&6R6╙зFWЗB╓╞rfЎчB╓ЖVFЦцrfЎчB╓&Ў╞BFWЗB╫vЖЧFR╞VFЦцr╫6чVr#рв╖6V╞V7FVDЦFVчFЧF╞W╨в┬ЎГ3рв┬ЎFЧcрв╞'WGFЎрвGЧS╥&'WGFЎт вЎф6╞Ц6│╫▓ВТ╙т6WE6V╞V7FVDЦFVЖчV╞┬Ч╨в6╞74ц╓S╥'FWЗB╫З2FWЗB╫6╞FR╙CЖўfW#зFWЗB╫vЖЧFRВ╙"уRТ╙&ўVцFVB╓╞r&r╫6╞FR╙ГЖўfW#ж&r╫6╞FR╙s6V╞b╫7F'B6З&Цц▓╙ врвzy-y]zВyэyЭy=z")╔Pв┬Ў'WGFЎурв┬ЎFЧcрав▓ЄвFЦ╞V╓╓FW67&ЧFЦЎтвў╨в╞FЧb6╞74ц╓S╥'76R╫Т╙уR#рв╞ГR6╞74ц╓S╥'FWЗB╫З2fЎчB╓ЖVFЦцrfЎчB╓&Ў╞BFWЗB╓Fц&"╙3#рв	°ъЄyMy=yЭy═yэyBy]yMyzнy-zВyMyэzНy╜ymyУав┬ЎГSрв╟6╞74ц╓S╥'FWЗB╫З26╙зFWЗB╫6╥FWЗB╫6╞FR╙#╞VFЦцr╫&V╞ЖVBfЎчB╫6ч2&r╒▓3Ss&╥╙2&ўVцFVB╫Ж┬&ў&FW"&ў&FW"╫6╞FR╙Г#рв╖6V╞V7FVDЦFVцFW67&ЧFЦЎч╨в┬ўрв┬ЎFЧcрав▓Єв7FЦЎт'WGFЎч2вў╨в╞FЧb6╞74ц╓S╥'B╙"f╞WВf╞WВ╫w&ЧFV╫2╓6VчFW"зW7FЦgТ╓&WGvVVтv╙2#рв╞FЧb6╞74ц╓S╥&f╞WВf╞WВ╫w&ЧFV╫2╓6VчFW"v╙"уR#рв╞'WGFЎрвGЧS╥&'WGFЎт вЎф6╞Ц6│╫▓ВТ╙тЖцF╞T╟ФЦFVFїvЧж&BЗ6V╞V7FVDЦFVЧ╨в6╞74ц╓S╥'В╙RТ╙"уR&ўVцFVB╫Ж┬&r╓Fц&"╙cЖўfW#ж&r╓Fц&"╙SFWЗB╫vЖЧFRFWЗB╫З26╙зFWЗB╫6╥fЎчB╓ЖVFЦцrfЎчB╓&Ў╞B6ЖFўr╓v╞ўr╫6╥f╞WВЧFV╫2╓6VчFW"v╙"G&ч6ЧFЦЎт╓╞┬7W'6ў"╫ЎЦчFW" врв┼7&╢╞W26╞74ц╓S╥'r╙BВ╙B"єрв╟7ую)╔2yMy}y┬zy]zЭyymyBz-y┬y╜y┬RzЭy═yyТyMyzЭz3┬ў7урв┬Ў'WGFЎурав╞'WGFЎрвGЧS╥&'WGFЎт вЎф6╞Ц6│╫▓ВТ╙тЖцF╞T6ЎцGV7E&W6V&6Дfў$ЦFVЗ6V╞V7FVDЦFVЧ╨вFЧ6&╞VC╫╢Ч5&W6V&6ЖЦцw╨в6╞74ц╓S╥'В╙BТ╙"уR&ўVцFVB╫Ж┬&r╒▓3C#365╥ЖўfW#ж&r╒▓3#&cS╥FWЗB╓Fц&"╙3ЖўfW#зFWЗB╫vЖЧFR&ў&FW"&ў&FW"╓Fц&"╙SєCFWЗB╫З26╙зFWЗB╫6╥fЎчB╓&Ў╞Bf╞WВЧFV╫2╓6VчFW"v╙"G&ч6ЧFЦЎт╓╞┬7W'6ў"╫ЎЦчFW"FЧ6&╞VCжў6ЧGТ╙S врв╢Ч5&W6V&6ЖЦцrЄАв├рв─╞ЎFW#"6╞74ц╓S╥'r╙BВ╙BцЦ╓FR╫7ЦтFWЗB╓Fц&"╙C"єрв╟7уэy}y]z}zВyyэz}y]zНy]zвyэyЭy=z"тту┬ў7урв┬єрвТвАв├рв─v╞Ў&R6╞74ц╓S╥'r╙BВ╙BFWЗB╓Fц&"╙C"єрв╟7уэyzmz"yэy}z}zВz-y]yэzryzНzЭzвz-y┬zy]zЭyymyC┬ў7урв┬єрвЧ╨в┬Ў'WGFЎурв┬ЎFЧcрав╟7т6╞74ц╓S╥'FWЗB╒│Е╥FWЗB╫6╞FR╙C#рвzyЭzнyЄy═z-zНy]yвy]y═yMy]zyЭz2yэy}zЭyy]zвyyЭzЭyЭy]zвy═yy}zВyMyMy}y═y@в┬ў7урв┬ЎFЧcрв┬ЎFЧcрвЧ╨в┬ЎFЧcрав▓Єв6V╞V7FVBFўЦ2ЦцFЦ6FЦЎт&ццW"ЦтvЧж&Bвў╨в╖6V╞V7FVDЦFVbbАв╞FЧb6╞74ц╓S╥&╫B╙B&r╒▓3##365╥&ў&FW"╙"&ў&FW"╒▓3ЖF#su╥&ўVцFVB╙'Ж┬╙Bf╞WВf╞WВ╓6Ў┬6╙жf╞WВ╫&ўr6╙жЧFV╫2╓6VчFW"зW7FЦgТ╓&WGvVVтv╙26ЖFўr╒│єє#Еў&v&ГC├Г2├#2├у2Х╥цЦ╓FR╓fFTЦт#рв╞FЧb6╞74ц╓S╥&f╞WВЧFV╫2╓6VчFW"v╙2#рв╟7т6╞74ц╓S╥'╙"&ўVцFVB╫Ж┬&r╓Fц&"╙cFWЗB╫vЖЧFRfЎчB╓&╞6▓FWЗB╫З26ЖFўr╓v╞ўr╫6╥#рв)╔2zНz-yЭy]yЄд╫в╫Щ╫Ь ╫Р╫й╫г
+                    <span>{isSelected ? 'тЬУ ╫и╫в╫Щ╫Х╫Я ╫д╫в╫Щ╫Ь ╫С╫Р╫й╫г (╫Ь╫Ч╫е ╫Ь╫ж╫Ю╫ж╫Х╫Э)' : '╫Ь╫Ч╫е ╫Ь╫Ф╫и╫Ч╫С╫Ф ╫Х╫С╫Ч╫Щ╫и╫Ф'}</span>
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isSelected ? 'rotate-180 text-danbar-300' : ''}`} />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Selected Idea Details in Wizard */}
+          {selectedIdea && (
+            <div className="bg-[#091120] border-2 border-danbar-500/70 rounded-2xl p-5 sm:p-6 shadow-glow-md space-y-4 animate-fadeIn transition-all">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-slate-800">
+                <div>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="text-xs font-bold text-danbar-300 bg-danbar-950 px-3 py-1 rounded-full border border-danbar-700/50">
+                      {selectedIdea.category}
+                    </span>
+                    <span className="text-xs text-slate-400">╫Ю╫Щ╫У╫в ╫Ю╫Ь╫Р ╫Р╫Х╫У╫Х╫к ╫Ф╫У╫Щ╫Ь╫Ю╫Ф</span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-heading font-bold text-white leading-snug">
+                    {selectedIdea.title}
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedIdea(null)}
+                  className="text-xs text-slate-400 hover:text-white px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 self-start shrink-0"
+                >
+                  ╫б╫Т╫Х╫и ╫Ю╫Щ╫У╫в тЬХ
+                </button>
+              </div>
+
+              {/* Dilemma Description */}
+              <div className="space-y-1.5">
+                <h5 className="text-xs font-heading font-bold text-danbar-300">
+                  ЁЯОп ╫Ф╫У╫Щ╫Ь╫Ю╫Ф ╫Х╫Ф╫Р╫к╫Т╫и ╫Ф╫Ю╫и╫Ы╫Ц╫Щ:
+                </h5>
+                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-sans bg-[#0e172a] p-3 rounded-xl border border-slate-800">
+                  {selectedIdea.description}
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => handleApplyIdeaToWizard(selectedIdea)}
+                    className="px-5 py-2.5 rounded-xl bg-danbar-600 hover:bg-danbar-500 text-white text-xs sm:text-sm font-heading font-bold shadow-glow-sm flex items-center gap-2 transition-all cursor-pointer"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    <span>тЬУ ╫Ф╫Ч╫Ь ╫а╫Х╫й╫Р ╫Ц╫Ф ╫в╫Ь ╫Ы╫Ь 5 ╫й╫Ь╫С╫Щ ╫Ф╫Р╫й╫г</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleConductResearchForIdea(selectedIdea)}
+                    disabled={isResearching}
+                    className="px-4 py-2.5 rounded-xl bg-[#14233c] hover:bg-[#1b2f50] text-danbar-300 hover:text-white border border-danbar-500/40 text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    {isResearching ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-danbar-400" />
+                        <span>╫Ч╫Х╫з╫и ╫С╫Ю╫з╫Х╫и╫Х╫к ╫Ю╫Щ╫У╫в...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Globe className="w-4 h-4 text-danbar-400" />
+                        <span>╫С╫ж╫в ╫Ю╫Ч╫з╫и ╫в╫Х╫Ю╫з ╫С╫и╫й╫к ╫в╫Ь ╫У╫Щ╫Ь╫Ю╫Ф ╫Ц╫Х</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Selected Topic Indication Banner in Wizard */}
+      {selectedIdea && (
+        <div className="mt-4 bg-[#12233c] border-2 border-[#8db717] rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-[0_0_20px_rgba(141,183,23,0.3)] animate-fadeIn">
+          <div className="flex items-center gap-3">
+            <span className="p-2 rounded-xl bg-danbar-600 text-white font-black text-xs shadow-glow-sm">
+              тЬУ ╫и╫в╫Щ╫Х╫Я ╫д╫в╫Щ╫Ь ╫С╫Р╫й╫г
             </span>
             <div>
               <span className="text-[11px] font-bold text-danbar-300 block font-heading">
@@ -472,7 +556,7 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
         
         {/* Step Badge & Title */}
         <div className="mb-4">
-          <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2 text-xs font-heading font-extrabold uppercase tracking-wider text-danbar-400">
               <span>╫й╫Ь╫С {currentStep} ╫Ю╫к╫Х╫Ъ 5</span>
               <span>тАв</span>
@@ -532,11 +616,12 @@ export const WizardTab: React.FC<WizardTabProps> = ({ onGenerate, apiKey, isLoad
               </button>
             </div>
             {showResearchBox && (
-              <textarea
-                rows={4}
-                value={researchFindings}
-                onChange={(e) => setResearchFindings(e.target.value)}
-                className="w-full p-3 bg-[#080d17] text-slate-200 border border-slate-700 rounded-xl text-xs leading-relaxed font-sans outline-none focus:ring-2 focus:ring-danbar-500"
+              <div className="space-y-3 pt-2">
+                <textarea
+                  rows={4}
+                  value={researchFindings}
+                  onChange={(e) => setResearchFindings(e.target.value)}
+                  className="w-full p-3 bg-[#080d17] text-slate-200 border border-slate-700 rounded-xl text-xs leading-relaxed font-sans outline-none focus:ring-2 focus:ring-danbar-500"
               />
             )}
           </div>
