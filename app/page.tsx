@@ -17,8 +17,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Settings & History
-      const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
+  // History
+  const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
   const [savedPosts, setSavedPosts] = useState<SavedPost[]>([]);
 
   // Chat State
@@ -27,11 +27,6 @@ export default function Home() {
   // Load from localStorage on mount
   useEffect(() => {
     try {
-      const storedKey =
-        localStorage.getItem('danny_custom_api_key') ||
-        localStorage.getItem('danbar_gemini_api_key');
-      if (storedKey) setApiKey(storedKey);
-
       const storedPosts = localStorage.getItem('danny_saved_posts');
       if (storedPosts) setSavedPosts(JSON.parse(storedPosts));
     } catch (e) {
@@ -98,7 +93,6 @@ export default function Home() {
           researchFindings: data.researchFindings,
           seriesPart: data.seriesPart,
           customInstructions: data.customInstructions,
-          apiKey: apiKey || undefined,
         }),
       });
 
@@ -150,7 +144,6 @@ export default function Home() {
           postLength: data.postLength,
           researchFindings: data.researchFindings,
           wizardAnswers: data.wizardAnswers,
-          apiKey: apiKey || undefined,
         }),
       });
 
@@ -197,7 +190,6 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
-          apiKey: apiKey || undefined,
         }),
       });
 
@@ -221,15 +213,22 @@ export default function Home() {
     }
   };
 
+  // Reset Post and Start Fresh
+  const handleResetPost = () => {
+    setGeneratedContent('');
+    setStyleAnalysis(undefined);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
 
       {/* Header */}
       <Header
-        
         onOpenHistory={() => setIsHistoryOpen(true)}
         savedCount={savedPosts.length}
-        hasCustomKey={!!apiKey}
       />
 
       {/* Main Content Container */}
@@ -298,7 +297,6 @@ export default function Home() {
           {activeTab === 'raw' && (
             <RawMaterialTab
               onGenerate={handleGenerateRaw}
-              
               isLoading={isLoading}
             />
           )}
@@ -306,7 +304,6 @@ export default function Home() {
           {activeTab === 'wizard' && (
             <WizardTab
               onGenerate={handleGenerateWizard}
-              
               isLoading={isLoading}
             />
           )}
@@ -321,17 +318,16 @@ export default function Home() {
           )}
         </div>
 
-        {/* Generated Post Preview & Style Inspector Section */}
+        {/* Generated Post Preview */}
         {generatedContent && (
-          <div id="post-preview-section" className="space-y-8 pt-4">
+          <div id="post-preview-section" className="pt-4">
             <PostPreview
               content={generatedContent}
               onChangeContent={setGeneratedContent}
               analysis={styleAnalysis}
               onSaveToHistory={handleSavePost}
+              onResetPost={handleResetPost}
             />
-
-            
           </div>
         )}
 
@@ -354,9 +350,6 @@ export default function Home() {
         onSelectPost={handleSelectPost}
         onDeletePost={handleDeletePost}
       />
-
-      
-
     </div>
   );
 }
