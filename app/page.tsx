@@ -6,7 +6,6 @@ import { RawMaterialTab } from '@/components/RawMaterialTab';
 import { WizardTab } from '@/components/WizardTab';
 import { ChatTab } from '@/components/ChatTab';
 import { PostPreview } from '@/components/PostPreview';
-import { StyleModal } from '@/components/StyleInspector';
 import { HistoryDrawer } from '@/components/HistoryDrawer';
 import { ContentType, PostLength, StyleAnalysis, SavedPost, ChatMessage } from '@/lib/types';
 import { FileText, Compass, MessageSquare, AlertCircle } from 'lucide-react';
@@ -18,8 +17,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Modals & History
-  const [isStyleGuideOpen, setIsStyleGuideOpen] = useState<boolean>(false);
+  // History
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
   const [savedPosts, setSavedPosts] = useState<SavedPost[]>([]);
 
@@ -35,6 +33,22 @@ export default function Home() {
       console.error('Failed to load local storage:', e);
     }
   }, []);
+
+  // Save API Key
+  const handleSaveApiKey = (key: string) => {
+    setApiKey(key);
+    try {
+      if (key) {
+        localStorage.setItem('danny_custom_api_key', key);
+        localStorage.setItem('danbar_gemini_api_key', key);
+      } else {
+        localStorage.removeItem('danny_custom_api_key');
+        localStorage.removeItem('danbar_gemini_api_key');
+      }
+    } catch (e) {
+      console.error('Failed to save API key:', e);
+    }
+  };
 
   // Save Post to History
   const handleSavePost = (content: string, title?: string) => {
@@ -231,7 +245,6 @@ export default function Home() {
       {/* Header */}
       <Header
         onOpenHistory={() => setIsHistoryOpen(true)}
-        onOpenStyleGuide={() => setIsStyleGuideOpen(true)}
         savedCount={savedPosts.length}
       />
 
@@ -322,9 +335,9 @@ export default function Home() {
           )}
         </div>
 
-        {/* Generated Post Preview */}
+        {/* Generated Post Preview Section */}
         {generatedContent && (
-          <div id="post-preview-section" className="pt-4">
+          <div id="post-preview-section" className="space-y-8 pt-4">
             <PostPreview
               content={generatedContent}
               onChangeContent={setGeneratedContent}
@@ -347,11 +360,6 @@ export default function Home() {
       </footer>
 
       {/* Modals & Drawers */}
-      <StyleModal
-        isOpen={isStyleGuideOpen}
-        onClose={() => setIsStyleGuideOpen(false)}
-      />
-
       <HistoryDrawer
         isOpen={isHistoryOpen}
         onClose={() => setIsHistoryOpen(false)}
