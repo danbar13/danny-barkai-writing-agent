@@ -29,7 +29,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
 
       <div className="fixed inset-y-0 left-0 max-w-full flex pl-10">
         <div className="w-screen max-w-md bg-[#0e1626] shadow-2xl border-r border-slate-700/80 flex flex-col">
-
+          
           {/* Header */}
           <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-[#0a101d]">
             <div className="flex items-center gap-2.5">
@@ -110,7 +110,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                   </div>
                 );
               })
-            )}
+             )}
           </div>
 
         </div>
