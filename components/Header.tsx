@@ -1,6 +1,5 @@
 import React from 'react';
-import { Settings, History } from 'lucide-react';
-import { DANBAR_LOGO_DATA_URI } from '@/lib/logo';
+import { History } from 'lucide-react';
 
 interface HeaderProps {
   onOpenHistory: () => void;
@@ -15,12 +14,12 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="bg-[#0b1220]/85 backdrop-blur-xl border-b border-slate-800/80 sticky top-0 z-30 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          
+
           {/* Logo & Branding */}
           <div className="flex items-center space-x-4 space-x-reverse">
-            <div className="bg-white px-3 py-1.5 rounded-xl shadow-glow-sm border border-white/20 flex items-center justify-center shrink-0">
+            <div className="bg-white px-3.5 py-1.5 rounded-xl shadow-md border border-white/30 flex items-center justify-center shrink-0">
               <img
-                src={DANBAR_LOGO_DATA_URI}
+                src="/danbar-logo.svg"
                 alt="DANBAR דנבר ייעוץ אסטרטגי, ארגוני ומשאבי אנוש"
                 className="h-10 sm:h-12 w-auto max-w-[220px] sm:max-w-[280px] object-contain"
               />
