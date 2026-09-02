@@ -34,7 +34,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-between p-4">
+    <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
@@ -66,4 +66,67 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {/* Key Input */}
           <div>
             <label className="block text-xs font-heading font-extrabold text-slate-300 uppercase tracking-wider mb-2.5">
-              ╫ЩэzMzнyrvV╓ЦцТТyyЭzЭyТНzzЭyэzВyэz}y]yэyЭzвyy=zMy=zMyЄyy═yy2Рв┬Ў╞&V├рв╞ЦчW@вGЧS╥'77vў&B вf╟VS╫╖FV╫╢WЧ╨вЎф6ЖцvS╫▓ЖRТ╙т6WEFV╫╢WТЖRчF&vWBчf╟VRЧ╨в╞6VЖЎ╞FW#╥$Чж7Тттт в6╞74ц╓S╥'r╓gV╞┬В╙BТ╙2уR&r╒▓3ГCu╥FWЗB╫vЖЧFR&ў&FW"&ў&FW"╫6╞FR╙sєГ&ўVцFVB╙'Ж┬fЎ7W3ж&ў&FW"╓Fц&"╙SfЎ7W3з&Ццr╙"fЎ7W3з&Ццr╓Fц&"╙Sє#ўWF╞ЦцR╓цЎцRFWЗB╫6╥fЎчB╓╓ЎцЄ╞6VЖЎ╞FW"╫6╞FR╙S6ЖFўr╓ЦццW" вєрв╟6╞74ц╓S╥'FWЗB╫З2FWЗB╫6╞FR╙C╫B╙"fЎчB╫6ч2#рвyy╥y═yzнymyЭyЄyэzMzнyr┬yMyzMy═yЭz}zmyЭyBzнzЭzнyэzТyyэzЭzнzyByMzyyЭyyB╞6ЎFR6╞74ц╓S╥&&r╒▓3Уc5╥В╙"Т╙уR&ўVцFVBFWЗB╓Fц&"╙CfЎчB╓&Ў╞B&ў&FW"&ў&FW"╫6╞FR╙Г#фtT╘ФфХЇХЇ┤UУ┬Ў6ЎFSтzЭyMy]y-y=zВy╒fW&6V┬рв┬ўрв┬ЎFЧcрав▓ЄвЖV╟&ўВвў╨в╞FЧb6╞74ц╓S╥&&r╒▓3Уc5╥╙B&ўVцFVB╙'Ж┬&ў&FW"&ў&FW"╫6╞FR╙Г76R╫Т╙"FWЗB╫З2FWЗB╫6╞FR╙3#рв╞FЧb6╞74ц╓S╥&f╞WВЧFV╫2╓6VчFW"v╙"fЎчB╓ЖVFЦцrfЎчB╓&Ў╞BFWЗB╓Fц&"╙3#рв─ЖV╟6Ч&6╞R6╞74ц╓S╥'r╙BВ╙BFWЗB╓Fц&"╙C"єрв╟7уэyyЭyвyэzЭyЭy-yЭy╥yэzMzнyryy}yЭzy╙є┬ў7урв┬ЎFЧcрв╟6╞74ц╓S╥&fЎчB╫6ч2╞VFЦцr╫&V╞ЖVB#рвyэzMzнyrvV╓ЦцТТzyЭzнyЄy═z}yy┬yy}yЭzy╥y═y-yэzНyТzнy]yвy=z}yBy=zНyвzMy]zНyНy┬vЎЎv╞RТ7GVFЦЄрв┬ўрв╞вЗ&Vc╥&ЗGG3вЄЎЧ7GVFЦЄцvЎЎv╞Rц6Ў╥ЎЎЦ╢WТ вF&vWC╥%Ў&╞ц▓ в&V├╥&цЎўVцW"цў&VfW'&W" в6╞74ц╓S╥&Цц╞ЦцR╓f╞WВЧFV╫2╓6VчFW"v╙FWЗB╓Fц&"╙CfЎчB╓&Ў╞BЖўfW#зVцFW&╞ЦцR врв╟7уэz}yy┬yэzMzнyry╘vЎЎv╞RТ7GVFЦє┬ў7урв─WЗFW&ц─╞Цц▓6╞74ц╓S╥'r╙2уRВ╙2уR"єрв┬Ўрв┬ЎFЧcрав▓Єв'WGFЎч2вў╨в╞FЧb6╞74ц╓S╥&f╞WВзW7FЦgТ╓VцBv╙2B╙B&ў&FW"╫B&ў&FW"╫6╞FR╙Г#рв╞'WGFЎрвGЧS╥&'WGFЎт вЎф6╞Ц6│╫╢Ўф6╞ў6W╨в6╞74ц╓S╥'В╙RТ╙"уR&ўVцFVB╫Ж┬&ў&FW"&ў&FW"╫6╞FR╙sFWЗB╫6╞FR╙3FWЗB╫6╥fЎчB╫6V╓Ц&Ў╞BЖўfW#ж&r╫6╞FR╙ГG&ч6ЧFЦЎт╓6Ў╞ў'26ЖFўr╫З2 врвyyЭyНy]y└в┬Ў'WGFЎурв╞'WGFЎрвGЧS╥'7V&╓ЧB в6╞74ц╓S╥'В╙bТ╙"уR&ўVцFVB╫Ж┬&r╓Fц&"╙cЖўfW#ж&r╓Fц&"╙SFWЗB╫vЖЧFRFWЗB╫6╥fЎчB╓ЖVFЦцrfЎчB╓&Ў╞BG&ч6ЧFЦЎт╓╞┬f╞WВЧFV╫2╓6VчFW"v╙"6ЖFўr╓v╞ўr╫6╥ врв╖6fVBЄАв├рв─6ЖV6▓6╞74ц╓S╥'r╙BВ╙BFWЗB╫vЖЧFR"єрв╟7уэzzЭyэzВ┬ў7урв┬єрвТвАв╟7уэzЭyэy]zВyMy-y=zНy]zг┬ў7урвЧ╨в┬Ў'WGFЎурв┬ЎFЧcрав┬Ўfў&╙рав┬ЎFЧcрв┬ЎFЧcрвУ░з╙░╨
+              ╫Ю╫д╫к╫Ч Gemini API ╫Р╫Щ╫й╫Щ (╫а╫й╫Ю╫и ╫Ю╫з╫Х╫Ю╫Щ╫к ╫С╫У╫д╫У╫д╫Я ╫С╫Ь╫С╫У)
+            </label>
+            <input
+              type="password"
+              value={tempKey}
+              onChange={(e) => setTempKey(e.target.value)}
+              placeholder="AIzaSy..."
+              className="w-full px-4 py-3.5 bg-[#080d17] text-white border border-slate-700/80 rounded-2xl focus:border-danbar-500 focus:ring-2 focus:ring-danbar-500/20 outline-none text-sm font-mono placeholder-slate-500 shadow-inner"
+            />
+            <p className="text-xs text-slate-400 mt-2 font-sans">
+              ╫Р╫Э ╫Ь╫Р ╫к╫Ц╫Щ╫Я ╫Ю╫д╫к╫Ч, ╫Ф╫Р╫д╫Ь╫Щ╫з╫ж╫Щ╫Ф ╫к╫й╫к╫Ю╫й ╫С╫Ю╫й╫к╫а╫Ф ╫Ф╫б╫С╫Щ╫С╫Ф <code className="bg-[#090f1c] px-2 py-0.5 rounded text-danbar-400 font-bold border border-slate-800">GEMINI_API_KEY</code> ╫й╫Ф╫Х╫Т╫У╫и ╫С-Vercel.
+            </p>
+          </div>
+
+          {/* Help box */}
+          <div className="bg-[#090f1c] p-4 rounded-2xl border border-slate-800 space-y-2 text-xs text-slate-300">
+            <div className="flex items-center gap-2 font-heading font-bold text-danbar-300">
+              <HelpCircle className="w-4 h-4 text-danbar-400" />
+              <span>╫Р╫Щ╫Ъ ╫Ю╫й╫Щ╫Т╫Щ╫Э ╫Ю╫д╫к╫Ч ╫С╫Ч╫Щ╫а╫Э?</span>
+            </div>
+            <p className="font-sans leading-relaxed">
+              ╫Ю╫д╫к╫Ч Gemini API ╫а╫Щ╫к╫Я ╫Ь╫з╫С╫Ь ╫С╫Ч╫Щ╫а╫Э ╫Ь╫Т╫Ю╫и╫Щ ╫к╫Х╫Ъ ╫У╫з╫Ф ╫У╫и╫Ъ ╫д╫Х╫и╫Ш╫Ь Google AI Studio.
+            </p>
+            <a
+              href="https://aistudio.google.com/app/apikey"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-danbar-400 font-bold hover:underline"
+            >
+              <span>╫з╫С╫Ь ╫Ю╫д╫к╫Ч ╫С-Google AI Studio</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-5 py-2.5 rounded-xl border border-slate-700 text-slate-300 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-xs"
+            >
+              ╫С╫Щ╫Ш╫Х╫Ь
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2.5 rounded-xl bg-danbar-600 hover:bg-danbar-500 text-white text-sm font-heading font-bold transition-all flex items-center gap-2 shadow-glow-sm"
+            >
+              {saved ? (
+                <>
+                  <Check className="w-4 h-4 text-white" />
+                  <span>╫а╫й╫Ю╫и!</span>
+                </>
+              ) : (
+                <span>╫й╫Ю╫Х╫и ╫Ф╫Т╫У╫и╫Х╫к</span>
+              )}
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  );
+};

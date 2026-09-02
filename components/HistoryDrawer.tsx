@@ -74,14 +74,14 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                     key={post.id}
                     className="p-4 rounded-2xl border border-slate-800 bg-[#090f1c] hover:border-danbar-500/50 hover:bg-[#121c30] transition-all group shadow-sm"
                   >
-                    <div className="flex justify-between items-start gap-2 mb-2">
+                    <div className="flex items-center justify-between gap-2 mb-2">
                       <h3 className="text-sm font-heading font-bold text-white line-clamp-2">
                         {post.title}
                       </h3>
                       <button
                         onClick={() => onDeletePost(post.id)}
                         className="text-slate-500 hover:text-red-400 p-1 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
-                        title="מחק מהשמורים"
+                        title="מחק משחמורים"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -103,14 +103,14 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                         }}
                         className="text-danbar-400 font-bold hover:underline flex items-center gap-1 font-heading"
                       >
-                        <span>טען פוסט</span>
+                        <span>טקן פוסט</span>
                         <ArrowLeft className="w-3 h-3" />
                       </button>
                     </div>
                   </div>
                 );
               })
-             )}
+            )}
           </div>
 
         </div>

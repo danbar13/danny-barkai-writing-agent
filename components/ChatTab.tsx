@@ -1,19 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2, Sparkles, Trash2 } from 'lucide-react';
+import { Send, Bot, User, Trash2, Sparkles, Loader2, CornerDownLeft } from 'lucide-react';
 import { ChatMessage } from '@/lib/types';
 
 interface ChatTabProps {
   messages: ChatMessage[];
-  isLoading: boolean;
-  onSendMessage: (message: string) => void;
+  onSendMessage: (text: string) => void;
   onClearChat: () => void;
+  isLoading: boolean;
 }
 
 export const ChatTab: React.FC<ChatTabProps> = ({
   messages,
-  isLoading,
   onSendMessage,
   onClearChat,
+  isLoading,
 }) => {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -34,14 +34,15 @@ export const ChatTab: React.FC<ChatTabProps> = ({
   };
 
   const quickPrompts = [
-    'אני מתלבט לגבי הטמעת כלי AI במשאבי אנוש לעומת היחס האישי. איך לבנות על זה פוסט?',
-    'תן לי דוגמה מוחשית מהשטח לדילמה בין מנהל ישיר להנהלה בכירה סביב תגמול עובדים.',
-    'איך לנסח פוסט על שיווק B2B של תוכנות טרבל-טק שמדגיש את השמרנות של המלונאים?',
+    'בוא נפתח דילמה חדשה: סוכני AI אוטונומיים בתפעול העסקי מול אובדן שליטה...',
+    'איך היית מנסח דוגמה מוחשית ("דמיינו לעצמכם") למכירת SaaS בעולם הטרבל-טק?',
+    'עזור לי ללטש את טיעוני הבעד והנגד סביב תגמול לפי תפוקות AI במקום שעות עבודה.',
+    'כתוב לי פסקת פתיחה בסגנון "בעבר היה נהוג ש-... כיום...".',
   ];
 
   return (
     <div className="bg-[#0e1626]/95 backdrop-blur-2xl rounded-3xl shadow-luxury-card border border-slate-700/60 flex flex-col h-[680px] transition-all overflow-hidden">
-
+      
       {/* Chat Top Bar */}
       <div className="px-6 py-4 border-b border-slate-800/90 bg-[#0a101d] flex justify-between items-center">
         <div className="flex items-center gap-3">
