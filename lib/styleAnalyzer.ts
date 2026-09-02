@@ -1,211 +1,153 @@
 import { StyleAnalysis, StyleMetric } from './types';
 
-/**
- * Deterministic Style Analyzer for Danny Barkai's writing style.
- * Evaluates posts against the signature rules and provides rubric scoring.
- */
 export function analyzePostStyle(text: string): StyleAnalysis {
-  if (!text || !text.trim()) {
+  if (!text || text.trim().length === 0) {
     return {
       score: 0,
       totalWords: 0,
       totalSentences: 0,
-      avgWordsPerSentence: 0,
+      avgSentenceLength: 0,
       metrics: [],
       detectedAnchors: [],
-      suggestions: ['הזן טקסט כדי לנתח את מידת ההתאמה לסגנון.'],
+      suggestions: ['הזן טקסט כדי לנתח את מידת התאמתו לסגנון החתום של דני ברקאי.'],
     };
   }
 
+  // Word count
   const words = text.trim().split(/\s+/).filter(Boolean);
   const totalWords = words.length;
 
-  // Split into sentences (by . ! ? or newlines)
-  const sentenceDelimiters = /[.!?\n]+/;
-  const sentences = text
-    .split(sentenceDelimiters)
-    .map((s) => s.trim())
-    .filter((s) => s.length > 3);
-  const totalSentences = Math.max(1, sentences.length);
-  const avgWordsPerSentence = Math.round(totalWords / totalSentences);
+  // Sentences (split by period, exclamation, question mark, newline)
+  const sentences = text.split(/[.!?\n]+/).map(s => s.trim()).filter(s => s.length > 5);
+  const totalSentences = sentences.length || 1;
+  const avgSentenceLength = Math.round(totalWords / totalSentences);
 
-  const metrics: StyleMetric[] = [];
-  const detectedAnchors: string[] = [];
-  const suggestions: string[] = [];
-
-  let score = 0;
-
-  // 1. Check for Ellipses (...)
+  // 1. Ellipses count (...)
   const ellipsesMatches = text.match(/\.{3}|…/g) || [];
   const ellipsesCount = ellipsesMatches.length;
-  const hasGoodEllipses = ellipsesCount >= 2;
-  if (hasGoodEllipses) {
-    score += 15;
-    metrics.push({
-      ruleName: 'שימוש בשלוש נקודות (...)',
-      passed: true,
-      count: ellipsesCount,
-      label: 'פיסוק חותם: שלוש נקודות (...)',
-      explanation: `נמצאו ${ellipsesCount} מופעים של שלוש נקודות. יוצר השהיה רפלקטיבית וסקרנות.`,
-    });
-  } else {
-    metrics.push({
-      ruleName: 'שימוש בשלוש נקודות (...)',
-      passed: false,
-      count: ellipsesCount,
-      label: 'פיסוק חותם: שלוש נקודות (...)',
-      explanation: 'מומלץ להוסיף 2-3 מקומות עם שלוש נקודות (...) להשהיה ומחשבה פתוחה.',
-    });
-    suggestions.push('הוסף שלוש נקודות (...) במקומות של השהיה רטורית או ספקנות ("אז זהו-שמסתבר...").');
-  }
 
-  // 2. Check for Em-dashes / hyphens (-)
-  const dashMatches = text.match(/\s+-\s+|\s+—\s+/g) || [];
+  // 2. Dash separators (-)
+  const dashMatches = text.match(/(\s-\s|–|—)/g) || [];
   const dashCount = dashMatches.length;
-  const hasGoodDashes = dashCount >= 2;
-  if (hasGoodDashes) {
-    score += 15;
-    metrics.push({
-      ruleName: 'שימוש במקפים ומעברים (-)',
-      passed: true,
-      count: dashCount,
-      label: 'מעברים אסוציאטיביים: מקפים (-)',
-      explanation: `נמצאו ${dashCount} מקפים המחברים רעיונות ומעברים בזמן אמת.`,
-    });
-  } else {
-    metrics.push({
-      ruleName: 'שימוש במקפים ומעברים (-)',
-      passed: false,
-      count: dashCount,
-      label: 'מעברים אסוציאטיביים: מקפים (-)',
-      explanation: 'מומלץ לחבר משפטים ומעברים עם מקף מפריד ("-") במקום נקודה או פסיק.',
-    });
-    suggestions.push('השתמש במקף מפריד (-) לחיבור מחשבות ומעברים בין פסוקיות.');
-  }
 
-  // 3. Check for Parentheses ()
+  // 3. Parentheses for side notes (...)
   const parenMatches = text.match(/\([^)]+\)/g) || [];
   const parenCount = parenMatches.length;
-  const hasGoodParens = parenCount >= 2;
-  if (hasGoodParens) {
-    score += 15;
-    metrics.push({
-      ruleName: 'הסתייגויות והערות בסוגריים',
-      passed: true,
-      count: parenCount,
-      label: 'מחשבות שנייה והסתייגויות: בסוגריים ()',
-      explanation: `נמצאו ${parenCount} הערות בסוגריים. מעניק תחושת שיחה וחשיבה בקול.`,
-    });
-  } else {
-    metrics.push({
-      ruleName: 'הסתייגויות והערות בסוגריים',
-      passed: false,
-      count: parenCount,
-      label: 'מחשבות שנייה והסתייגויות: בסוגריים ()',
-      explanation: 'מומלץ להוסיף הסתייגויות או הערות רקע בסוגריים.',
-    });
-    suggestions.push('הוסף הסתייגות או הערת צד בסוגריים (למשל: מחשבה שנייה או הבהרה מהשטח).');
-  }
 
-  // 4. Check for Rhetorical Questions (?)
+  // 4. Rhetorical questions (?)
   const questionMatches = text.match(/\?/g) || [];
   const questionCount = questionMatches.length;
-  const hasQuestions = questionCount >= 1;
-  if (hasQuestions) {
-    score += 15;
-    metrics.push({
-      ruleName: 'שאלות רטוריות לחקירה משותפת',
-      passed: true,
-      count: questionCount,
-      label: 'דיאלוג עם הקורא: שאלות רטוריות (?)',
-      explanation: `נמצאו ${questionCount} שאלות המזמינות את הקורא לחשוב יחד על הדילמה.`,
-    });
-  } else {
-    metrics.push({
-      ruleName: 'שאלות רטוריות לחקירה משותפת',
-      passed: false,
-      count: questionCount,
-      label: 'דיאלוג עם הקורא: שאלות רטוריות (?)',
-      explanation: 'מומלץ לשלב שאלות רטוריות המציגות את הדילמה.',
-    });
-    suggestions.push('שלב שאלה רטורית פתוחה המאתגרת את התפיסה המקובלת.');
-  }
 
-  // 5. Check Signature Vocabulary & Anchors
+  // 5. Signature anchors and vocabulary
   const anchorPatterns = [
-    { name: 'בין הפטיש לסדן', pattern: /בין הפטיש לסדן/i },
-    { name: 'מחד / מאידך', pattern: /מחד|מאידך/i },
-    { name: 'לתפישתי / לדעתי', pattern: /לתפישתי|לדעתי|לתפיסתי/i },
-    { name: 'יחד עם זאת', pattern: /יחד עם זאת/i },
-    { name: 'בעבר... כיום', pattern: /בעבר|כיום|מאז ועד היום/i },
-    { name: 'מענה (במקום פתרון)', pattern: /מענה/i },
-    { name: 'אליה וקוץ בה / פתגם', pattern: /אליה וקוץ בה|הפרה רוצה להניק|חרב פיפיות|שכרנו בהפסדנו/i },
-    { name: 'וכו\'', pattern: /וכו'/i },
-    { name: 'מחוייבות (י כפולה)', pattern: /מחוייב/i },
+    { name: 'לתפישתי / לדעתי', regex: /(לתפישתי|לדעתי)/g },
+    { name: 'מחד... מאידך', regex: /(מחד|מאידך)/g },
+    { name: 'יחד עם זאת / אך', regex: /(יחד עם זאת|\bאך\b)/g },
+    { name: 'מענה (במקום פתרון)', regex: /(מענה|מענה הולם|מתן מענה)/g },
+    { name: 'וכו\'', regex: /וכו'/g },
+    { name: 'בין הפטיש לסדן', regex: /בין הפטיש לסדן/g },
+    { name: 'השוואה היסטורית (בעבר... כיום)', regex: /(בעבר|כיום|לאורך השנים)/g },
+    { name: 'אי אפליה / דייברסיטי', regex: /(דייברסיטי|אי[- ]אפליה|גיוון)/g },
+    { name: 'מחוייבות (י כפולה)', regex: /מחוייבות/g },
   ];
 
-  let anchorMatchesCount = 0;
-  anchorPatterns.forEach((anchor) => {
-    if (anchor.pattern.test(text)) {
-      anchorMatchesCount++;
-      detectedAnchors.push(anchor.name);
+  const detectedAnchors: string[] = [];
+  let anchorMatchesTotal = 0;
+
+  anchorPatterns.forEach(item => {
+    const matches = text.match(item.regex);
+    if (matches && matches.length > 0) {
+      detectedAnchors.push(item.name);
+      anchorMatchesTotal += matches.length;
     }
   });
 
-  if (anchorMatchesCount >= 3) {
-    score += 25;
-    metrics.push({
-      ruleName: 'אוצר מילים ועוגני חשיבה חתומים',
-      passed: true,
-      count: anchorMatchesCount,
-      label: 'עוגנים לשוניים וביטויים מזוהים',
-      explanation: `זוהו ${anchorMatchesCount} עוגנים לשוניים אופייניים לדני ברקאי (${detectedAnchors.join(', ')}).`,
-    });
-  } else {
-    score += anchorMatchesCount * 6;
-    metrics.push({
-      ruleName: 'אוצר מילים ועוגני חשיבה חתומים',
-      passed: false,
-      count: anchorMatchesCount,
-      label: 'עוגנים לשוניים וביטויים מזוהים',
-      explanation: `זוהו רק ${anchorMatchesCount} עוגנים לשוניים. מומלץ לשלב ביטויים כמו "לתפישתי", "מחד... מאידך", "בין הפטיש לסדן".`,
-    });
-    suggestions.push('שלב ביטויים כמו "לתפישתי", "מחד... מאידך", או פתגם ישראלי מוכר.');
+  // Build metrics
+  const metrics: StyleMetric[] = [
+    {
+      name: 'ellipses',
+      label: 'שלוש נקודות (...) להשהיה והרהור',
+      count: ellipsesCount,
+      expectedMin: 3,
+      passed: ellipsesCount >= 2,
+      explanation: ellipsesCount >= 2
+        ? 'שימוש מצוין בשלוש נקודות ליצירת השהיות ומחשבה פתוחה.'
+        : 'מומלץ להוסיף 2-3 מקומות עם שלוש נקודות (...) ליצירך השהיה או אירוניה דקה.',
+    },
+    {
+      name: 'dashes',
+      label: 'מקפים מפרידים (-) לקצב ומעברים',
+      count: dashCount,
+      expectedMin: 2,
+      passed: dashCount >= 2,
+      explanation: dashCount >= 2
+        ? 'מקפים מפרידים מעניקים קצב דיבורי ודינמי למשפטים.'
+        : 'שלב מקפים מפרידים (-) במקום נקודתיים או פסיקים בכותרת ובמעברי פסקאות.',
+    },
+    {
+      name: 'parentheses',
+      label: 'סוגריים להסתייגויות והערות בזמן אמת',
+      count: parenCount,
+      expectedMin: 1,
+      passed: parenCount >= 1,
+      explanation: parenCount >= 1
+        ? 'הסוגריים מוסיפים שקיפות, כנות ורובד מחשבתי נוסף.'
+        : 'שלב הערת סוגריים המבטאת הסתייגות אישית או מגבלה אמיתית.',
+    },
+    {
+      name: 'questions',
+      label: 'שאלות רטוריות לחקירה משותפת',
+      count: questionCount,
+      expectedMin: 1,
+      passed: questionCount >= 1,
+      explanation: questionCount >= 1
+        ? 'שאלות רטוריות מעודדות את הקורא לחשוב יחד איתך על הדילמה.'
+        : 'מומלץ להציג שאלה רטורית פתוחה אחת או שתיים בלב הדילמה.',
+    },
+    {
+      name: 'anchors',
+      label: 'ביטויי מפתח ועוגנים חתומים',
+      count: detectedAnchors.length,
+      expectedMin: 3,
+      passed: detectedAnchors.length >= 3,
+      explanation: detectedAnchors.length >= 3
+        ? `זוהו ${detectedAnchors.length} עוגנים לשוניים חתומים של דני.`
+        : 'מומלץ לשלב עוד מביטויי החתימה ("לתפישתי", "מחד... מאידך", "מענה", "וכו\'").',
+    },
+    {
+      name: 'sentenceLength',
+      label: 'אורך משפטים ממוצע (עומק ומורכבות)',
+      count: avgSentenceLength,
+      expectedMin: 18,
+      passed: avgSentenceLength >= 15,
+      explanation: avgSentenceLength >= 15
+        ? `אורך משפט ממוצע (${avgSentenceLength} מילים) מתאים לכתיבה אנליטית מצטברת.`
+        : 'המשפטים מעט קצרים מדי; בסגנון של דני משפטים נבנים בשכבות פסוקיות מחוברות.',
+    },
+  ];
+
+  // Calculate score
+  const passedCount = metrics.filter(m => m.passed).length;
+  const rawScore = (passedCount / metrics.length) * 80 + Math.min(20, anchorMatchesTotal * 2);
+  const score = Math.min(100, Math.max(10, Math.round(rawScore)));
+
+  // Generate suggestions
+  const suggestions: string[] = [];
+  metrics.forEach(m => {
+    if (!m.passed) {
+      suggestions.push(m.explanation);
+    }
+  });
+
+  if (!text.includes('לתפישתי') && !text.includes('לדעתי')) {
+    suggestions.push('זכור לסמן את העמדה האישית במפורש כדעה ("לתפישתי" / "לדעתי").');
   }
-
-  // 6. Sentence Length & Rhythm Variety (Long sentences + short punchy sentences)
-  const longSentences = sentences.filter((s) => s.split(/\s+/).length > 22).length;
-  const shortSentences = sentences.filter((s) => s.split(/\s+/).length <= 8).length;
-  const hasGoodRhythm = longSentences >= 2 && (shortSentences >= 1 || sentences.length < 5);
-
-  if (hasGoodRhythm) {
-    score += 15;
-    metrics.push({
-      ruleName: 'קצב ומבנה משפטים מורכב ומצטבר',
-      passed: true,
-      count: longSentences,
-      label: 'גיוון קצב: משפטים ארוכים מצטברים + נקודות נשימה קצרות',
-      explanation: `נמצאו ${longSentences} משפטים מורכבים ורב-פסוקתיים לצד משפטים קצרים לאוורור.`,
-    });
-  } else {
-    metrics.push({
-      ruleName: 'קצב ומבנה משפטים מורכב ומצטבר',
-      passed: false,
-      count: longSentences,
-      label: 'גיוון קצב: משפטים ארוכים מצטברים + נקודות נשימה קצרות',
-      explanation: 'הסגנון של דני מתאפיין במשפטים ארוכים, מרובי פסוקיות (אשר, מאחר ו-, כך ש-), לצד משפט קצר כנקודת נשימה.',
-    });
-    suggestions.push('הרחב חלק מהמשפטים באמצעות פסוקיות זיקה ("אשר", "הואיל ו-", "כך ש-") כדי ליצור עומק אנליטי.');
-  }
-
-  // Ensure score is bounded [0, 100]
-  score = Math.min(100, Math.max(10, score));
 
   return {
     score,
     totalWords,
     totalSentences,
-    avgWordsPerSentence,
+    avgSentenceLength,
     metrics,
     detectedAnchors,
     suggestions,
