@@ -256,7 +256,7 @@ export default function Home() {
         )}
 
         {/* Tab Navigation */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-center">
           <div className="inline-flex p-1.5 rounded-2xl bg-[#0b1220]/90 backdrop-blur-xl border border-slate-700/70 shadow-luxury-card max-w-full overflow-x-auto">
             <button
               onClick={() => setActiveTab('raw')}
@@ -267,7 +267,7 @@ export default function Home() {
               }`}
             >
               <FileText className="w-4 h-4 text-danbar-300" />
-              <span>יצירה מהירה (מח�]מר גולמי)</span>
+              <span>יצירה מהירה (מחומר גולמי)</span>
             </button>
 
             <button
@@ -291,7 +291,7 @@ export default function Home() {
               }`}
             >
               <MessageSquare className="w-4 h-4 text-danbar-300" />
-              <span>קאט סיעור מוחות</span>
+              <span>צ'אט סיעור מוחות</span>
             </button>
           </div>
         </div>
@@ -330,7 +330,7 @@ export default function Home() {
               onChangeContent={setGeneratedContent}
               analysis={styleAnalysis}
               onSaveToHistory={handleSavePost}
-              onResetPost={handleResetPost}
+              onBesetPost={handleResetPost}
             />
           </div>
         )}
