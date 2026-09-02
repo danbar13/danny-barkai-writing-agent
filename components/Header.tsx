@@ -3,26 +3,22 @@ import { Settings, History } from 'lucide-react';
 import { DANBAR_LOGO_DATA_URI } from '@/lib/logo';
 
 interface HeaderProps {
-  onOpenSettings: () => void;
   onOpenHistory: () => void;
   savedCount: number;
-  hasCustomKey: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  onOpenSettings,
   onOpenHistory,
   savedCount,
-  hasCustomKey,
 }) => {
   return (
     <header className="bg-[#0b1220]/85 backdrop-blur-xl border-b border-slate-800/80 sticky top-0 z-30 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          
+
           {/* Logo & Branding */}
           <div className="flex items-center space-x-4 space-x-reverse">
-            <div className="bg-white/95 px-3 py-1.5 rounded-xl shadow-glow-sm border border-white/20 flex items-center justify-center shrink-0">
+            <div className="bg-white px-3 py-1.5 rounded-xl shadow-glow-sm border border-white/20 flex items-center justify-center shrink-0">
               <img
                 src={DANBAR_LOGO_DATA_URI}
                 alt="DANBAR דנבר ייעוץ אסטרטגי, ארגוני ומשאבי אנוש"
@@ -47,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* History Button */}
             <button
               onClick={onOpenHistory}
-              className="relative p-2.5 rounded-xl text-slate-300 hover:text-white bg-slate-900/80 hover:bg-slate-800/90 border border-slate-700/60 hover:border-danbar-500/40 transition-all flex items-center gap-2 text-sm font-semibold shadow-xs"
+              className="relative p-2.5 rounded-xl text-slate-300 hover:text-white bg-slate-900/80 hover:bg-slate-800/90 border border-slate-700/60 hover:border-danbar-500/40 transition-all flex items-center gap-2 text-sm font-semibold shadow-xs cursor-pointer"
               title="היסטוריית פוסטים שמורים"
             >
               <History className="w-4 h-4 text-danbar-400" />
@@ -56,23 +52,6 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="bg-danbar-600 text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center shadow-glow-sm">
                   {savedCount}
                 </span>
-              )}
-            </button>
-
-            {/* Settings Button */}
-            <button
-              onClick={onOpenSettings}
-              className={`p-2.5 rounded-xl border transition-all flex items-center gap-2 text-sm font-semibold shadow-xs ${
-                hasCustomKey
-                  ? 'bg-danbar-950/80 text-danbar-300 border-danbar-600/50 hover:bg-danbar-900/80'
-                  : 'bg-slate-900/80 text-slate-300 hover:text-white border-slate-700/60 hover:border-slate-600'
-              }`}
-              title="הגדרות API Key"
-            >
-              <Settings className={`w-4 h-4 ${hasCustomKey ? 'text-danbar-400' : 'text-slate-400'}`} />
-              <span className="hidden sm:inline">הגדרות</span>
-              {hasCustomKey && (
-                <span className="w-2 h-2 rounded-full bg-danbar-400 shadow-glow-sm" />
               )}
             </button>
           </div>
