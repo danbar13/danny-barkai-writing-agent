@@ -31,18 +31,18 @@ export const StyleInspector: React.FC<StyleInspectorProps> = ({ analysis }) => {
           <div className="text-right">
             <span className="text-[10px] uppercase font-bold text-slate-400 block font-heading">ציון התאמה</span>
             <span className="text-xl font-heading font-black text-danbar-400">
-              {analysis.score} / 100
+              {effectiveAnalysis.score} / 100
             </span>
           </div>
           <div className="w-10 h-10 rounded-2xl flex items-center justify-center font-black text-sm bg-danbar-600 text-white shadow-glow-sm">
-            {analysis.score >= 80 ? '✓' : '•'}
+            {effectiveAnalysis.score >= 80 ? '✓' : '•'}
           </div>
         </div>
       </div>
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-        {(analysis?.metrics || []).map((metric, idx) => (
+        {(effectiveAnalysis?.metrics || []).map((metric, idx) => (
           <div
             key={idx}
             className={`p-4 rounded-2xl border transition-all ${
@@ -76,13 +76,13 @@ export const StyleInspector: React.FC<StyleInspectorProps> = ({ analysis }) => {
       </div>
 
       {/* Detected Anchors */}
-      {analysis?.detectedAnchors && analysis.detectedAnchors.length > 0 && (
+      {effectiveAnalysis?.detectedAnchors && effectiveAnalysis.detectedAnchors.length > 0 && (
         <div className="mt-6 pt-5 border-t border-slate-800">
           <span className="text-xs font-heading font-extrabold text-slate-400 uppercase tracking-wider block mb-2.5">
             עוגנים וביטויי מפתח שזוהו בטקסט:
           </span>
           <div className="flex flex-wrap gap-2">
-            {analysis.detectedAnchors.map((anchor, i) => (
+            {effectiveAnalysis.detectedAnchors.map((anchor, i) => (
               <span
                 key={i}
                 className="bg-[#142238] text-danbar-300 border border-danbar-500/40 text-xs px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 shadow-xs"
@@ -96,13 +96,13 @@ export const StyleInspector: React.FC<StyleInspectorProps> = ({ analysis }) => {
       )}
 
       {/* Suggestions */}
-      {analysis?.suggestions && analysis.suggestions.length > 0 && (
+      {effectiveAnalysis?.suggestions && effectiveAnalysis.suggestions.length > 0 && (
         <div className="mt-5 bg-[#090f1c] rounded-2xl p-5 border border-slate-800">
           <span className="text-xs font-heading font-bold text-danbar-300 block mb-2">
             המלצות לליטוש ודיוק הסגנון:
           </span>
           <ul className="space-y-1.5 font-sans">
-            {analysis.suggestions.map((sug, i) => (
+            {effectiveAnalysis.suggestions.map((sug, i) => (
               <li key={i} className="text-xs text-slate-300 flex items-start gap-2">
                 <span className="text-danbar-400 font-bold">•</span>
                 <span>{sug}</span>
