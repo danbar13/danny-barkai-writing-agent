@@ -1,6 +1,5 @@
 import React from 'react';
 import { History } from 'lucide-react';
-import { DANBAR_LOGO_DATA_URI } from '@/lib/logo';
 
 interface HeaderProps {
   
