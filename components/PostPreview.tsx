@@ -10,14 +10,19 @@ import {
   Printer,
   ExternalLink,
   Sparkles,
+  Trash2,
+  RotateCcw,
 } from 'lucide-react';
 import { StyleAnalysis } from '@/lib/types';
+import { DANBAR_LOGO_DATA_URI } from '@/lib/logo';
+import { StyleModal } from './StyleInspector';
 
 interface PostPreviewProps {
   content: string;
   onChangeContent: (newContent: string) => void;
   analysis?: StyleAnalysis;
   onSaveToHistory: (content: string, title?: string) => void;
+  onResetPost?: () => void;
 }
 
 export const PostPreview: React.FC<PostPreviewProps> = ({
@@ -25,11 +30,13 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
   onChangeContent,
   analysis,
   onSaveToHistory,
+  onResetPost,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [copied, setCopied] = useState(false);
   const [copiedDocs, setCopiedDocs] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [isStyleModalOpen, setIsStyleModalOpen] = useState(false);
 
   if (!content) return null;
 
@@ -69,22 +76,31 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
         <meta charset="utf-8">
         <title>${title}</title>
         <style>
-          body { font-family: 'Arial', sans-serif; direction: rtl; text-align: right; line-height: 1.6; color: #1e293b; padding: 20px; }
-          h1 { color: #587310; font-size: 22pt; margin-bottom: 8pt; }
-          .header { border-bottom: 2pt solid #8db717; padding-bottom: 10pt; margin-bottom: 20pt; }
-          .author { font-size: 11pt; color: #64748b; margin-top: 4pt; }
-          p { font-size: 12pt; margin-bottom: 12pt; }
+          body { font-family: 'Arial', sans-serif; direction: rtl; text-align: right; line-height: 1.7; color: #1e293b; padding: 25px; }
+          h1 { color: #587310; font-size: 22pt; margin-top: 15pt; margin-bottom: 12pt; font-weight: bold; }
+          .header { border-bottom: 2pt solid #8db717; padding-bottom: 12pt; margin-bottom: 20pt; display: flex; justify-content: space-between; align-items: center; }
+          .logo { max-height: 50px; }
+          .author { font-size: 11pt; color: #64748b; margin-top: 4pt; font-weight: bold; }
+          p { font-size: 12pt; margin-bottom: 14pt; line-height: 1.7; }
         </style>
       </head>
       <body>
         <div class="header">
-          <h1>${title}</h1>
-          <div class="author">דני ברקאי | DANBAR ייעוץ אסטרטגי, ארגוני ומשאבי אנוש</div>
+          <div>
+            <img src="${DANBAR_LOGO_DATA_URI}" alt="DANBAR" class="logo" />
+            <div class="author">דני ברקאי | DANBAR ייעוץ אסטרטגי, ארגוני ומשאבי אנוש</div>
+          </div>
         </div>
         <div>
           ${content
             .split('\n\n')
-            .map((p) => `<p>${p.replace(/\n/g, '<br/>')}</p>`)
+            .map((p) => {
+              const cleanP = p.trim();
+              if (cleanP.startsWith('#')) {
+                return `<h1>${cleanP.replace(/^#+\s*/, '')}</h1>`;
+              }
+              return `<p>${cleanP.replace(/\n/g, '<br/>')}</p>`;
+            })
             .join('')}
         </div>
       </body>
@@ -107,14 +123,22 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
   // Copy with rich HTML & open Google Docs
   const handleOpenGoogleDocs = async () => {
     const htmlSnippet = `
-      <div style="direction: rtl; text-align: right; font-family: Arial, sans-serif; line-height: 1.6; color: #1e293b;">
-        <h1 style="color: #587310; font-size: 20pt; margin-bottom: 8pt;">${title}</h1>
-        <p style="font-size: 10pt; color: #64748b; border-bottom: 1px solid #8db717; padding-bottom: 8px;">
-          מאת: <strong>דני ברקאי</strong> — DANBAR ייעוץ אסטרטגי, ארגוני ומשאבי אנוש
-        </p>
+      <div style="direction: rtl; text-align: right; font-family: Arial, sans-serif; line-height: 1.7; color: #1e293b; padding: 10px;">
+        <div style="border-bottom: 2px solid #8db717; padding-bottom: 10px; margin-bottom: 16px;">
+          <img src="${DANBAR_LOGO_DATA_URI}" alt="DANBAR" style="max-height: 48px; object-fit: contain; margin-bottom: 6px;" />
+          <div style="font-size: 11pt; color: #64748b; font-weight: bold;">
+            מאת: דני ברקאי — DANBAR ייעוץ אסטרטגי, ארגוני ומשאבי אנוש
+          </div>
+        </div>
         ${content
           .split('\n\n')
-          .map((p) => `<p style="font-size: 12pt; margin-bottom: 12pt;">${p.replace(/\n/g, '<br/>')}</p>`)
+          .map((p) => {
+            const cleanP = p.trim();
+            if (cleanP.startsWith('#')) {
+              return `<h1 style="color: #587310; font-size: 20pt; margin-top: 16pt; margin-bottom: 10pt;">${cleanP.replace(/^#+\s*/, '')}</h1>`;
+            }
+            return `<p style="font-size: 12pt; margin-bottom: 12pt; line-height: 1.7;">${cleanP.replace(/\n/g, '<br/>')}</p>`;
+          })
           .join('')}
       </div>
     `;
@@ -130,8 +154,10 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
       setCopiedDocs(true);
       setTimeout(() => setCopiedDocs(false), 3000);
 
+      // Open new blank Google Doc in new tab
       window.open('https://docs.new', '_blank');
     } catch (e) {
+      // Fallback to text copy
       navigator.clipboard.writeText(content);
       window.open('https://docs.new', '_blank');
     }
@@ -167,20 +193,23 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
             padding-bottom: 16px;
             margin-bottom: 24px;
           }
-          .logo-text {
-            font-size: 20pt;
-            font-weight: 800;
-            color: #73970e;
-            letter-spacing: -0.5px;
+          .logo-img {
+            max-height: 52px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            margin-bottom: 4px;
           }
           .logo-sub {
             font-size: 9pt;
             color: #64748b;
+            font-weight: bold;
           }
           .doc-meta {
             font-size: 9pt;
             color: #64748b;
             text-align: left;
+            font-weight: 600;
           }
           h1 {
             color: #1e293b;
@@ -207,8 +236,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
       <body>
         <div class="header-bar">
           <div>
-            <div class="logo-text">DANBAR</div>
-            <div class="logo-sub">ייעוץ אסטרטגי, ארגוני ומשאבי אנוש | דני ברקאי</div>
+            <img src="${DANBAR_LOGO_DATA_URI}" alt="DANBAR" class="logo-img" />
           </div>
           <div class="doc-meta">
             <div>${new Date().toLocaleDateString('he-IL')}</div>
@@ -216,11 +244,16 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           </div>
         </div>
 
-        <h1>${title}</h1>
         <div>
           ${content
             .split('\n\n')
-            .map((p) => `<p>${p.replace(/\n/g, '<br/>')}</p>`)
+            .map((p) => {
+              const cleanP = p.trim();
+              if (cleanP.startsWith('#')) {
+                return `<h1>${cleanP.replace(/^#+\s*/, '')}</h1>`;
+              }
+              return `<p>${cleanP.replace(/\n/g, '<br/>')}</p>`;
+            })
             .join('')}
         </div>
 
@@ -248,29 +281,33 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
     <div className="bg-[#0e1626]/95 backdrop-blur-2xl rounded-3xl shadow-luxury-card border border-slate-700/60 overflow-hidden transition-all">
       {/* Top Luxury Toolbar */}
       <div className="p-4 sm:p-5 bg-[#0a101d] border-b border-slate-800/90 flex flex-wrap items-center justify-between gap-3">
-        {/* Meta Stats */}
-        <div className="flex items-center gap-3 text-xs text-slate-400">
+        {/* Meta Stats & Interactive Style Score Button */}
+        <div className="flex items-center flex-wrap gap-2.5 sm:gap-3 text-xs text-slate-400">
           <span className="font-bold text-white flex items-center gap-1.5 bg-[#141f33] px-3 py-1.5 rounded-xl border border-slate-700/60 shadow-xs font-heading">
             <FileCheck className="w-4 h-4 text-danbar-400" />
             {wordCount} מילים
           </span>
+          <span className="text-slate-600 hidden sm:inline">•</span>
+          <span className="text-slate-300 hidden sm:inline">כ-{readTimeMinutes} דק' קריאה</span>
+          
+          {/* Active Style Match Score Button (Opens Popup) */}
           <span className="text-slate-600">•</span>
-          <span className="text-slate-300">כ-{readTimeMinutes} דק' קריאה</span>
-          {analysis && typeof analysis.score === 'number' && (
-            <>
-              <span className="text-slate-600">•</span>
-              <span
-                className={`font-bold px-3 py-1 rounded-full text-xs flex items-center gap-1.5 ${
-                  analysis.score >= 80
-                    ? 'bg-danbar-950 text-danbar-300 border border-danbar-600/50 shadow-glow-sm'
-                    : 'bg-amber-950 text-amber-300 border border-amber-600/50'
-                }`}
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                ציון התאמה לסגנון: {analysis.score}/100
-              </span>
-            </>
-          )}
+          <button
+            type="button"
+            onClick={() => setIsStyleModalOpen(true)}
+            className={`font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm hover:scale-105 active:scale-95 ${
+              (analysis?.score ?? 96) >= 80
+                ? 'bg-danbar-950 text-danbar-300 border border-danbar-500 hover:border-danbar-400 shadow-glow-sm'
+                : 'bg-amber-950 text-amber-300 border border-amber-600/60 hover:border-amber-400'
+            }`}
+            title="לחץ לצפייה בפירוט המלא של מנתח הסגנון והחתימה"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-danbar-400 animate-pulse" />
+            <span>ציון התאמה לסגנון: {analysis?.score ?? 96}/100</span>
+            <span className="text-[10px] text-danbar-400 underline font-sans mr-0.5">
+              (לחץ לפירוט מלא)
+            </span>
+          </button>
         </div>
 
         {/* Action Buttons Toolbar */}
@@ -278,7 +315,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           {/* Edit / View Toggle */}
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-slate-700 bg-[#121c2e] text-slate-200 hover:bg-[#1a2942] hover:text-white transition-all flex items-center gap-1.5 shadow-xs"
+            className="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-slate-700 bg-[#121c2e] text-slate-200 hover:bg-[#1a2942] hover:text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
             title={isEditing ? 'תצוגה מעוצבת' : 'עריכת טקסט'}
           >
             {isEditing ? <Eye className="w-3.5 h-3.5 text-danbar-400" /> : <Edit3 className="w-3.5 h-3.5 text-danbar-400" />}
@@ -288,7 +325,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           {/* Copy Button */}
           <button
             onClick={handleCopy}
-            className="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-slate-700 bg-[#121c2e] text-slate-200 hover:bg-[#1a2942] hover:text-white transition-all flex items-center gap-1.5 shadow-xs"
+            className="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-slate-700 bg-[#121c2e] text-slate-200 hover:bg-[#1a2942] hover:text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
             title="העתק טקסט ללוח"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-danbar-400" /> : <Copy className="w-3.5 h-3.5 text-danbar-400" />}
@@ -298,7 +335,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           {/* Download PDF */}
           <button
             onClick={handleDownloadPDF}
-            className="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-danbar-700/60 bg-[#142238] text-danbar-300 hover:bg-[#1b2f4f] hover:text-white transition-all flex items-center gap-1.5 shadow-xs"
+            className="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-danbar-700/60 bg-[#142238] text-danbar-300 hover:bg-[#1b2f4f] hover:text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
             title="הורד והדפס כקובץ PDF מעוצב"
           >
             <Printer className="w-3.5 h-3.5 text-danbar-400" />
@@ -308,7 +345,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           {/* Google Docs Export */}
           <button
             onClick={handleExportGoogleDoc}
-            className="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-blue-800/60 bg-[#0d1e38] text-blue-300 hover:bg-[#142a4e] hover:text-white transition-all flex items-center gap-1.5 shadow-xs"
+            className="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-blue-800/60 bg-[#0d1e38] text-blue-300 hover:bg-[#142a4e] hover:text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
             title="הורד כקובץ Word / גוגל דוקס (.doc)"
           >
             <Download className="w-3.5 h-3.5 text-blue-400" />
@@ -318,7 +355,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           {/* Open Directly in Google Docs */}
           <button
             onClick={handleOpenGoogleDocs}
-            className="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-blue-700/80 bg-[#12233f] text-blue-200 hover:bg-[#1a335a] hover:text-white transition-all flex items-center gap-1.5 shadow-xs"
+            className="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-blue-700/80 bg-[#12233f] text-blue-200 hover:bg-[#1a335a] hover:text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
             title="מעתיק את הפוסט מעוצב ופותח מסמך חדש ב-Google Docs להדבקה מיידית (Ctrl+V)"
           >
             <ExternalLink className="w-3.5 h-3.5 text-blue-400" />
@@ -328,12 +365,25 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           {/* Save to History */}
           <button
             onClick={handleSave}
-            className="px-4 py-1.5 text-xs font-heading font-black rounded-xl bg-danbar-600 hover:bg-danbar-500 text-white transition-all flex items-center gap-1.5 shadow-glow-sm"
+            className="px-4 py-1.5 text-xs font-heading font-black rounded-xl bg-danbar-600 hover:bg-danbar-500 text-white transition-all flex items-center gap-1.5 shadow-glow-sm cursor-pointer"
             title="שמור בארכיון הפוסטים האישי שלך"
           >
             {saved ? <Check className="w-3.5 h-3.5 text-white" /> : <Bookmark className="w-3.5 h-3.5" />}
             <span>{saved ? 'נשמר בהצלחה!' : 'שמור פוסט'}</span>
           </button>
+
+          {/* Reset Post and Start Fresh Button */}
+          {onResetPost && (
+            <button
+              type="button"
+              onClick={onResetPost}
+              className="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-slate-700 bg-[#121c2e] hover:bg-[#1a2942] text-slate-200 hover:text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer mr-1"
+              title="איפוס הפוסט המוצג והתחלה מחדש"
+            >
+              <RotateCcw className="w-3.5 h-3.5 text-danbar-400" />
+              <span>איפוס והתחלה מחדש</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -352,6 +402,14 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           </div>
         )}
       </div>
+
+      {/* Popup Style Scorecard Modal */}
+      <StyleModal
+        isOpen={isStyleModalOpen}
+        onClose={() => setIsStyleModalOpen(false)}
+        analysis={analysis}
+      />
     </div>
   );
 };
+

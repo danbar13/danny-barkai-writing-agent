@@ -68,6 +68,7 @@ export default function Home() {
   // Select Post from History
   const handleSelectPost = (post: SavedPost) => {
     setGeneratedContent(post.content);
+    // Optionally trigger analysis
   };
 
   // Generate Post (Raw Mode)
@@ -226,7 +227,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
-
+      
       {/* Header */}
       <Header
         onOpenHistory={() => setIsHistoryOpen(true)}
@@ -236,7 +237,7 @@ export default function Home() {
 
       {/* Main Content Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-
+        
         {/* Error Alert if any */}
         {errorMessage && (
           <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 p-4 rounded-2xl flex items-start gap-3 text-red-800 dark:text-red-300 text-sm">
@@ -255,7 +256,7 @@ export default function Home() {
         )}
 
         {/* Tab Navigation */}
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-between">
           <div className="inline-flex p-1.5 rounded-2xl bg-[#0b1220]/90 backdrop-blur-xl border border-slate-700/70 shadow-luxury-card max-w-full overflow-x-auto">
             <button
               onClick={() => setActiveTab('raw')}
@@ -266,7 +267,7 @@ export default function Home() {
               }`}
             >
               <FileText className="w-4 h-4 text-danbar-300" />
-              <span>יצירה מהירה (מחומר גולמי)</span>
+              <span>יצירה מהירה (מח�]מר גולמי)</span>
             </button>
 
             <button
@@ -290,7 +291,7 @@ export default function Home() {
               }`}
             >
               <MessageSquare className="w-4 h-4 text-danbar-300" />
-              <span>צ'אט סיעור מוחות</span>
+              <span>קאט סיעור מוחות</span>
             </button>
           </div>
         </div>
