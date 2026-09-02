@@ -218,6 +218,34 @@ export const RawMaterialTab: React.FC<RawMaterialTabProps> = ({
         </div>
       </div>
 
+            {/* Selected Topic Indication Banner */}
+      {topic && (
+        <div className="mt-4 bg-[#12233c] border-2 border-[#8db717] rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-[0_0_20px_rgba(141,183,23,0.3)] animate-fadeIn">
+          <div className="flex items-center gap-3">
+            <span className="p-2 rounded-xl bg-danbar-600 text-white font-black text-xs shadow-glow-sm">
+              ✓ רעיון פעיל
+            </span>
+            <div>
+              <span className="text-[11px] font-bold text-danbar-300 block font-heading">
+                נושא נבחר לפוסט (השדות הוזנו אוטומטית):
+              </span>
+              <span className="text-sm font-bold text-white leading-snug">
+                {topic}
+              </span>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={handleResetSelections}
+            className="text-xs bg-red-950/80 hover:bg-red-900 text-red-300 px-3.5 py-2 rounded-xl border border-red-800/80 font-bold transition-all flex items-center gap-1.5 shrink-0 self-start sm:self-auto cursor-pointer shadow-xs"
+            title="בטל בחירה ואפס את השדות"
+          >
+            <RotateCcw className="w-3.5 h-3.5 text-red-400" />
+            <span>איפוס בחירה ושדות</span>
+          </button>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         
         {/* Content Type Selector */}
