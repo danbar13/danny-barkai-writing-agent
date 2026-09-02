@@ -330,7 +330,7 @@ export default function Home() {
               onChangeContent={setGeneratedContent}
               analysis={styleAnalysis}
               onSaveToHistory={handleSavePost}
-              onBesetPost={handleResetPost}
+              onResetPost={handleResetPost}
             />
           </div>
         )}
