@@ -6,9 +6,7 @@ import { RawMaterialTab } from '@/components/RawMaterialTab';
 import { WizardTab } from '@/components/WizardTab';
 import { ChatTab } from '@/components/ChatTab';
 import { PostPreview } from '@/components/PostPreview';
-import { StyleInspector } from '@/components/StyleInspector';
 import { HistoryDrawer } from '@/components/HistoryDrawer';
-import { SettingsModal } from '@/components/SettingsModal';
 import { ContentType, PostLength, StyleAnalysis, SavedPost, ChatMessage } from '@/lib/types';
 import { FileText, Compass, MessageSquare, AlertCircle } from 'lucide-react';
 
@@ -20,9 +18,7 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Settings & History
-  const [apiKey, setApiKey] = useState<string>('');
-  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-  const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
+      const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
   const [savedPosts, setSavedPosts] = useState<SavedPost[]>([]);
 
   // Chat State
@@ -230,7 +226,7 @@ export default function Home() {
 
       {/* Header */}
       <Header
-        onOpenSettings={() => setIsSettingsOpen(true)}
+        
         onOpenHistory={() => setIsHistoryOpen(true)}
         savedCount={savedPosts.length}
         hasCustomKey={!!apiKey}
