@@ -24,7 +24,7 @@ const PREFERRED_MODEL_ORDER = [
 /**
  * Dynamically discover available models supported by the provided API key.
  */
-async function getAvailableModels(apiKey: string): Promise<string[]> {
+async function generateTextOptions(apiKey: string): Promise<string[]> {
   try {
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`
@@ -83,7 +83,7 @@ async function callGeminiWithFallback(
   let lastError = '';
 
   for (const model of models) {
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const endpoint = `https://generationlanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
     try {
       let response = await fetch(endpoint, {
@@ -248,13 +248,13 @@ ${options.context ? `הקשר ודגשים מהשטח: "${options.context}"` : '
   if (sources.length === 0) {
     sources.push(
       'מאגרי מידע ומחקר מקצועיים (HRUS, דיני עבודה בישראל, התאחדות המלונות)',
-      'דוחות שוק וטרבל-טק0בינלאומיים (Skift, Phocuswright, B2B SaaS Benchmarks)',
+      'דוחות שוק וטרבל-טק בינלאומיים (Skift, Phocuswright, B2B SaaS Benchmarks)',
       'ניתוחי עומק ומגמות ניהול (Harvard Business Review, McKinsey Insights)'
     );
   }
 
   // Safeguard: Check if findings were generated in English, and auto-translate to Hebrew if needed
-  const hebrewCharCount = (findingsText.match(/[\u0590-\u05FF]/g) || []).length;
+  const hebrewCharCount = (findingsText.match(/[\u0590-\u054FF]/g) || []).length;
   const englishCharCount = (findingsText.match(/[a-zA-Z]/g) || []).length;
 
   if (englishCharCount > 120 && englishCharCount > hebrewCharCount) {
@@ -289,4 +289,3 @@ ${options.context ? `הקשר ודגשים מהשטח: "${options.context}"` : '
     sources,
   };
 }
-
