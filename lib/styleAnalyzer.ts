@@ -72,7 +72,7 @@ export function analyzePostStyle(text: string): StyleAnalysis {
       passed: ellipsesCount >= 2,
       explanation: ellipsesCount >= 2
         ? 'שימוש מצוין בשלוש נקודות ליצירת השהיות ומחשבה פתוחה.'
-        : 'מומלץ להוסיף 2-3 מקומות עם שלוש נקודות (...) ליצירך השהיה או אירוניה דקה.',
+        : 'מומלץ להוסיף 2-3 מקומות עם שלוש נקודות (...) ליצירת השהיה או אירוניה דקה.',
     },
     {
       name: 'dashes',
@@ -140,7 +140,11 @@ export function analyzePostStyle(text: string): StyleAnalysis {
   });
 
   if (!text.includes('לתפישתי') && !text.includes('לדעתי')) {
-    suggestions.push('זכור לסמן את העמדה האישית במפורש כדעה ("לתפישתי" / "לדעתי").');
+    suggestions.push('זכור לסמן את העמדה האישית במפורש כדעה ("לתפישתי" / "לדעתי") ולא כעובדה גורפת.');
+  }
+
+  if (!text.includes('בהצלחה') && !text.includes('צ\'אנס')) {
+    suggestions.push('שקול לסיים במסר מעודד וצנוע (כמו "בהצלחה!" או קריאה מתונה לפעולה).');
   }
 
   return {
@@ -150,6 +154,9 @@ export function analyzePostStyle(text: string): StyleAnalysis {
     avgSentenceLength,
     metrics,
     detectedAnchors,
-    suggestions,
+    suggestions: suggestions.length > 0 ? suggestions : ['הטקסט תואם באופן מצוין את קול הכתיבה והחתימה של דני ברקאי!'],
   };
 }
+
+export const analyzeStyle = analyzePostStyle;
+

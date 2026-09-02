@@ -12,7 +12,7 @@ export interface PostGenerationRequest {
   wizardAnswers?: {
     dilemma: string;
     personalBackground: string;
-     prosAndCons: string;
+    prosAndCons: string;
     concreteExample: string;
     personalStance: string;
   };
