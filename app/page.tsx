@@ -6,6 +6,7 @@ import { RawMaterialTab } from '@/components/RawMaterialTab';
 import { WizardTab } from '@/components/WizardTab';
 import { ChatTab } from '@/components/ChatTab';
 import { PostPreview } from '@/components/PostPreview';
+import { StyleModal } from '@/components/StyleInspector';
 import { HistoryDrawer } from '@/components/HistoryDrawer';
 import { ContentType, PostLength, StyleAnalysis, SavedPost, ChatMessage } from '@/lib/types';
 import { FileText, Compass, MessageSquare, AlertCircle } from 'lucide-react';
@@ -17,7 +18,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // History
+  // Modals & History
+  const [isStyleGuideOpen, setIsStyleGuideOpen] = useState<boolean>(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
   const [savedPosts, setSavedPosts] = useState<SavedPost[]>([]);
 
@@ -228,6 +230,7 @@ export default function Home() {
       {/* Header */}
       <Header
         onOpenHistory={() => setIsHistoryOpen(true)}
+        onOpenStyleGuide={() => setIsStyleGuideOpen(true)}
         savedCount={savedPosts.length}
       />
 
@@ -343,6 +346,11 @@ export default function Home() {
       </footer>
 
       {/* Modals & Drawers */}
+      <StyleModal
+        isOpen={isStyleGuideOpen}
+        onClose={() => setIsStyleGuideOpen(false)}
+      />
+
       <HistoryDrawer
         isOpen={isHistoryOpen}
         onClose={() => setIsHistoryOpen(false)}

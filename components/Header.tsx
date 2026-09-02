@@ -1,31 +1,29 @@
 import React from 'react';
-import { History } from 'lucide-react';
+import { History, Sparkles } from 'lucide-react';
 
 interface HeaderProps {
-  
   onOpenHistory: () => void;
+  onOpenStyleGuide: () => void;
   savedCount: number;
-  hasCustomKey: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  onOpenSettings,
   onOpenHistory,
+  onOpenStyleGuide,
   savedCount,
-  hasCustomKey,
 }) => {
   return (
     <header className="bg-[#0b1220]/85 backdrop-blur-xl border-b border-slate-800/80 sticky top-0 z-30 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          
+
           {/* Logo & Branding */}
           <div className="flex items-center space-x-4 space-x-reverse">
-            <div className="bg-white/95 px-3 py-1.5 rounded-xl shadow-glow-sm border border-white/20 flex items-center justify-center shrink-0">
+            <div className="bg-white px-3.5 py-2 rounded-xl shadow-glow-sm border border-slate-700/80 flex items-center justify-center shrink-0">
               <img
-                src="/danbar-logo.svg"
+                src="/danbar-logo.jpg"
                 alt="DANBAR דנבר ייעוץ אסטרטגי, ארגוני ומשאבי אנוש"
-                className="h-10 sm:h-12 w-auto max-w-[220px] sm:max-w-[280px] object-contain"
+                className="h-10 sm:h-12 w-auto max-w-[240px] sm:max-w-[300px] object-contain rounded"
               />
             </div>
             <div>
@@ -43,8 +41,32 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Actions */}
           <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Style Rules & Inspector Button */}
+            <button
+              type="button"
+              onClick={onOpenStyleGuide}
+              className="p-2.5 sm:px-3.5 sm:py-2 rounded-xl text-danbar-300 hover:text-white bg-danbar-950/90 hover:bg-danbar-900/90 border border-danbar-600/50 hover:border-danbar-400 transition-all flex items-center gap-2 text-xs sm:text-sm font-bold shadow-glow-sm cursor-pointer"
+              title="פתח את מנתח הסגנון וחוקי הכתיבה של דני ברקאי"
+            >
+              <Sparkles className="w-4 h-4 text-danbar-400 animate-pulse" />
+              <span className="hidden sm:inline">מנתח סגנון וחוקי כתיבה</span>
+            </button>
+
             {/* History Button */}
-            
+            <button
+              type="button"
+              onClick={onOpenHistory}
+              className="relative p-2.5 rounded-xl text-slate-300 hover:text-white bg-slate-900/80 hover:bg-slate-800/90 border border-slate-700/60 hover:border-danbar-500/40 transition-all flex items-center gap-2 text-sm font-semibold shadow-xs cursor-pointer"
+              title="היסטוריית פוסטים שמורים"
+            >
+              <History className="w-4 h-4 text-danbar-400" />
+              <span className="hidden sm:inline">פוסטים שמורים</span>
+              {savedCount > 0 && (
+                <span className="bg-danbar-600 text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center shadow-glow-sm">
+                  {savedCount}
+                </span>
+              )}
+            </button>
           </div>
         </div>
       </div>
