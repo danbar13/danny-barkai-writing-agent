@@ -7,24 +7,19 @@ export interface GenerateTextOptions {
   temperature?: number;
 }
 
-// Preferred priority order for Gemini generation models in 2026
+// Preferred priority order for Gemini generation models
 const PREFERRED_MODEL_ORDER = [
-  'gemini-3.6-flash',
-  'gemini-3.5-flash',
-  'gemini-3-flash-preview',
-  'gemini-flash-lite-latest',
-  'gemini-3.1-flash-lite',
-  'gemini-3.5-flash-lite',
-  'gemini-3.1-flash-lite-preview',
-  'gemini-robotics-er-2-preview',
+  'gemini-2.5-flash',
   'gemini-2.0-flash',
   'gemini-1.5-flash',
+  'gemini-1.5-pro',
+  'gemini-2.0-flash-lite',
 ];
 
 /**
  * Dynamically discover available models supported by the provided API key.
  */
-async function generateTextOptions(apiKey: string): Promise<string[]> {
+async function getAvailableModels(apiKey: string): Promise<string[]> {
   try {
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`
@@ -83,7 +78,7 @@ async function callGeminiWithFallback(
   let lastError = '';
 
   for (const model of models) {
-    const endpoint = `https://generationlanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
     try {
       let response = await fetch(endpoint, {
@@ -108,7 +103,14 @@ async function callGeminiWithFallback(
 
       if (response.ok) {
         const data = await response.json();
-        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        const candidate = data?.candidates?.[0];
+        const parts = candidate?.content?.parts || [];
+        // Combine all text parts (ensuring no truncation of multi-part generation)
+        const text = parts
+          .map((p: any) => p.text || '')
+          .join('')
+          .trim();
+
         if (text) {
           return { text, data };
         }
@@ -156,7 +158,7 @@ export async function generateWithGemini(options: GenerateTextOptions): Promise<
     },
     generationConfig: {
       temperature: options.temperature ?? 0.7,
-      maxOutputTokens: 3500,
+      maxOutputTokens: 8192,
     },
   };
 
@@ -212,8 +214,7 @@ ${options.context ? `הקשר ודגשים מהשטח: "${options.context}"` : '
     contents: [{ role: 'user', parts: [{ text: researchPrompt }] }],
     systemInstruction: {
       parts: [
-        {
-          text: 'אתה אנליסט וחוקר עסקי בכיר ברמה הגבוהה ביותר. עליך לחקור ביסודיות מקורות מידע אמינים, להביא נתונים ותובנות מעמיקות, ולנסח את כל ממצאי המחקר בעברית רהוטה ומקצועית בלבד.',
+        {\n          text: 'אתה אנליסט וחוקר עסקי בכיר ברמה הגבוהה ביותר. עליך לחקור ביסודיות מקורות מידע אמינים, להביא נתונים ותובנות מעמיקות, ולנסח את כל ממצאי המחקר בעברית רהוטה ומקצועית בלבד.',
         },
       ],
     },
@@ -254,7 +255,7 @@ ${options.context ? `הקשר ודגשים מהשטח: "${options.context}"` : '
   }
 
   // Safeguard: Check if findings were generated in English, and auto-translate to Hebrew if needed
-  const hebrewCharCount = (findingsText.match(/[\u0590-\u054FF]/g) || []).length;
+  const hebrewCharCount = (findingsText.match(/[\u0590-\u05FF]/g) || []).length;
   const englishCharCount = (findingsText.match(/[a-zA-Z]/g) || []).length;
 
   if (englishCharCount > 120 && englishCharCount > hebrewCharCount) {

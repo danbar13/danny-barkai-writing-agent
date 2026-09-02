@@ -9,8 +9,7 @@ export async function POST(req: NextRequest) {
     const key = apiKey || process.env.GEMINI_API_KEY;
     if (!key) {
       return NextResponse.json(
-        {
-          success: false,
+        {\n          success: false,
           error: 'לא סופק מפתח Gemini API. אנא הגדר משתנה סביבה GEMINI_API_KEY או הזן מפתח בהגדרות.',
         },
         { status: 400 }
@@ -32,7 +31,7 @@ export async function POST(req: NextRequest) {
       },
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 2500,
+        maxOutputTokens: 4096,
       },
     };
 
@@ -48,7 +47,12 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json();
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const candidate = data?.candidates?.[0];
+    const parts = candidate?.content?.parts || [];
+    const text = parts
+      .map((p: any) => p.text || '')
+      .join('')
+      .trim();
 
     return NextResponse.json({
       success: true,
