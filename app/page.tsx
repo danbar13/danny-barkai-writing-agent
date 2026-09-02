@@ -298,7 +298,7 @@ export default function Home() {
           {activeTab === 'raw' && (
             <RawMaterialTab
               onGenerate={handleGenerateRaw}
-              apiKey={apiKey}
+              
               isLoading={isLoading}
             />
           )}
@@ -306,7 +306,7 @@ export default function Home() {
           {activeTab === 'wizard' && (
             <WizardTab
               onGenerate={handleGenerateWizard}
-              apiKey={apiKey}
+              
               isLoading={isLoading}
             />
           )}
@@ -331,7 +331,7 @@ export default function Home() {
               onSaveToHistory={handleSavePost}
             />
 
-            <StyleInspector analysis={styleAnalysis} />
+            
           </div>
         )}
 
@@ -355,12 +355,7 @@ export default function Home() {
         onDeletePost={handleDeletePost}
       />
 
-      <SettingsModal
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        apiKey={apiKey}
-        onSaveApiKey={handleSaveApiKey}
-      />
+      
 
     </div>
   );
