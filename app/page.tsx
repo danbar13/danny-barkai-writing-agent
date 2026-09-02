@@ -43,22 +43,6 @@ export default function Home() {
     }
   }, []);
 
-  // Save API Key
-  const handleSaveApiKey = (key: string) => {
-    setApiKey(key);
-    try {
-      if (key) {
-        localStorage.setItem('danny_custom_api_key', key);
-        localStorage.setItem('danbar_gemini_api_key', key);
-      } else {
-        localStorage.removeItem('danny_custom_api_key');
-        localStorage.removeItem('danbar_gemini_api_key');
-      }
-    } catch (e) {
-      console.error('Failed to save API key:', e);
-    }
-  };
-
   // Save Post to History
   const handleSavePost = (content: string, title?: string) => {
     const newPost: SavedPost = {
